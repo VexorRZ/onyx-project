@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { type AxiosResponse } from "axios";
 import api from "../../services/api";
 import {
@@ -50,6 +50,10 @@ const TopicPage = () => {
   const { userData } = useAuth();
 
   const { asyncDeleteComment } = useTopicContext();
+
+  const navigate = useNavigate();
+
+  const search = window.location.search;
 
   const deleteComment = async (
     group_id: number,
@@ -343,6 +347,12 @@ const TopicPage = () => {
                 <PaginationItem
                   onClick={() => {
                     setCurrentPage(currentPage - 1);
+                    navigate(
+                      `../topics/${group_id}/${topic_id}/?page=${
+                        currentPage - 1
+                      }`,
+                      { replace: true }
+                    );
                   }}
                 >
                   Anterior
@@ -355,6 +365,10 @@ const TopicPage = () => {
                     key={page}
                     onClick={() => {
                       setCurrentPage(Number(page));
+                      navigate(
+                        `../topics/${group_id}/${topic_id}/?page=${page}`,
+                        { replace: true }
+                      );
                     }}
                   >
                     {page}
@@ -365,6 +379,12 @@ const TopicPage = () => {
                 <PaginationItem
                   onClick={() => {
                     setCurrentPage(currentPage + 1);
+                    navigate(
+                      `../topics/${group_id}/${topic_id}/?page=${
+                        currentPage + 1
+                      }`,
+                      { replace: true }
+                    );
                   }}
                 >
                   Próxima

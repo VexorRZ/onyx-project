@@ -1,8 +1,8 @@
 import Mail from '../lib/Mail';
 
-import { Resend } from 'resend';
+//import { Resend } from 'resend';
 
-const resend = new Resend('re_EX9vj4HH_9UDngZZjN7TxswqvcbDxB9kg');
+//const resend = new Resend('re_EX9vj4HH_9UDngZZjN7TxswqvcbDxB9kg');
 
 export default {
   key: 'RegistrationMail',

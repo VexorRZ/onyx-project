@@ -11,7 +11,7 @@ import { notification } from "../../services/interfaces";
 import api from "../../services/api";
 import { type AxiosResponse } from "axios";
 import { AsyncLogoutFn } from "../../Contexts/AuthContext/middlewares";
-
+import { ToastMessage } from "../ToastContainer/ToastMessages";
 interface IinputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -55,8 +55,11 @@ const TopBar = ({ onChange }: IinputProps) => {
     if (socket) {
       // @ts-expect-error
       socket.on("getNotification", (data: any) => {
-        console.log("notificationData", data);
         setNotifications((prev) => [...prev, data]);
+        setNewNotificationsAmount((prev) => {
+          return prev + 1;
+        });
+        ToastMessage(`${data.sender_name} curtiu seu comentário`);
       });
     }
   }, [socket]);
