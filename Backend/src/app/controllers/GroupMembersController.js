@@ -78,51 +78,31 @@ class GroupMembersController {
   }
 
   async index(req, res) {
-    //   const { group_id } = req.params;
+    const { page, size } = req.query;
+    const { group_id } = req.params;
     try {
-      // const groupExists = await Group.findByPk(group_id);
-      // if (!groupExists)
-      //   return res.status(400).json({ error: 'Group does not exists' });
-
-      const GroupsOfMember = await Group.findAll({
-        // include: {
-        //   association: 'members',
-        //   where: { id: req.userId },
-        //   required: true,
-        // },
-      });
-
-      return res.status(201).json(GroupsOfMember);
+      const groupExists = await Group.findByPk(group_id);
+      if (!groupExists)
+        return res.status(400).json({ error: 'Group does not exists' });
 
       // if (!isMember && groupExists.is_private)
       //   return res
       //     .status(401)
       //     .json({ error: 'Private group. Only a member can see the content' });
 
-      // const { page, size } = req.query;
+      const members = await groupExists.getMembers({
+        limit: size,
+        offset: Number(page * size) - Number(size),
+        attributes: ['id', 'name', 'surname', 'permitted_to_add_in_groups'],
+        include: [
+          {
+            association: 'avatar',
+            attributes: ['path'],
+          },
+        ],
+      });
 
-      // const groupUsers = await Group.findAndCountAll({
-      //   where: { id: group_id },
-      //   subQuery: false,
-      //   limit: Number(size),
-      //   offset: Number(page * size) - Number(size),
-      //   attributes: ['id'],
-      //   include: [
-      //     {
-      //       association: 'members',
-      //       attributes: ['name', 'id'],
-      //       through: {
-      //         attributes: [],
-      //       },
-      //       include: {
-      //         association: 'avatar',
-      //         attributes: ['path'],
-      //       },
-      //     },
-      //   ],
-      // });
-
-      // return res.status(200).json(groupUsers.rows[0].members);
+      return res.status(201).json(members);
     } catch (err) {
       console.log(err);
     }

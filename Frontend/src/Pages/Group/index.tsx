@@ -22,7 +22,6 @@ import useAuth from "../../Hooks/useAuth";
 import useGroup from "../../Hooks/useGroups";
 import type { Group } from "../../Contexts/GroupContentContext/interfaces";
 import CloseIcon from "../../Components/CloseIcon";
-import useGroupContent from "../../Hooks/useGroupContent";
 import { useRadioGroup } from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import Dropzone from "../../Components/DropZone";
@@ -151,19 +150,12 @@ const GroupPage = () => {
       const { group, numberOfTopics, isOwner } = res.data;
 
       // @ts-expect-error
-      console.log("resposta grupo", res.data.groupData[0]);
-      // @ts-expect-error
       setGroup({ ...res.data.groupData[0] });
 
       if (isOwner) {
         setIsOwner(isOwner);
       }
 
-      // if (contentName === "members") {
-      //   setLimit(2);
-      // } else if (contentName === "topics") {
-      //   setLimit(5);
-      // }
       // @ts-expect-error
       const totalPages = Math.ceil(total / limit);
       const arrayPages = [];
@@ -189,17 +181,6 @@ const GroupPage = () => {
 
       await asyncGetGroupMembers(Number(groupId), dispatch);
 
-      // setGroupMembers((prevMembers) => [[...prevMembers], [...membersData]]);
-      //  setGroupMembers([...membersData]);
-
-      // setGroupMembers((prevMembers) => [
-      //   ...(Array.isArray(prevMembers) ? prevMembers : []),
-      //   //@ts-ignore
-      //   ...membersData,
-      // ]);
-
-      // setIndex((prevIndex) => prevIndex + 1);
-
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -214,9 +195,6 @@ const GroupPage = () => {
     if (group_id) {
       setGroupId(group_id);
     }
-
-    //    setGroupMembers([...membersData]);
-    //  console.log("groupdata no grupo", membersData);
   }, [currentPage, limit, total, contentName, groupData]);
 
   const changeGroupname = useCallback(

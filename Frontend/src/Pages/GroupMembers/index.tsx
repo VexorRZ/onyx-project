@@ -1,10 +1,22 @@
-import React from "react";
-
+import React, { useState } from "react";
+import api from "../../services/api";
 import { TopicList, UserCard, UserCardPic } from "./styles";
 import defaultProfilePic from "../../assets/images/default-profile-pic.png";
 import { type AxiosResponse } from "axios";
+import type { Group } from "../../Contexts/GroupContentContext/interfaces";
+import { useParams } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 const GroupMembers = () => {
+  const [group, setGroup] = useState<Group>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(5);
+
+  const { userData } = useAuth();
+
+  const params = useParams();
+  const { group_id } = params;
+
   const getGroupMembers = async () => {
     const res: AxiosResponse<Response> = await api.get<
       Response,
@@ -18,7 +30,7 @@ const GroupMembers = () => {
       }
     );
 
-    const { group, numberOfTopics, isOwner } = res.data;
+    const {} = res.data;
   };
   return (
     <>

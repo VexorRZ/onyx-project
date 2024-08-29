@@ -39,9 +39,9 @@ const TopicPage = () => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentlist] = useState<Comments[]>([]);
   const [liked] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(5);
   const [pages, setPages] = useState<number[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [socket, setSocket] = useState(null);
   const params = useParams();

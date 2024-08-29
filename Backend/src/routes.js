@@ -99,7 +99,7 @@ routes.delete(
 // groupsMembers routes
 routes.post('/groupsmembers/:group_id/:user_id', GroupMembersController.create);
 routes.get('/groupsmembers/:group_id/:user_id', GroupMembersController.show);
-routes.get('/groupsmembers', GroupMembersController.index);
+routes.get('/groupsmembers/:group_id', GroupMembersController.index);
 routes.delete(
   '/groupsmembers/:group_id/:user_id',
   GroupMembersController.delete
