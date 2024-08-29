@@ -80,7 +80,6 @@ const GroupPage = () => {
   const [option, setOption] = useState<boolean>(false);
   const [editProfileVisible, setEditProfileVisible] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<File[]>([]);
-  // const [groupMembers, setGroupMembers] = useState<Group>();
   const [createTopic, setCreateTopic] = useState<boolean>(false);
   const [groupId, setGroupId] = useState<string>("");
   const [isOwner, setIsOwner] = useState<object | null>(null);
@@ -97,7 +96,6 @@ const GroupPage = () => {
   const params = useParams();
   const { groupData, asyncGetGroupMembers, asyncEditGroup, dispatch } =
     useGroup();
-  // const { membersData, membersDispatch } = useGroupContent();
   const { userData } = useAuth();
 
   const { group_id } = params;
