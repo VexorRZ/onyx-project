@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 
-import Button from "../../Components/Button";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DOMPurify from "dompurify";
@@ -12,7 +11,12 @@ import {
   CommentDate,
   CommentContent,
   CommentDetailsWrapper,
+  CustomDeleteIcon,
+  CustomEditIcon,
+  EditorWrapper,
 } from "./styles";
+import { boolean } from "yup";
+import { Title } from "../../Pages/ForgotPassword/styles";
 
 interface IcommmentProps {
   childrenDetailsWrapper?: React.ReactNode;
@@ -35,6 +39,7 @@ const comment = ({
   body,
   userIsAuthor,
 }: IcommmentProps) => {
+  const [wrapperVisible, setWrapperVisible] = useState(true);
   return (
     <>
       <Comment key={key}>
@@ -94,19 +99,22 @@ const comment = ({
                 gap: "6px",
               }}
             >
-              <Button width="60px" height="32px" customColor="cadetblue">
-                Editar
-              </Button>
-              <Button
-                width="60px"
-                height="32px"
-                customColor="crimson"
-                onClick={() => {
-                  onClick();
-                }}
-              >
-                Deletar
-              </Button>
+              {wrapperVisible && (
+                <>
+                  <EditorWrapper title="Editar">
+                    <CustomEditIcon>Editar</CustomEditIcon>
+                  </EditorWrapper>
+                  <EditorWrapper title="Deletar">
+                    <CustomDeleteIcon
+                      onClick={() => {
+                        onClick();
+                      }}
+                    >
+                      Deletar
+                    </CustomDeleteIcon>
+                  </EditorWrapper>
+                </>
+              )}
             </div>
           )}
         </div>

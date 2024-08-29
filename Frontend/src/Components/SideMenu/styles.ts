@@ -7,6 +7,7 @@ interface IContainerProps {
   position?: string;
 }
 export const Container = styled.div<IContainerProps>`
+  border: 1px solid rgb(86, 95, 130);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
