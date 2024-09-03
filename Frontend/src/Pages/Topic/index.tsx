@@ -53,8 +53,6 @@ const TopicPage = () => {
 
   const navigate = useNavigate();
 
-  const search = window.location.search;
-
   const deleteComment = async (
     group_id: number,
     topic_id: number,
@@ -216,9 +214,12 @@ const TopicPage = () => {
   const handleNotification = async (
     receiver_name: string,
     receiver_id: number,
-    type: number
+    type: string
   ) => {
     try {
+      if (String(receiver_id) === userData.id) {
+        return;
+      }
       const res: AxiosResponse<GroupTopic> = await api.post<
         GroupTopic,
         AxiosResponse<GroupTopic>
@@ -228,7 +229,11 @@ const TopicPage = () => {
         sender_id: userData.id,
         receiver_name,
         receiver_id,
-        type: 1,
+        group_id: group_id,
+        group_name: groupTopic.name,
+        topic_name: groupTopic.topics ? groupTopic.topics[0].name : "",
+        topic_id: topic_id,
+        type,
       });
 
       return res;
@@ -238,8 +243,13 @@ const TopicPage = () => {
       // @ts-expect-error
       socket.emit("sendNotification", {
         sender_name: userData.name,
-        receiver_name: receiver_name,
-        type: 1,
+        receiver_name,
+        receiver_id,
+        group_id: group_id,
+        group_name: groupTopic.name,
+        topic_name: groupTopic.topics ? groupTopic.topics[0].name : "",
+        topic_id: topic_id,
+        type,
       });
     }
   };
@@ -300,7 +310,7 @@ const TopicPage = () => {
                             handleNotification(
                               comment.author.name,
                               comment.author.id,
-                              1
+                              "like"
                             );
                           }}
                           likeAmount={comment.commentLikes.length}
@@ -317,6 +327,15 @@ const TopicPage = () => {
                           width="150px"
                           onClick={() => {
                             void postNewComment();
+                            handleNotification(
+                              groupTopic.topics
+                                ? groupTopic.topics[0].author.name
+                                : "",
+                              groupTopic.topics
+                                ? groupTopic.topics[0].author.id
+                                : 0,
+                              "CommentOnTopic"
+                            );
                           }}
                         >
                           Postar

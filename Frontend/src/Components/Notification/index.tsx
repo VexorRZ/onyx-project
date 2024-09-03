@@ -9,7 +9,7 @@ interface INotificationsProps {
   viewd?: boolean;
   author_id?: number;
   receiver_id?: number;
-  type?: number;
+  type?: string;
   sender_name?: string;
 }
 
@@ -46,7 +46,7 @@ const Notification = ({ type, sender_name, id }: INotificationsProps) => {
 
   let action = "";
 
-  if (type === 1) {
+  if (type === "like") {
     action = "curtiu";
   } else {
     action = "comentou";

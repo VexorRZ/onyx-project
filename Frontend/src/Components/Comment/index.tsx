@@ -39,10 +39,11 @@ const comment = ({
   body,
   userIsAuthor,
 }: IcommmentProps) => {
-  const [wrapperVisible, setWrapperVisible] = useState(true);
+  const [wrapperVisible, setWrapperVisible] = useState(false);
+  const [editContent, setEditContent] = useState(false);
   return (
     <>
-      <Comment key={key}>
+      <Comment>
         <div
           style={{
             display: "flex",
@@ -69,9 +70,15 @@ const comment = ({
         </div>
 
         <div
+          onMouseEnter={() => {
+            setWrapperVisible(true);
+          }}
+          onMouseLeave={() => {
+            setWrapperVisible(false);
+          }}
           style={{
             display: "flex",
-            gap: "8px",
+            width: "110%",
           }}
         >
           <div
@@ -82,6 +89,7 @@ const comment = ({
             }}
           >
             <CommentContent
+              contentEditable={editContent}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(body),
               }}
@@ -97,12 +105,19 @@ const comment = ({
                 flexDirection: "column",
                 justifyContent: "flex-start",
                 gap: "6px",
+                marginLeft: "8px",
               }}
             >
-              {wrapperVisible && (
+              {wrapperVisible ? (
                 <>
                   <EditorWrapper title="Editar">
-                    <CustomEditIcon>Editar</CustomEditIcon>
+                    <CustomEditIcon
+                      onClick={() => {
+                        setEditContent(!editContent);
+                      }}
+                    >
+                      Editar
+                    </CustomEditIcon>
                   </EditorWrapper>
                   <EditorWrapper title="Deletar">
                     <CustomDeleteIcon
@@ -114,6 +129,12 @@ const comment = ({
                     </CustomDeleteIcon>
                   </EditorWrapper>
                 </>
+              ) : (
+                <div
+                  style={{
+                    display: "none",
+                  }}
+                />
               )}
             </div>
           )}

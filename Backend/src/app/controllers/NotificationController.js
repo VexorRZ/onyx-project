@@ -10,7 +10,18 @@ class NotificationController {
   async store(req, res) {
     const { sender_id, receiver_id } = req.params;
     try {
-      const { id, sender_name, receiver_name, type } = req.body;
+      const {
+        id,
+        sender_id,
+        sender_name,
+        receiver_name,
+        receiver_id,
+        group_name,
+        group_id,
+        topic_name,
+        topic_id,
+        type,
+      } = req.body;
 
       const createNotification = await Notification.create({
         id,
@@ -18,6 +29,10 @@ class NotificationController {
         sender_name,
         receiver_id,
         receiver_name,
+        group_name,
+        group_id,
+        topic_name,
+        topic_id,
         viewed: false,
         type,
       });

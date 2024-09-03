@@ -516,65 +516,9 @@ const GroupPage = () => {
           </CustomButton>
         </GroupEditorContainer>
       )}
-      <GroupContainer>
+      <GroupContainer group_id={Number(group?.id)}>
         {<Loader /> && isLoading}
         <ButtonAdminContainer>
-          <NavBarWrapper>
-            <NavBar>
-              <NavBarItem>
-                <StyledChatIcon />
-                <h6
-                  onClick={() => {
-                    setContentName("topics");
-                  }}
-                >
-                  Discussão
-                </h6>
-              </NavBarItem>
-              <NavBarItem>
-                <StyledGroupsList />
-                <h6
-                  onClick={() => {
-                    setContentName("members");
-                  }}
-                >
-                  Membros
-                </h6>
-              </NavBarItem>
-              <NavBarItem>
-                <StyledAdminIcon />
-                <h6
-                  onClick={() => {
-                    setContentName("admin");
-                  }}
-                >
-                  Administradores
-                </h6>
-              </NavBarItem>
-
-              <NavBarItem>
-                <StyledDescriptionIcon />
-                <h6
-                  onClick={() => {
-                    setContentName("info");
-                  }}
-                >
-                  Descrição
-                </h6>
-              </NavBarItem>
-              <NavBarItem>
-                <StyledGavelIcon />
-                <h6
-                  onClick={() => {
-                    setContentName("regras");
-                  }}
-                >
-                  Regras
-                </h6>
-              </NavBarItem>
-            </NavBar>
-          </NavBarWrapper>
-
           {isOwner && (
             <ButtonAdminWrapper>
               <CustomButton

@@ -6,6 +6,7 @@ import { type AxiosResponse } from "axios";
 import type { Group } from "../../Contexts/GroupContentContext/interfaces";
 import { useParams } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import GroupContainer from "../../Containers/GroupContainer";
 
 const GroupMembers = () => {
   const [group, setGroup] = useState<Group>();
@@ -33,9 +34,12 @@ const GroupMembers = () => {
     const {} = res.data;
   };
   return (
-    <>
-      <div>members</div>
-
+    <GroupContainer
+      numberOfMembers={group?.members.length ? group?.members.length : 0}
+      groupName={group?.name ? group.name : ""}
+      imageSrc={group?.avatar.path ? group.avatar.path : ""}
+      group_id={Number(group?.id)}
+    >
       <TopicList>
         {group?.members?.map((member, index) => {
           return (
@@ -50,7 +54,7 @@ const GroupMembers = () => {
           );
         })}
       </TopicList>
-    </>
+    </GroupContainer>
   );
 };
 

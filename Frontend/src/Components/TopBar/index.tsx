@@ -54,38 +54,28 @@ const TopBar = ({ onChange }: IinputProps) => {
   useEffect(() => {
     if (socket) {
       // @ts-expect-error
-      socket.on("getNotification", (data: any) => {
+      socket.on("getNotification", (data: notification) => {
         setNotifications((prev) => [...prev, data]);
         setNewNotificationsAmount((prev) => {
           return prev + 1;
         });
-        ToastMessage(`${data.sender_name} curtiu seu comentário`);
+        if (data.type === "like") {
+          ToastMessage(
+            `${data.sender_name} curtiu seu comentário no tópico  "${data.topic_name}" no grupo "${data.group_name}"`
+          );
+        }
+
+        if (data.type === "CommentOnTopic") {
+          ToastMessage(
+            `${data.sender_name} comentou no seu tópico "${data.topic_name}" no grupo "${data.group_name}"`
+          );
+        }
       });
     }
   }, [socket]);
 
   const toggleNotifications = (value: boolean) => {
     setnotificationsVisible(value);
-  };
-
-  const displayNotification = ({ sender_name, type }: InotificationProps) => {
-    let action = "";
-
-    if (type === 1) {
-      action = "curtiu";
-    } else {
-      action = "comentou";
-    }
-
-    return (
-      <span
-        className="notification"
-        style={{
-          border: "1px solid blue",
-          borderRadius: " 4px",
-        }}
-      >{`${sender_name} ${action} seu comentário`}</span>
-    );
   };
 
   useEffect(() => {

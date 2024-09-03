@@ -37,16 +37,32 @@ io.on('connection', (socket) => {
     removeUser(socket.id);
   });
 
-  socket.on('sendNotification', ({ sender_name, receiver_name, type }) => {
-    const receiver = getUser(receiver_name);
-
-    io.to(receiver.socketId).emit('getNotification', {
+  socket.on(
+    'sendNotification',
+    ({
       sender_name,
+      receiver_name,
+      receiver_id,
+      group_id,
+      group_name,
+      topic_name,
+      topic_id,
       type,
-    });
-  });
+    }) => {
+      const receiver = getUser(receiver_name);
 
-  io.emit('firstEvent', 'Hello this is test!');
+      io.to(receiver.socketId).emit('getNotification', {
+        sender_name,
+        receiver_name,
+        receiver_id,
+        group_id,
+        group_name,
+        topic_name,
+        topic_id,
+        type,
+      });
+    }
+  );
 
   socket.on('disconnect', () => {
     console.log('user disconnected');

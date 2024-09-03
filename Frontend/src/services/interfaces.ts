@@ -67,10 +67,15 @@ interface avatar {
 
 export interface notification {
   id: number;
-  type: number;
+  type: string;
   sender_id: number;
   sender_name: string;
+  group_id: number;
+  group_name: string;
+  topic_id: number;
+  topic_name: string;
   receiver_id: number;
   receiver_name: string;
   viewed: boolean;
+  comment_id?: string;
 }
