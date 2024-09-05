@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
@@ -30,20 +30,17 @@ import {
 } from "./styles";
 
 const GroupContainer = ({
-  children,
   group_id,
   imageSrc,
   groupName,
   numberOfMembers,
+  children,
 }: IGroupContainerProps) => {
   const [editProfileVisible, setEditProfileVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
   return (
     <>
-      {editProfileVisible && (
- 
-      )}
       <Container>
         <ButtonAdminContainer>
           <NavBarWrapper>
@@ -128,7 +125,6 @@ const GroupContainer = ({
             <GroupImage />
           </Header>
         </GroupInfoContainer>
-
         {children}
       </Container>
     </>

@@ -81,7 +81,14 @@ class GroupMembersController {
     const { page, size } = req.query;
     const { group_id } = req.params;
     try {
-      const groupExists = await Group.findByPk(group_id);
+      const groupExists = await Group.findByPk(group_id, {
+        include: [
+          {
+            association: 'avatar',
+            attributes: ['path'],
+          },
+        ],
+      });
       if (!groupExists)
         return res.status(400).json({ error: 'Group does not exists' });
 
@@ -91,8 +98,6 @@ class GroupMembersController {
       //     .json({ error: 'Private group. Only a member can see the content' });
 
       const members = await groupExists.getMembers({
-        limit: size,
-        offset: Number(page * size) - Number(size),
         attributes: ['id', 'name', 'surname', 'permitted_to_add_in_groups'],
         include: [
           {
@@ -102,7 +107,7 @@ class GroupMembersController {
         ],
       });
 
-      return res.status(201).json(members);
+      return res.status(201).json({ groupExists, members });
     } catch (err) {
       console.log(err);
     }

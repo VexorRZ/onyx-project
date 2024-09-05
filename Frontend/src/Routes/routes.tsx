@@ -18,6 +18,7 @@ import CreateGroup from "../Pages/CreateGroup";
 import ResetPassword from "../Pages/ResetPassword";
 import UserGroups from "../Pages/UserGroups";
 import UsersPage from "../Pages/Users";
+import GroupMembers from "../Pages/GroupMembers";
 import { GroupProvider } from "../Contexts/GroupContext";
 import { GroupMembersProvider } from "../Contexts/GroupContentContext";
 import { UsersProvider } from "../Contexts/UsersContext";
@@ -88,7 +89,7 @@ const Routes = () => {
               <GroupProvider>
                 <GroupMembersProvider>
                   <PrivateRoutes>
-                    <Group />
+                    <GroupMembers />
                   </PrivateRoutes>
                 </GroupMembersProvider>
               </GroupProvider>

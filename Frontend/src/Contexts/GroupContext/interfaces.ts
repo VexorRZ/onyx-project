@@ -24,6 +24,8 @@ export interface members {
   name: string;
   avatar: avatar;
   group_as_member: GroupAsMember;
+  permitted_to_add_in_groups: boolean;
+  surname: string;
 }
 
 interface GroupAsMember {

@@ -32,8 +32,6 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [index, setIndex] = useState(2);
   const [lastData, setLastData] = useState<boolean>(false);
-  // const [socket, setSocket] = useState<any>(null);
-  // const [user, setUser] = useState({});
   const loaderRef = useRef(null);
 
   const { userData } = useAuth();

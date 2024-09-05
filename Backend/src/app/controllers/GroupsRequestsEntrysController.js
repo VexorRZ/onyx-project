@@ -57,7 +57,6 @@ class GroupRequestEntryController {
 
         const createRequestEntry = await group.addRequester(user);
 
-        console.log('((((CHEGUEI AQUI))))');
         return res.status(201).json({
           msg: 'your request is already sent. Wait until an administrator of this group accept your request',
           request: createRequestEntry.id,

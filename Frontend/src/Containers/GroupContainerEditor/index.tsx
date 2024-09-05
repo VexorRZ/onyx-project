@@ -1,89 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropzone from "../../Components/DropZone";
 import CloseIcon from "../../Components/CloseIcon";
 import FormControlLabel, {
   type FormControlLabelProps,
 } from "@mui/material/FormControlLabel";
 import PublicIcon from "@mui/icons-material/Public";
+import CustomButton from "../../Components/Button";
+import CustomInput from "../../Components/Input";
+import LockIcon from "@mui/icons-material/Lock";
+import Radio from "@mui/material/Radio";
+import { useRadioGroup } from "@mui/material/RadioGroup";
+import { styled } from "@mui/material/styles";
+import {
+  GroupEditorContainer,
+  CloseIconDiv,
+  DataArea,
+  EditProfileFieldWrapper,
+  StyledRadioGroup,
+  CardOptions,
+} from "./styles";
 
-import { Container } from "./styles";
+interface IGroupContainEditorProps {
+  groupName: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClickRadioPrivate: () => void;
+  onClickRadioPublic: () => void;
+  onClickEditGroup: () => void;
+  onClickToggleEditGroup: (param: boolean) => void;
+}
+interface StyledFormControlLabelProps extends FormControlLabelProps {
+  checked: boolean;
+}
 
-export const GroupEditorContainer = styled.div<IProfileEditorContainerProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  background-color: #25282e;
-  border: 1px solid #526173;
-  padding: 10px;
-  box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
-  width: ${(props) => props.width ?? "600px"};
-  height: ${(props) => props.height ?? "600px"};
-  z-index: 900;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-`;
-
-export const CloseIconDiv = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  z-index: 9999;
-  width: 100%;
-`;
-export const DataArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 80px;
-`;
-
-export const EditProfileFieldWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const StyledRadioGroup = styled(RadioGroup)<IStyledRadioGroupProps>`
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 21px !important;
-  justify-content: flex-start !important;
-
-  .option-description {
-    font-size: 10px;
-    color: ${(props) => (props.radioActive ? "#1976d2" : "#fff")};
-  }
-  .radio-options {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: 6px;
-    padding: 2px;
-    &:hover {
-      background-color: #373e4a;
-    }
-  }
-
-  .css-17yyoxz-MuiFormControlLabel-root {
-    margin-left: 0px !important;
-  }
-  .css-1yyanpp-MuiFormControlLabel-root {
-    margin-left: 0px !important;
-  }
-`;
-
-export const CardOptions = styled.div`
-  height: 112px;
-  width: 339px;
-  display: flex;
-  flex-direction: column;
-  background-color: #25282e;
-  border: solid 1px white;
-  padding: 10px;
-`;
+const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
+  <FormControlLabel {...props} />
+))(({ theme, checked }) => ({
+  ".MuiFormControlLabel-label": checked && {
+    color: theme.palette.primary.main,
+  },
+}));
 
 function MyFormControlLabel(props: FormControlLabelProps) {
   const radioGroup = useRadioGroup();
@@ -97,14 +52,22 @@ function MyFormControlLabel(props: FormControlLabelProps) {
   return <StyledFormControlLabel checked={checked} {...props} />;
 }
 
-const GroupContainerEditor: React.FC = () => {
+const GroupContainerEditor = ({
+  groupName,
+  onChange,
+  onClickRadioPrivate,
+  onClickRadioPublic,
+  onClickEditGroup,
+  onClickToggleEditGroup,
+}: IGroupContainEditorProps) => {
+  const [profileImage, setProfileImage] = useState<File[]>([]);
   return (
     <>
       <GroupEditorContainer>
         <CloseIconDiv>
           <CloseIcon
             onClick={() => {
-              toggleEditGroupBox(false);
+              onClickToggleEditGroup;
             }}
           />
         </CloseIconDiv>
@@ -127,7 +90,7 @@ const GroupContainerEditor: React.FC = () => {
               type="text"
               value={groupName}
               placeHolder="Alterar Nome"
-              onChange={changeGroupname}
+              onChange={onChange}
             />
           </EditProfileFieldWrapper>
         </DataArea>
@@ -145,7 +108,7 @@ const GroupContainerEditor: React.FC = () => {
                 control={
                   <Radio
                     onClick={() => {
-                      setOption(false);
+                      onClickRadioPrivate;
                     }}
                   />
                 }
@@ -162,7 +125,7 @@ const GroupContainerEditor: React.FC = () => {
                 control={
                   <Radio
                     onClick={() => {
-                      setOption(true);
+                      onClickRadioPublic;
                     }}
                   />
                 }
@@ -176,7 +139,7 @@ const GroupContainerEditor: React.FC = () => {
         </CardOptions>
         <CustomButton
           onClick={() => {
-            void editGroup();
+            onClickEditGroup;
           }}
         >
           Alterar dados

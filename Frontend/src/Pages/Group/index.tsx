@@ -8,11 +8,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { type AxiosResponse } from "axios";
 import { type Response } from "../../services/interfaces";
-import LockIcon from "@mui/icons-material/Lock";
 import PublicIcon from "@mui/icons-material/Public";
 import Topic from "../../Components/TopicContent";
 import CustomButton from "../../Components/Button";
-import CustomInput from "../../Components/Input";
 import CreateTopic from "../../Containers/CreateTopic";
 import TopBar from "../../Components/TopBar";
 import DialogBox from "../../Containers/DialogBox";
@@ -21,15 +19,13 @@ import Loader from "../../Components/Loader";
 import useAuth from "../../Hooks/useAuth";
 import useGroup from "../../Hooks/useGroups";
 import type { Group } from "../../Contexts/GroupContentContext/interfaces";
-import CloseIcon from "../../Components/CloseIcon";
 import { useRadioGroup } from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import Dropzone from "../../Components/DropZone";
-import defaultProfilePic from "../../assets/images/default-profile-pic.png";
+import defaultProfilePic from "../../assets/images/default-pic.jpg";
 import FormControlLabel, {
   type FormControlLabelProps,
 } from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
+import GroupContainerEditor from "../../Containers/GroupContainerEditor";
 
 import {
   GroupImage,
@@ -43,23 +39,7 @@ import {
   ButtonAdminContainer,
   ButtonAdminWrapper,
   GroupInfo,
-  NavBar,
-  NavBarItem,
-  UserCard,
-  UserCardPic,
-  GroupEditorContainer,
-  CloseIconDiv,
-  DataArea,
-  EditProfileFieldWrapper,
-  CardOptions,
-  StyledRadioGroup,
-  NavBarWrapper,
   GroupInfoContainer,
-  StyledAdminIcon,
-  StyledChatIcon,
-  StyledGroupsList,
-  StyledDescriptionIcon,
-  StyledGavelIcon,
 } from "./styles";
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -277,246 +257,109 @@ const GroupPage = () => {
   };
 
   const generateContent = () => {
-    if (contentName === "topics") {
-      return (
-        <>
-          {<div>tópicos</div> && group?.topics?.length !== 0}
+    return (
+      <>
+        {<div>tópicos</div> && group?.topics?.length !== 0}
 
-          {group?.topics?.length !== 0 ? (
-            <>
-              <TopicList>
-                {group?.topics?.slice(0, 6).map((topic, index) => {
-                  return (
-                    <Topic
-                      URlGroup={true}
-                      topicName={topic.name}
-                      numberOfComments={topic.comments.length}
-                      key={index}
-                      onClick={() => {
-                        openTopic(topic.id);
-                      }}
-                    />
-                  );
-                })}
-              </TopicList>
-              {currentUserIsMember()}
-
-              <Pagination>
-                <div>{total} tópicos criados</div>
-                <PaginationButton>
-                  {currentPage > 1 && (
-                    <PaginationItem
-                      onClick={() => {
-                        setCurrentPage(currentPage - 1);
-                      }}
-                    >
-                      Anterior
-                    </PaginationItem>
-                  )}
-                  {pages.map((page) => (
-                    <>
-                      <PaginationItem
-                        isSelect={page === currentPage}
-                        key={page}
-                        onClick={() => {
-                          setCurrentPage(Number(page));
-                        }}
-                      >
-                        {page}
-                      </PaginationItem>
-                    </>
-                  ))}
-                  {currentPage < pages.length && (
-                    <PaginationItem
-                      onClick={() => {
-                        setCurrentPage(currentPage + 1);
-                      }}
-                    >
-                      Próxima
-                    </PaginationItem>
-                  )}
-                </PaginationButton>
-              </Pagination>
-            </>
-          ) : (
-            <>
-              <div>Nenhum tópico criado ainda</div>
-              <ButtonArea>
-                <CustomButton
-                  onClick={openTopicCreate}
-                  width="130px"
-                  height="40px"
-                >
-                  Criar
-                </CustomButton>
-              </ButtonArea>
-            </>
-          )}
-        </>
-      );
-    }
-    if (contentName === "members") {
-      return (
-        <>
-          <div>members</div>
-
-          <TopicList>
-            {group?.members?.map((member, index) => {
-              return (
-                <UserCard key={index}>
-                  <UserCardPic
-                    src={
-                      member.avatar?.path
-                        ? member.avatar?.path
-                        : defaultProfilePic
-                    }
+        {group?.topics?.length !== 0 ? (
+          <>
+            <TopicList>
+              {group?.topics?.slice(0, 6).map((topic, index) => {
+                return (
+                  <Topic
+                    URlGroup={true}
+                    topicName={topic.name}
+                    numberOfComments={topic.comments.length}
+                    key={index}
+                    onClick={() => {
+                      openTopic(topic.id);
+                    }}
                   />
-                  <strong>{member.name}</strong>
-                </UserCard>
-              );
-            })}
-          </TopicList>
-        </>
-      );
-    }
-    if (contentName === "admin") {
-      return (
-        <>
-          <div>Administrador e moderadores</div>
+                );
+              })}
+            </TopicList>
+            {currentUserIsMember()}
 
-          <div>Dono: {group?.administrator?.name} </div>
-          <div>Id do dono {group?.administrator?.id}</div>
-
-          {group?.moderators?.length !== 0 ? (
-            <>
-              <TopicList>
-                {group?.moderators?.slice(0, 6).map((moderator, index) => {
-                  return (
-                    <UserCard key={index}>
-                      <UserCardPic
-                        src={
-                          moderator.avatar?.path
-                            ? moderator.avatar?.path
-                            : defaultProfilePic
-                        }
-                      />
-                      <strong>{moderator.name}</strong>
-                    </UserCard>
-                  );
-                })}
-              </TopicList>
-              <ButtonArea>
-                <CustomButton
-                  onClick={openTopicCreate}
-                  width="130px"
-                  height="40px"
-                >
-                  Criar tópico
-                </CustomButton>
-              </ButtonArea>
-            </>
-          ) : (
-            <div>Esse grupo ainda não possui admistradores</div>
-          )}
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div>info</div>
-        </>
-      );
-    }
+            <Pagination>
+              <div>{total} tópicos criados</div>
+              <PaginationButton>
+                {currentPage > 1 && (
+                  <PaginationItem
+                    onClick={() => {
+                      setCurrentPage(currentPage - 1);
+                    }}
+                  >
+                    Anterior
+                  </PaginationItem>
+                )}
+                {pages.map((page) => (
+                  <>
+                    <PaginationItem
+                      isSelect={page === currentPage}
+                      key={page}
+                      onClick={() => {
+                        setCurrentPage(Number(page));
+                      }}
+                    >
+                      {page}
+                    </PaginationItem>
+                  </>
+                ))}
+                {currentPage < pages.length && (
+                  <PaginationItem
+                    onClick={() => {
+                      setCurrentPage(currentPage + 1);
+                    }}
+                  >
+                    Próxima
+                  </PaginationItem>
+                )}
+              </PaginationButton>
+            </Pagination>
+          </>
+        ) : (
+          <>
+            <div>Nenhum tópico criado ainda</div>
+            <ButtonArea>
+              <CustomButton
+                onClick={openTopicCreate}
+                width="130px"
+                height="40px"
+              >
+                Criar
+              </CustomButton>
+            </ButtonArea>
+          </>
+        )}
+      </>
+    );
   };
 
   return (
     <>
       <TopBar />
       {editProfileVisible && (
-        <GroupEditorContainer>
-          <CloseIconDiv>
-            <CloseIcon
-              onClick={() => {
-                toggleEditGroupBox(false);
-              }}
-            />
-          </CloseIconDiv>
-          <Dropzone
-            previewMessage="Selecione a sua nova foto de perfil.."
-            files={profileImage}
-            onDrop={(acceptedImage) => {
-              setProfileImage(
-                acceptedImage.map((file) =>
-                  Object.assign(file, {
-                    preview: URL.createObjectURL(file),
-                  })
-                )
-              );
-            }}
-          />
-          <DataArea>
-            <EditProfileFieldWrapper>
-              <CustomInput
-                type="text"
-                value={groupName}
-                placeHolder="Alterar Nome"
-                onChange={changeGroupname}
-              />
-            </EditProfileFieldWrapper>
-          </DataArea>
-          <CardOptions>
-            <StyledRadioGroup
-              radioActive={true}
-              name="use-radio-group"
-              defaultValue="first"
-            >
-              <div className="radio-options">
-                <PublicIcon />
-                <MyFormControlLabel
-                  value="first"
-                  label="público"
-                  control={
-                    <Radio
-                      onClick={() => {
-                        setOption(false);
-                      }}
-                    />
-                  }
-                />
-                <span className="option-description">
-                  (Qualquer pessoa poderá visualizar o conteúdo do grupo)
-                </span>
-              </div>
-              <div className="radio-options">
-                <LockIcon />
-                <MyFormControlLabel
-                  value="second"
-                  label="privado"
-                  control={
-                    <Radio
-                      onClick={() => {
-                        setOption(true);
-                      }}
-                    />
-                  }
-                />
-
-                <span className="option-description">
-                  (Somente membros poderão ver o conteúdo do grupo)
-                </span>
-              </div>
-            </StyledRadioGroup>
-          </CardOptions>
-          <CustomButton
-            onClick={() => {
-              void editGroup();
-            }}
-          >
-            Alterar dados
-          </CustomButton>
-        </GroupEditorContainer>
+        <GroupContainerEditor
+          groupName={groupName}
+          onChange={changeGroupname}
+          onClickRadioPrivate={() => {
+            setOption(true);
+          }}
+          onClickRadioPublic={() => {
+            setOption(false);
+          }}
+          onClickToggleEditGroup={() => {
+            toggleDialogBOx(false);
+          }}
+          onClickEditGroup={editGroup}
+        />
       )}
-      <GroupContainer group_id={Number(group?.id)}>
+      <GroupContainer
+        groupName={group?.name ? group.name : ""}
+        imageSrc={group?.avatar.path ? group.avatar.path : defaultProfilePic}
+        group_id={Number(group?.id)}
+        numberOfMembers={group?.members.length ? group.members.length : 0}
+      >
         {<Loader /> && isLoading}
         <ButtonAdminContainer>
           {isOwner && (
@@ -546,32 +389,6 @@ const GroupPage = () => {
             </ButtonAdminWrapper>
           )}
         </ButtonAdminContainer>
-        <GroupInfoContainer>
-          <img
-            src={group?.avatar?.path ? group?.avatar.path : "alt"}
-            style={{
-              width: "200px",
-
-              height: "200px",
-              borderRadius: "8%",
-            }}
-          />
-          <Header>
-            <GroupTitle>{group?.name}</GroupTitle>
-            <GroupInfo>
-              <PublicIcon
-                style={{
-                  color: "#565f82",
-                }}
-              />
-              <GroupTitle> grupo público</GroupTitle>
-              <div />
-              <GroupTitle>{group?.members?.length} membros</GroupTitle>
-            </GroupInfo>
-
-            <GroupImage />
-          </Header>
-        </GroupInfoContainer>
 
         {generateContent()}
 
