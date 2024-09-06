@@ -18,6 +18,7 @@ import {
   ButtonAreaWrapper,
   UserInfoWrapper,
   CustomEyeIcon,
+  NoTopicsCard,
 } from "./styles";
 
 const GroupMembers = () => {
@@ -34,32 +35,12 @@ const GroupMembers = () => {
   const params = useParams();
   const { group_id } = params;
 
-  const getGroupMembers = async () => {
-    const res: AxiosResponse<Response> = await api.get<
-      Response,
-      AxiosResponse<Response>
-    >(`/groupsmembers/${group_id}?page=${1}&size=${5}`, {
-      headers: { Authorization: `Bearer ${userData?.token}` },
-    });
-
-    console.log("group", res.data);
-
-    //@ts-expect-error
-    setGroup({ ...res.data.groupExists });
-    //@ts-expect-error
-    setMembers(res.data.members);
-  };
-
-  useEffect(() => {
-    getGroupMembers();
-  }, []);
-
   const getMoreMembers = useCallback(async () => {
     if (!userData?.token) {
       return;
     }
 
-    if (lastData) {
+    if (lastData === true) {
       return;
     }
 
@@ -72,21 +53,20 @@ const GroupMembers = () => {
     const res: AxiosResponse<Response> = await api.get<
       Response,
       AxiosResponse<Response>
-    >(`/groupsmembers/${group_id}?page=${String(index)}&size=5`, {
+    >(`/groupsmembers/${group_id}?page=${index}&size=5`, {
       headers: { Authorization: `Bearer ${userData?.token}` },
     });
 
     if (res) {
-      console.log("resposta adicional", res);
       //@ts-expect-error
-      if (res.data.members.length === 0 || !res.data) {
+      if (res.data.members.length === 0 || !res.data.members) {
         setLastData(true);
         setIsLoading(false);
         return;
       } else {
         //@ts-ignore
         setMembers((prevMembers) => [...prevMembers, ...res.data.members]);
-
+        console.log("index", index);
         setIndex((prevIndex) => prevIndex + 1);
         setIsLoading(false);
       }
@@ -112,6 +92,31 @@ const GroupMembers = () => {
       }
     };
   }, [getMoreMembers]);
+
+  useEffect(() => {
+    const getGroupMembers = async () => {
+      setIsLoading(true);
+      try {
+        const res: AxiosResponse<Response> = await api.get<
+          Response,
+          AxiosResponse<Response>
+        >(`/groupsmembers/${group_id}?page=${1}&size=${5}`, {
+          headers: { Authorization: `Bearer ${userData?.token}` },
+        });
+
+        console.log("group", res.data);
+
+        //@ts-expect-error
+        setGroup({ ...res.data.groupExists });
+        //@ts-expect-error
+        setMembers(res.data.members);
+      } catch (err) {
+        return err;
+      }
+      setIsLoading(false);
+    };
+    getGroupMembers();
+  }, []);
 
   return (
     <>
@@ -164,7 +169,13 @@ const GroupMembers = () => {
               </>
             );
           })}
+          {lastData && (
+            <NoTopicsCard>
+              Não há mais usuários para serem carregados.
+            </NoTopicsCard>
+          )}
         </TopicList>
+        {isLoading && <Loader />}
         <div ref={loaderRef} />
       </GroupContainer>
     </>

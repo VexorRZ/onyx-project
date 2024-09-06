@@ -80,6 +80,7 @@ class GroupMembersController {
   async index(req, res) {
     const { page, size } = req.query;
     const { group_id } = req.params;
+
     try {
       const groupExists = await Group.findByPk(group_id, {
         include: [
