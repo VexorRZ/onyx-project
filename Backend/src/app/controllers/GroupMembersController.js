@@ -87,6 +87,10 @@ class GroupMembersController {
             association: 'avatar',
             attributes: ['path'],
           },
+          {
+            association: 'members',
+            attributes: ['id'],
+          },
         ],
       });
       if (!groupExists)
@@ -98,6 +102,8 @@ class GroupMembersController {
       //     .json({ error: 'Private group. Only a member can see the content' });
 
       const members = await groupExists.getMembers({
+        limit: size,
+        offset: Number(page * size) - Number(size),
         attributes: ['id', 'name', 'surname', 'permitted_to_add_in_groups'],
         include: [
           {

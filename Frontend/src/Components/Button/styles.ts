@@ -27,6 +27,10 @@ export const ButtonStyles = styled.button<ICustomButton>`
   letter-spacing: 0.1rem;
   border-radius: 0.5rem;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
   &:hover {
     opacity: ${(props) => props.opacity};
