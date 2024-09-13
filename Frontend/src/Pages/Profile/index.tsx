@@ -22,9 +22,7 @@ import {
   Container,
   ProfileText,
   UserAvatar,
-  Title,
   ProfiletextWrapper,
-  ProfileStatisticsColumn,
   StatisticProfileItem,
   StatisticsItemWrapper,
   ProfileStatisticsWrapper,
@@ -34,6 +32,9 @@ import {
   CloseIcon,
   CloseIconDiv,
   DataArea,
+  CustomHeader,
+  UserInfo,
+  CustomEditIcon,
 } from "./styles";
 
 interface IProfileProps {
@@ -49,15 +50,10 @@ interface IProfileProps {
 }
 
 const Profile = ({
-  userBirthDate,
   totalNumberOfGroups,
   groupsAsOwner,
-  groupsAsModerator,
-  groupsAsMember,
   topicsCreated,
   commentsCreated,
-  GroupsBanned,
-  JoinsRequested,
 }: IProfileProps) => {
   const [editProfileVisible, setEditProfileVisible] = useState<boolean>(false);
   const [editAvatarVisible, setEditAvatarVisible] = useState<boolean>(false);
@@ -210,156 +206,115 @@ const Profile = ({
       )}
 
       <Container bluried={editProfileVisible || editAvatarVisible}>
-        <UserAvatar
-          style={{
-            background: `url(${generateProfilePic()} ) no-repeat center`,
-            backgroundSize: "cover",
-          }}
-        >
-          <div
-            className="userAvatarHover"
-            onClick={() => {
-              setEditAvatarVisible(!editAvatarVisible);
+        <CustomHeader />
+        <UserInfo>
+          <UserAvatar
+            style={{
+              background: `url(${generateProfilePic()} ) no-repeat center`,
+              backgroundSize: "cover",
             }}
           >
-            <CameraswitchIcon
+            <div
+              className="userAvatarHover"
+              onClick={() => {
+                setEditAvatarVisible(!editAvatarVisible);
+              }}
+            >
+              <CameraswitchIcon
+                style={{
+                  width: 32,
+                  height: 32,
+                  marginTop: 10,
+                  color: "#565f82",
+                  opacity: "1px !important",
+                }}
+              />
+
+              <strong>alterar foto</strong>
+            </div>
+          </UserAvatar>
+
+          <ProfiletextWrapper
+            style={{
+              position: "absolute",
+              left: "264px",
+            }}
+          >
+            <ProfileText
               style={{
-                width: 25,
-                height: 25,
-                marginTop: 10,
+                fontSize: "30px",
+                margin: "0",
+                marginTop: "5px",
+              }}
+            >
+              {userData?.name}
+            </ProfileText>
+          </ProfiletextWrapper>
+        </UserInfo>
+
+        <ProfileStatisticsWrapper>
+          <StatisticsItemWrapper>
+            <GroupsIcon
+              style={{
+                color: "#565f82",
               }}
             />
 
-            <strong>alterar foto</strong>
-          </div>
-        </UserAvatar>
+            <hr />
+            <StatisticProfileItem>
+              Participa de {totalNumberOfGroups} grupos
+            </StatisticProfileItem>
+          </StatisticsItemWrapper>
 
-        <Title>Informações do perfil </Title>
-        <ProfiletextWrapper>
-          <ProfileText>Nome do usuário: {userData?.name}</ProfileText>
-        </ProfiletextWrapper>
-        <ProfiletextWrapper>
-          <ProfileText>Email: {userData?.email}</ProfileText>
-        </ProfiletextWrapper>
-        <ProfiletextWrapper>
-          <ProfileText>
-            Data de Nascimento {userBirthDate?.toISOString()}
-          </ProfileText>
-        </ProfiletextWrapper>
+          <StatisticsItemWrapper>
+            <AdminPanelSettingsIcon
+              style={{
+                color: "#565f82",
+              }}
+            />
+            <hr />
+            <StatisticProfileItem>
+              É dono de {groupsAsOwner} grupos
+            </StatisticProfileItem>
+          </StatisticsItemWrapper>
 
-        <ProfileStatisticsWrapper>
-          <ProfileStatisticsColumn>
-            <StatisticsItemWrapper>
-              <GroupsIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
+          <StatisticsItemWrapper>
+            <TopicIcon
+              style={{
+                color: "#565f82",
+              }}
+            />
+            <hr />
+            <StatisticProfileItem>
+              já criou {topicsCreated} tópicos
+            </StatisticProfileItem>
+          </StatisticsItemWrapper>
 
-              <hr />
-
-              <StatisticProfileItem>
-                Total de grupos: {totalNumberOfGroups}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <AdminPanelSettingsIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd que você é dono: {groupsAsOwner}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <AdminPanelSettingsIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de grupos que você é moderador: {groupsAsModerator}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <GroupIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de grupos que você é membro: {groupsAsMember}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-          </ProfileStatisticsColumn>
-
-          <ProfileStatisticsColumn>
-            <StatisticsItemWrapper>
-              <TopicIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de tópicos que você é o autor: {topicsCreated}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <CommentsDisabledIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de comentários que você é o autor: {commentsCreated}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-            <StatisticsItemWrapper>
-              <NotInterestedIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de grupos que você está banido: {GroupsBanned}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <GroupAddIcon
-                style={{
-                  color: "#ebeff5",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                Qtd de grpos que você está aguardando ser aceito:
-                {JoinsRequested}
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-          </ProfileStatisticsColumn>
+          <StatisticsItemWrapper>
+            <CommentsDisabledIcon
+              style={{
+                color: "#565f82",
+              }}
+            />
+            <hr />
+            <StatisticProfileItem>
+              já comentou {commentsCreated} vezes.
+            </StatisticProfileItem>
+          </StatisticsItemWrapper>
         </ProfileStatisticsWrapper>
         <ButtonWrapper>
           <CustomButton
             disabled={editProfileVisible}
             marginTop="70px"
             width="80px"
+            customBackgroundColor="#0e1014"
+            customColor="green"
+            customBorder="1px solid #373e4a"
             onClick={() => {
               toggleProfileEdit(true);
             }}
           >
-            Editar
+            <CustomEditIcon /> Editar
           </CustomButton>
         </ButtonWrapper>
       </Container>

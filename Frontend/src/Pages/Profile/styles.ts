@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ReactComponent as CloseSvg } from "../../assets/icons/close-icon.svg";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 interface IContainerProps {
   bluried: boolean;
@@ -9,6 +10,12 @@ interface IProfileEditorContainerProps {
   width?: string;
   height?: string;
 }
+
+export const CustomEditIcon = styled(EditOutlinedIcon)`
+  width: 16px !important;
+  height: 16px !important;
+  color: green;
+`;
 
 export const Container = styled.div<IContainerProps>`
   display: flex;
@@ -20,11 +27,19 @@ export const Container = styled.div<IContainerProps>`
   height: 65vh;
   border-radius: 6px;
   box-shadow: 0vh;
-  background-color: #25282e;
-  border: 1px solid #526173;
+  background: #0e1014;
+  color: #c3c8d6;
+
   padding: 10px;
-  box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
+  box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
   filter: ${(props) => (props.bluried ? `blur(0.2rem)` : `blur(0.0rem)`)};
+`;
+
+export const CustomHeader = styled.header`
+  width: 100%;
+  background-color: #17191f;
+  height: 100%;
+  display: flex;
 `;
 
 export const ProfileText = styled.p`
@@ -32,46 +47,55 @@ export const ProfileText = styled.p`
 `;
 
 export const UserAvatar = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   border-radius: 50%;
   overflow: hidden;
-  position: relative;
-  border: 1px solid black;
+  position: absolute;
+  border: 6px solid #0e1014;
+  left: 40px;
+  top: 276px;
 
   .userAvatarHover {
-    width: 200px;
-    height: 200px;
+    width: 175px;
     border-radius: 0%;
-    background-color: gray;
+    background-color: green;
     opacity: 0.5;
-    display: none;
     position: relative;
-    bottom: -65%;
     gap: 6px;
+    top: 100%;
+    position: relative;
+    transition: all 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
   }
 
   &:hover {
     cursor: pointer;
 
     .userAvatarHover {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
+      top: 50%;
     }
   }
 `;
 
 export const Title = styled.h3`
   display: flex;
+  color: #c3c8d6;
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 export const ProfiletextWrapper = styled.div``;
 
 export const ProfileStatisticsColumn = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 6px;
@@ -89,7 +113,7 @@ export const StatisticProfileItem = styled.p`
   font-family: sans-serif;
   font-weight: 900;
   font-size: 13px;
-  margin-left: 10px;
+  color: #c3c8d6;
 `;
 
 export const StatisticsItemWrapper = styled.div`
@@ -97,9 +121,11 @@ export const StatisticsItemWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 6px;
 `;
 
 export const ProfileStatisticsWrapper = styled.div`
+  margin-top: 152px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

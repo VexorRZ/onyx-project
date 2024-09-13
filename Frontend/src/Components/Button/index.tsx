@@ -13,6 +13,7 @@ interface IbuttonProps {
   opacity?: number;
   customColor?: string;
   disabled?: boolean;
+  customBorder?: string;
 }
 
 const CustomButton = ({
@@ -26,9 +27,11 @@ const CustomButton = ({
   opacity,
   customColor,
   disabled,
+  customBorder,
 }: IbuttonProps) => {
   return (
     <ButtonStyles
+      customBorder={customBorder}
       disabled={disabled}
       width={width}
       height={height}

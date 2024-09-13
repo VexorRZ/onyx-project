@@ -26,7 +26,6 @@ import {
   StyleAdminIcon,
   StyledGroupsIcon,
   StyledChatIcon,
-  StyledPublicIcon,
 } from "./styles";
 
 interface IGrupoCardProps {
