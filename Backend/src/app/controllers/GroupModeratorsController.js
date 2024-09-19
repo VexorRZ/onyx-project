@@ -53,25 +53,44 @@ class GroupModeratorsController {
   }
 
   async index(req, res) {
+    const { page, size } = req.query;
     const { group_id } = req.params;
+    try {
+      const groupExists = await Group.findByPk(group_id, {
+        include: [
+          {
+            association: 'avatar',
+            attributes: ['path'],
+          },
+          {
+            association: 'moderators',
+            attributes: ['id', 'name'],
+            order: ['id'],
+          },
+        ],
+      });
 
-    const groupModerators = await Group.findOne({
-      where: { id: group_id },
-      attributes: ['id', 'name'],
-      include: {
-        association: 'moderators',
+      console.log('grupo achado', groupExists);
+      if (!groupExists)
+        return res.status(400).json({ error: 'Group not found' });
+
+      const moderators = await groupExists.getModerators({
+        limit: size,
+        offset: Number(page * size) - Number(size),
         attributes: ['id', 'name'],
-        order: ['id'],
-        required: true,
-      },
-    });
+        include: [
+          {
+            association: 'avatar',
+            attributes: ['path'],
+          },
+        ],
+      });
 
-    if (!groupModerators)
-      return res
-        .status(400)
-        .json({ error: 'No moderators was found in this group' });
-
-    return res.status(200).json(groupModerators);
+      return res.status(200).json({ groupExists, moderators });
+    } catch (err) {
+      console.log('ERRR', err);
+      return res.status(400).json(err);
+    }
   }
 
   async show(req, res) {

@@ -19,6 +19,9 @@ import ResetPassword from "../Pages/ResetPassword";
 import UserGroups from "../Pages/UserGroups";
 import UsersPage from "../Pages/Users";
 import GroupMembers from "../Pages/GroupMembers";
+import GroupAdms from "../Pages/GroupAdms";
+import GroupDescription from "../Pages/GroupDescription";
+import GroupRules from "../Pages/GroupRules";
 import { GroupProvider } from "../Contexts/GroupContext";
 import { GroupMembersProvider } from "../Contexts/GroupContentContext";
 import { UsersProvider } from "../Contexts/UsersContext";
@@ -70,7 +73,6 @@ const Routes = () => {
               </PrivateRoutes>
             }
           />
-
           <Route
             path="/group/:group_id"
             element={
@@ -100,7 +102,7 @@ const Routes = () => {
             element={
               <GroupProvider>
                 <PrivateRoutes>
-                  <Group />
+                  <GroupAdms />
                 </PrivateRoutes>
               </GroupProvider>
             }
@@ -110,7 +112,17 @@ const Routes = () => {
             element={
               <GroupProvider>
                 <PrivateRoutes>
-                  <Group />
+                  <GroupDescription />
+                </PrivateRoutes>
+              </GroupProvider>
+            }
+          />
+          <Route
+            path="/group/:group_id/rules"
+            element={
+              <GroupProvider>
+                <PrivateRoutes>
+                  <GroupRules />
                 </PrivateRoutes>
               </GroupProvider>
             }
