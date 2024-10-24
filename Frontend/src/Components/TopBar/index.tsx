@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, useCallback } from "react";
-import { Search, Chat, Notifications } from "@material-ui/icons";
-import { Container, TopbarIconBadge, NotificationsContainer } from "./styles";
+import { Search, Chat, Notifications, Settings } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { io } from "socket.io-client";
@@ -12,6 +11,15 @@ import api from "../../services/api";
 import { type AxiosResponse } from "axios";
 import { AsyncLogoutFn } from "../../Contexts/AuthContext/middlewares";
 import { ToastMessage } from "../ToastContainer/ToastMessages";
+
+import {
+  Container,
+  TopbarIconBadge,
+  NotificationsContainer,
+  StyledChatIcon,
+  StyledNotificationsIcon,
+  StyledSettingsIcon,
+} from "./styles";
 interface IinputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -128,19 +136,11 @@ const TopBar = ({ onChange }: IinputProps) => {
       <div className="topbarRight">
         <div className="topbarIcons">
           <div className="topbarIconItem">
-            <Chat
-              style={{
-                color: "#565f82",
-              }}
-            />
-            <TopbarIconBadge className="topbarIconBadge">2</TopbarIconBadge>
+            <StyledChatIcon />
             <div>grupos</div>
           </div>
           <div className="topbarIconItem">
-            <Notifications
-              style={{
-                color: "#565f82",
-              }}
+            <StyledNotificationsIcon
               onClick={() => {
                 setnotificationsVisible(!notificationsVisible);
                 setNewNotificationsAmount(0);
@@ -168,6 +168,11 @@ const TopBar = ({ onChange }: IinputProps) => {
                 })}
               </NotificationsContainer>
             )}
+          </div>
+          <div className="topbarIconItem">
+            <StyledSettingsIcon />
+
+            <div>Configurações</div>
           </div>
         </div>
         <img

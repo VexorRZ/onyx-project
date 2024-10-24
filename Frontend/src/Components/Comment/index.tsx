@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DOMPurify from "dompurify";
 
@@ -41,6 +41,15 @@ const comment = ({
 }: IcommmentProps) => {
   const [wrapperVisible, setWrapperVisible] = useState(false);
   const [editContent, setEditContent] = useState(false);
+
+  const formatCurrentDate = (date: Date) => {
+    const dataDoRegistro = new Date("2023-01-01T00:00:00"); // Substitua pela data do seu registro
+    const tempoPassado = formatDistanceToNow(dataDoRegistro, {
+      addSuffix: true,
+    });
+
+    console.log(`Este registro existe há ${tempoPassado}.`);
+  };
   return (
     <>
       <Comment>
@@ -60,11 +69,11 @@ const comment = ({
           >
             <CommentAuthor>{authorName}</CommentAuthor>
             <CommentDate>
-              {format(
-                new Date(createdAt ?? new Date()),
-                "'dia' dd 'de' MMMM', às ' HH:mm'h'",
-                { locale: ptBR }
-              )}
+              {formatDistanceToNow(createdAt ? createdAt : new Date(), {
+                includeSeconds: true,
+                addSuffix: true,
+                locale: ptBR,
+              })}
             </CommentDate>
           </div>
         </div>

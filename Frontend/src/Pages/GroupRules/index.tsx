@@ -26,7 +26,6 @@ const GroupRules = () => {
   const { group_id } = params;
 
   useEffect(() => {
-    console.log("chegou aqui");
     const getGroupMembers = async () => {
       setIsLoading(true);
       try {
@@ -37,7 +36,6 @@ const GroupRules = () => {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
 
-        console.log("resposta do grupo", res);
         //@ts-expect-error
         setGroup({ ...res.data.groupExists });
         setIsLoading(false);

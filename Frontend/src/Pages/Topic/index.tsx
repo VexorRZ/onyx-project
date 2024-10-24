@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { type AxiosResponse } from "axios";
 import api from "../../services/api";
 import {
@@ -260,6 +260,12 @@ const TopicPage = () => {
     setSocket(io("http://localhost:3333"));
   }, [currentPage, limit, total, liked]);
 
+  function useQuery() {
+    const { search } = useLocation();
+
+    return useMemo(() => new URLSearchParams(search), [search]);
+  }
+
   return (
     <>
       <TopBar />
@@ -284,6 +290,11 @@ const TopicPage = () => {
                         style={{ display: "flex", flexDirection: "column" }}
                       >
                         <CustomComment
+                          createdAt={
+                            new Date(
+                              comment.createdAt ? comment.createdAt : new Date()
+                            )
+                          }
                           userIsAuthor={Boolean(
                             currentUserIsAuthor(comment.id)
                           )}
@@ -364,6 +375,9 @@ const TopicPage = () => {
             <PaginationButton>
               {currentPage > 1 && (
                 <PaginationItem
+                  to={`../topics/${group_id}/${topic_id}/?page=${
+                    currentPage - 1
+                  }*`}
                   onClick={() => {
                     setCurrentPage(currentPage - 1);
                     navigate(
@@ -380,13 +394,16 @@ const TopicPage = () => {
               {pages.map((page) => (
                 <>
                   <PaginationItem
+                    to={`../topics/${group_id}/${topic_id}/?page=${page}`}
                     isSelect={page === currentPage}
                     key={page}
                     onClick={() => {
                       setCurrentPage(Number(page));
                       navigate(
                         `../topics/${group_id}/${topic_id}/?page=${page}`,
-                        { replace: true }
+                        {
+                          replace: true,
+                        }
                       );
                     }}
                   >
@@ -396,6 +413,9 @@ const TopicPage = () => {
               ))}
               {currentPage < pages.length && (
                 <PaginationItem
+                  to={`../topics/${group_id}/${topic_id}/?page=${
+                    currentPage + 1
+                  }`}
                   onClick={() => {
                     setCurrentPage(currentPage + 1);
                     navigate(

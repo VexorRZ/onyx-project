@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 interface IPaginationProps {
   isSelect?: boolean;
 }
@@ -157,7 +157,7 @@ export const PaginationButton = styled.div`
   }
 `;
 
-export const PaginationItem = styled.div<IPaginationProps>`
+export const PaginationItem = styled(Link)<IPaginationProps>`
   margin: 0 10px;
   border-radius: 50%;
   width: 20px;

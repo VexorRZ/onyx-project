@@ -3,7 +3,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ChatIcon from "@mui/icons-material/Chat";
 import PublicIcon from "@mui/icons-material/Public";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import LockIcon from "@mui/icons-material/Lock";
 
 interface IinfoWraperProps {
   gap?: string;
@@ -22,6 +22,10 @@ interface INavBarProps {
 }
 
 export const StyleAdminIcon = styled(AdminPanelSettingsIcon)`
+  color: #565f82;
+`;
+
+export const StyledLockIcon = styled(LockIcon)`
   color: #565f82;
 `;
 export const StyledGroupsIcon = styled(GroupsIcon)`

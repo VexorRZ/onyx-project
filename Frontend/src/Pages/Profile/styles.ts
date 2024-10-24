@@ -140,12 +140,14 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ProfileEditorContainer = styled.div<IProfileEditorContainerProps>`
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background-color: #25282e;
-  border: 1px solid #526173;
+  background: #0e1014;
+  box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
+
   padding: 10px;
   box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
   width: ${(props) => props.width ?? "600px"};
@@ -167,7 +169,7 @@ export const CloseIcon = styled(CloseSvg)`
 
   &:hover {
     cursor: pointer;
-    background-color: black;
+    background-color: red;
   }
 `;
 

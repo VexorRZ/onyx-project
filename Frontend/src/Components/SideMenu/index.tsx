@@ -6,7 +6,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useNavigate } from "react-router-dom";
 
-import { Container, ElementArea } from "./styles";
+import {
+  Container,
+  ElementArea,
+  ItemWrapper,
+  StyledAccountCircleIcon,
+  StyledGroupAddIcon,
+  StyledPersonIcon,
+  StyledGroupsList,
+} from "./styles";
 
 interface ISideMenuProps {
   position?: string;
@@ -34,36 +42,38 @@ const SideMenu: React.FC = ({ position }: ISideMenuProps) => {
   return (
     <Container position={position}>
       <ElementArea onClick={openProfilePage}>
-        <AccountCircleIcon
-          style={{
-            color: "#565f82",
-          }}
-        />
-        <h6>Perfil </h6>
+        <ItemWrapper width="28px">
+          <StyledAccountCircleIcon />
+        </ItemWrapper>
+        <ItemWrapper width="76px">
+          <h6>Perfil </h6>
+        </ItemWrapper>
       </ElementArea>
       <ElementArea onClick={openUsersList}>
-        <PersonIcon
-          style={{
-            color: "#565f82",
-          }}
-        />
-        <h6>usuários </h6>
+        <ItemWrapper width="28px">
+          <StyledPersonIcon />
+        </ItemWrapper>
+        <ItemWrapper width="76px">
+          <h6>usuários </h6>
+        </ItemWrapper>
       </ElementArea>
+
       <ElementArea onClick={openUserGroups}>
-        <GroupsIcon
-          style={{
-            color: "#565f82",
-          }}
-        />
-        <h6> Meus grupos </h6>
+        <ItemWrapper width="28px">
+          <StyledGroupsList />
+        </ItemWrapper>
+        <ItemWrapper width="76px">
+          <h6> Meus grupos </h6>
+        </ItemWrapper>
       </ElementArea>
+
       <ElementArea onClick={openGroupCreatePage}>
-        <GroupAddIcon
-          style={{
-            color: "#565f82",
-          }}
-        />
-        <h6>criar grupo</h6>
+        <ItemWrapper width="28px">
+          <StyledGroupAddIcon />
+        </ItemWrapper>
+        <ItemWrapper width="76px">
+          <h6>criar grupo</h6>
+        </ItemWrapper>
       </ElementArea>
     </Container>
   );

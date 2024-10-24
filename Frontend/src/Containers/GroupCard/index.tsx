@@ -26,6 +26,8 @@ import {
   StyleAdminIcon,
   StyledGroupsIcon,
   StyledChatIcon,
+  StyledPublicIcon,
+  StyledLockIcon,
 } from "./styles";
 
 interface IGrupoCardProps {
@@ -160,6 +162,11 @@ const NewGroupCard = ({
             </NavBarItemNumber>
           </NavBarItem>
           <NavBarItem>
+            {groupStatus === "Público" ? (
+              <StyledPublicIcon />
+            ) : (
+              <StyledLockIcon />
+            )}
             <NavBarItemLabel>Grupo</NavBarItemLabel>
             <NavBarItemLabel statusColor={statusColor}>
               {groupStatus}

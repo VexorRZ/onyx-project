@@ -1,9 +1,65 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { Search, Chat, Notifications, Settings } from "@material-ui/icons";
 
 interface ITopbarIconBadgeProps {
   isRingBell?: boolean;
 }
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+`;
+
+const shake = keyframes`
+  0%
+  {
+   transform: rotate(-20deg);
+  }
+  20%
+  {
+    transform: rotate(20deg);
+  }
+  40%
+  {
+     transform: rotate(-20deg);
+  }
+  60%
+  {
+    transform: rotate(20deg);
+  }
+  80%
+  {
+    transform: rotate(-20deg);
+  }
+  100%
+  {
+    transform: rotate(0deg);
+  }
+
+`;
+
+export const StyledChatIcon = styled(Chat)`
+  color: #7e8cc7ff;
+`;
+export const StyledNotificationsIcon = styled(Notifications)`
+  color: #7e8cc7ff;
+  &:hover {
+    animation: ${shake} 0.7s linear;
+  }
+`;
+export const StyledSettingsIcon = styled(Settings)`
+  color: #7e8cc7ff;
+
+  &:hover {
+    animation: ${rotate} 0.4s linear;
+  }
+`;
+export const StyledSearchIcon = styled(Search)``;
 
 export const Container = styled.div`
   height: 64px;
