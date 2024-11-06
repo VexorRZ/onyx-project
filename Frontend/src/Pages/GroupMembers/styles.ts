@@ -3,8 +3,9 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
 export const TopicList = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 70%;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
   gap: 12px;
   flex: 6;
   margin-top: 36px;

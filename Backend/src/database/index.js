@@ -8,8 +8,20 @@ import Topic from '../app/models/Topic';
 import Comment from '../app/models/Comment';
 import CommentLikes from '../app/models/CommentsLikes';
 import Notification from '../app/models/Notification';
+import PublicationComment from '../app/models/PublicationComment';
+import UserPublication from '../app/models/UserPublication';
 
-const models = [User, File, Group, Topic, Comment, CommentLikes, Notification];
+const models = [
+  User,
+  File,
+  Group,
+  Topic,
+  Comment,
+  CommentLikes,
+  Notification,
+  PublicationComment,
+  UserPublication,
+];
 
 class Database {
   constructor() {

@@ -127,8 +127,8 @@ const GroupMembers = () => {
         imageSrc={group?.avatar.path ? group.avatar.path : defaultpic}
         group_id={Number(group?.id)}
       >
+        <h3>Members</h3>
         <TopicList>
-          <h3>Members</h3>
           {groupMembers.map((member, index) => {
             return (
               <>
@@ -169,12 +169,12 @@ const GroupMembers = () => {
               </>
             );
           })}
-          {lastData && (
-            <NoTopicsCard>
-              Não há mais usuários para serem carregados.
-            </NoTopicsCard>
-          )}
         </TopicList>
+        {lastData && (
+          <NoTopicsCard>
+            Não há mais usuários para serem carregados.
+          </NoTopicsCard>
+        )}
         {isLoading && <Loader />}
         <div ref={loaderRef} />
       </GroupContainer>

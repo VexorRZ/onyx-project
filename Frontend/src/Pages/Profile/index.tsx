@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState, useCallback, useEffect } from "react";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import GroupIcon from "@mui/icons-material/Group";
 import TopicIcon from "@mui/icons-material/Topic";
 import CommentsDisabledIcon from "@mui/icons-material/CommentsDisabled";
-import NotInterestedIcon from "@mui/icons-material/NotInterested";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupsIcon from "@mui/icons-material/Groups";
 import CustomButton from "../../Components/Button";
 import useAuth from "../../Hooks/useAuth";
@@ -17,9 +14,15 @@ import defaultProfilePic from "../../assets/images/default-profile-pic.png";
 import { ToastError } from "../../Components/ToastContainer/ToastMessages";
 import DialogBox from "../../Containers/DialogBox";
 import { useNavigate } from "react-router-dom";
+import UserNewPublication from "../../Containers/UserNewPublication";
+import { type Comments } from "../../Contexts/TopicContext/interfaces";
+import defaulpic from "../../assets/images/fibonacci.jpg";
+import Like from "../../Components/Like";
+import Publication from "../../Containers/Publication";
 
 import {
   Container,
+  ProfileContainer,
   ProfileText,
   UserAvatar,
   ProfiletextWrapper,
@@ -35,6 +38,11 @@ import {
   CustomHeader,
   UserInfo,
   CustomEditIcon,
+  UserPublicationWrapper,
+  PublicationsList,
+  Resellers,
+  ResellerPlus,
+  Reseller,
 } from "./styles";
 
 interface IProfileProps {
@@ -61,6 +69,8 @@ const Profile = ({
   const [newUserName, setNewUserName] = useState<string>("");
   const [newUserMail, setNewUserMail] = useState<string>("");
   const [DialogIsVisible, SetDialogIsVisible] = useState<boolean>(false);
+  const [publiCations, setPublications] = useState<Comments[]>([]);
+  const [publication, setPublication] = useState("");
 
   const navigate = useNavigate();
 
@@ -83,6 +93,13 @@ const Profile = ({
       setNewUserMail(event.currentTarget.value);
     },
     [newUserName]
+  );
+
+  const changePublication = useCallback(
+    (value: any) => {
+      setPublication(value);
+    },
+    [publication]
   );
 
   const toggleProfileEdit = useCallback((value: boolean) => {
@@ -134,6 +151,44 @@ const Profile = ({
       return defaultProfilePic;
     }
   }, [userData]);
+
+  const createNewPublication = async () => {
+    if (userData?.name) {
+      setPublications([
+        ...publiCations,
+        {
+          id: 0,
+          author: {
+            name: userData.name,
+            id: Number(userData.id),
+            avatar: { path: userData.avatar.path },
+          },
+          body: publication,
+          commentLikes: [],
+        },
+      ]);
+
+      if (!userData.token) {
+        throw new Error("Erro inesperado, token não fornecido");
+      }
+
+      // try {
+      //   const res: AxiosResponse = await api.post<AxiosResponse>(
+      //     `/comments/${Number(group_id)}/${Number(topic_id)}`,
+      //     {
+      //       headers: { Authorization: `Bearer ${userData.token}` },
+      //       body: comment,
+      //     }
+      //   );
+
+      //   return res.status;
+      // } catch (err) {
+      //   return err;
+      // }
+    } else {
+      throw new Error("Erro inesperado, tente novamente");
+    }
+  };
 
   return (
     <>
@@ -204,119 +259,167 @@ const Profile = ({
           </CustomButton>
         </ProfileEditorContainer>
       )}
-
-      <Container bluried={editProfileVisible || editAvatarVisible}>
-        <CustomHeader />
-        <UserInfo>
-          <UserAvatar
-            style={{
-              background: `url(${generateProfilePic()} ) no-repeat center`,
-              backgroundSize: "cover",
-            }}
-          >
-            <div
-              className="userAvatarHover"
-              onClick={() => {
-                setEditAvatarVisible(!editAvatarVisible);
+      <Container>
+        <ProfileContainer bluried={editProfileVisible || editAvatarVisible}>
+          <CustomHeader />
+          <UserInfo>
+            <UserAvatar
+              style={{
+                background: `url(${generateProfilePic()} ) no-repeat center`,
+                backgroundSize: "cover",
               }}
             >
-              <CameraswitchIcon
+              <div
+                className="userAvatarHover"
+                onClick={() => {
+                  setEditAvatarVisible(!editAvatarVisible);
+                }}
+              >
+                <CameraswitchIcon
+                  style={{
+                    width: 32,
+                    height: 32,
+                    marginTop: 10,
+                    color: "#565f82",
+                    opacity: "1px !important",
+                  }}
+                />
+
+                <strong>alterar foto</strong>
+              </div>
+            </UserAvatar>
+
+            <ProfiletextWrapper
+              style={{
+                position: "absolute",
+                left: "264px",
+              }}
+            >
+              <ProfileText
                 style={{
-                  width: 32,
-                  height: 32,
-                  marginTop: 10,
+                  fontSize: "30px",
+                  margin: "0",
+                  marginTop: "5px",
+                }}
+              >
+                {userData?.name}
+              </ProfileText>
+            </ProfiletextWrapper>
+          </UserInfo>
+
+          <ProfileStatisticsWrapper>
+            <StatisticsItemWrapper>
+              <GroupsIcon
+                style={{
                   color: "#565f82",
-                  opacity: "1px !important",
                 }}
               />
 
-              <strong>alterar foto</strong>
-            </div>
-          </UserAvatar>
+              <hr />
+              <StatisticProfileItem>
+                Participa de {totalNumberOfGroups} grupos
+              </StatisticProfileItem>
+            </StatisticsItemWrapper>
 
-          <ProfiletextWrapper
-            style={{
-              position: "absolute",
-              left: "264px",
-            }}
-          >
-            <ProfileText
-              style={{
-                fontSize: "30px",
-                margin: "0",
-                marginTop: "5px",
+            <StatisticsItemWrapper>
+              <AdminPanelSettingsIcon
+                style={{
+                  color: "#565f82",
+                }}
+              />
+              <hr />
+              <StatisticProfileItem>
+                É dono de {groupsAsOwner} grupos
+              </StatisticProfileItem>
+            </StatisticsItemWrapper>
+
+            <StatisticsItemWrapper>
+              <TopicIcon
+                style={{
+                  color: "#565f82",
+                }}
+              />
+              <hr />
+              <StatisticProfileItem>
+                já criou {topicsCreated} tópicos
+              </StatisticProfileItem>
+            </StatisticsItemWrapper>
+
+            <StatisticsItemWrapper>
+              <CommentsDisabledIcon
+                style={{
+                  color: "#565f82",
+                }}
+              />
+              <hr />
+              <StatisticProfileItem>
+                já comentou {commentsCreated} vezes.
+              </StatisticProfileItem>
+            </StatisticsItemWrapper>
+          </ProfileStatisticsWrapper>
+          <ButtonWrapper>
+            <CustomButton
+              disabled={editProfileVisible}
+              marginTop="70px"
+              width="80px"
+              customBackgroundColor="#0e1014"
+              customColor="green"
+              customBorder="1px solid #373e4a"
+              onClick={() => {
+                toggleProfileEdit(true);
               }}
             >
-              {userData?.name}
-            </ProfileText>
-          </ProfiletextWrapper>
-        </UserInfo>
+              <CustomEditIcon /> Editar
+            </CustomButton>
+          </ButtonWrapper>
+        </ProfileContainer>
 
-        <ProfileStatisticsWrapper>
-          <StatisticsItemWrapper>
-            <GroupsIcon
-              style={{
-                color: "#565f82",
-              }}
-            />
+        <UserPublicationWrapper>
+          <UserNewPublication
+            onClickCustomButton={createNewPublication}
+            onChangeText={changePublication}
+          />
+          <Resellers>
+            {/* {!!images.slice(2).length && (
+              <ResellerPlus>
+                <span>+ {images.slice(2).length}</span>
+              </ResellerPlus>
+            )} */}
 
-            <hr />
-            <StatisticProfileItem>
-              Participa de {totalNumberOfGroups} grupos
-            </StatisticProfileItem>
-          </StatisticsItemWrapper>
+            <Reseller>
+              <img src={defaulpic} alt="reseller" />
+            </Reseller>
+            <Reseller>
+              <img src={defaulpic} alt="reseller" />
+            </Reseller>
+            <Reseller>
+              <img src={defaulpic} alt="reseller" />
+            </Reseller>
+            <Reseller>
+              <img src={defaulpic} alt="reseller" />
+            </Reseller>
+            <Reseller>
+              <img src={defaulpic} alt="reseller" />
+            </Reseller>
+          </Resellers>
+        </UserPublicationWrapper>
 
-          <StatisticsItemWrapper>
-            <AdminPanelSettingsIcon
-              style={{
-                color: "#565f82",
-              }}
-            />
-            <hr />
-            <StatisticProfileItem>
-              É dono de {groupsAsOwner} grupos
-            </StatisticProfileItem>
-          </StatisticsItemWrapper>
-
-          <StatisticsItemWrapper>
-            <TopicIcon
-              style={{
-                color: "#565f82",
-              }}
-            />
-            <hr />
-            <StatisticProfileItem>
-              já criou {topicsCreated} tópicos
-            </StatisticProfileItem>
-          </StatisticsItemWrapper>
-
-          <StatisticsItemWrapper>
-            <CommentsDisabledIcon
-              style={{
-                color: "#565f82",
-              }}
-            />
-            <hr />
-            <StatisticProfileItem>
-              já comentou {commentsCreated} vezes.
-            </StatisticProfileItem>
-          </StatisticsItemWrapper>
-        </ProfileStatisticsWrapper>
-        <ButtonWrapper>
-          <CustomButton
-            disabled={editProfileVisible}
-            marginTop="70px"
-            width="80px"
-            customBackgroundColor="#0e1014"
-            customColor="green"
-            customBorder="1px solid #373e4a"
-            onClick={() => {
-              toggleProfileEdit(true);
-            }}
-          >
-            <CustomEditIcon /> Editar
-          </CustomButton>
-        </ButtonWrapper>
+        <PublicationsList>
+          {publiCations.map((publication, index) => {
+            return (
+              <>
+                <Publication
+                  userAvatar={publication.author.avatar.path}
+                  userName={publication.author.name}
+                  body={publication.body}
+                  createdAt={
+                    publication.createdAt ? publication.createdAt : new Date()
+                  }
+                />
+              </>
+            );
+          })}
+        </PublicationsList>
       </Container>
       {DialogIsVisible && (
         <DialogBox

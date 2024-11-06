@@ -17,7 +17,16 @@ export const CustomEditIcon = styled(EditOutlinedIcon)`
   color: green;
 `;
 
-export const Container = styled.div<IContainerProps>`
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 6000px;
+`;
+
+export const ProfileContainer = styled.div<IContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -186,4 +195,66 @@ export const DataArea = styled.div`
   justify-content: center;
   gap: 40px;
   margin-top: 80px;
+`;
+
+export const UserPublicationWrapper = styled.div`
+  width: 1400px;
+  justify-content: flex-start;
+  display: flex;
+  margin: auto;
+  gap: 4em;
+`;
+
+export const PublicationsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+  margin: auto;
+  width: 1400px;
+`;
+
+export const Resellers = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  background: #0e1014;
+  color: #c3c8d6;
+  padding: 10px;
+  box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
+  border-radius: 8px;
+  border: 1px solid rgb(86, 95, 130);
+`;
+
+export const Reseller = styled.div`
+  align-items: center;
+  color: #fff;
+  background-color: #bdbdbd;
+  border: 4px solid #fff; // <-- white space around
+  border-radius: 50%; // <-- circle divs
+  display: flex;
+  flex-direction: row;
+  font-family: Nunito-Bold;
+  font-size: 1rem;
+  height: 40px;
+  overflow: hidden; // <-- hide edges of images
+  text-align: center; // <-- center text
+  width: 40px;
+
+  :not(:first-child) {
+    margin-right: -0.5rem; // <-- apply overlap
+  }
+
+  img {
+    margin-right: 0.5rem;
+    object-fit: contain;
+  }
+`;
+
+export const ResellerPlus = styled(Reseller)`
+  font-family: Nunito-SemiBold;
+
+  span {
+    width: 100%; // <-- help center text
+  }
 `;

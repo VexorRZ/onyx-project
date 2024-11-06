@@ -31,6 +31,14 @@ class Notification extends Model {
     this.belongsTo(models.Group, { foreignKey: 'id', as: 'group' });
     this.belongsTo(models.Topic, { foreignKey: 'id', as: 'topic' });
     this.belongsTo(models.Comment, { foreignKey: 'id', as: 'comment' });
+    this.belongsTo(models.UserPublication, {
+      foreignKey: 'id',
+      as: 'userPublication',
+    });
+    this.belongsTo(models.PublicationComment, {
+      foreignKey: 'id',
+      as: 'publicationComment',
+    });
   }
 }
 

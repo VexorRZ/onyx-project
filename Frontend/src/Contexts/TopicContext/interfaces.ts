@@ -36,6 +36,10 @@ export interface Comments {
   commentLikes: commentLikes[];
 }
 
+export interface Publication {
+  body: string;
+}
+
 interface author {
   id: number;
   name: string;

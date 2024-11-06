@@ -78,10 +78,37 @@ export const ElementArea = styled.div`
   align-items: center;
   gap: 10px;
   margin-left: 10px;
+
+  :hover {
+    ::after {
+      content: "";
+      width: 7px;
+      height: 14px;
+      color: green;
+      background-color: green;
+      opacity: 1;
+      position: absolute;
+      margin-left: 30px;
+    }
+  }
+
+  ::after {
+    content: "";
+    width: 7px;
+    height: 14px;
+    color: green;
+    background-color: green;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 1s ease;
+    margin-left: 30px;
+  }
+
   h6 {
     color: #ebeff5;
     font-family: sans-serif;
     transition: color 0.5s;
+    margin: 0;
   }
 
   &:hover ${StyledGroupAddIcon} {
@@ -109,6 +136,7 @@ export const ElementArea = styled.div`
 
     h6 {
       color: green;
+      margin: 0;
     }
   }
 `;
