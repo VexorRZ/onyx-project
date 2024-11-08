@@ -37,11 +37,6 @@ const Publication = ({
       </header>
 
       <article
-        style={{
-          background: "#17191f",
-          borderRadius: "6px",
-          padding: "12px",
-        }}
         className="publicationBody"
         dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(body),

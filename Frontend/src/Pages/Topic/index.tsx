@@ -329,7 +329,13 @@ const TopicPage = () => {
                       </div>
                     );
                   })}
-                  {commentBoxOpenned && <TextEditor onChange={changeComment} />}
+                  {commentBoxOpenned && (
+                    <TextEditor
+                      alignItems="flex-start"
+                      width="100%"
+                      onChange={changeComment}
+                    />
+                  )}
 
                   {currentUserIsMember() && (
                     <ButtonArea>

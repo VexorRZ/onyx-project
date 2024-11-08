@@ -2,8 +2,10 @@ import React, { useCallback, useState } from "react";
 import CustomButton from "../../Components/Button";
 import TextEditor from "../Editor";
 import Publication from "../Publication";
+import { type Comments } from "../../Contexts/TopicContext/interfaces";
+import useAuth from "../../Hooks/useAuth";
 interface IEditorprops {
-  onClickCustomButton: () => void;
+  onClickCustomButton?: () => void;
   onChangeText: (val: any) => void;
 }
 import {
@@ -17,9 +19,33 @@ const UserNewPublication = ({
   onClickCustomButton,
   onChangeText,
 }: IEditorprops) => {
-  const [comment, setComment] = useState("");
-  const [publications, setPublications] = useState([]);
+  const [publications, setPublications] = useState<Comments[]>([]);
+  const [publication, setPublication] = useState("");
 
+  const { userData } = useAuth();
+  const createNewPublication = async () => {
+    if (userData?.name) {
+      setPublications([
+        ...publications,
+        {
+          id: 0,
+          author: {
+            name: userData.name,
+            id: Number(userData.id),
+            avatar: { path: userData.avatar.path },
+          },
+          body: publication,
+          commentLikes: [],
+        },
+      ]);
+
+      if (!userData.token) {
+        throw new Error("Erro inesperado, token não fornecido");
+      }
+    } else {
+      throw new Error("Erro inesperado, tente novamente");
+    }
+  };
   return (
     <CardContainer>
       <CardHeader>
@@ -27,13 +53,35 @@ const UserNewPublication = ({
       </CardHeader>
       <PublicationContent />
       <CardFooter>
-        <TextEditor onChange={onChangeText} />
+        <TextEditor
+          alignItems="flex-start"
+          width="100%"
+          onChange={onChangeText}
+        />
         <div style={{ margin: "auto" }}>
-          <CustomButton width="200px" onClick={onClickCustomButton}>
+          <CustomButton width="200px" onClick={createNewPublication}>
             postares
           </CustomButton>
         </div>
       </CardFooter>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {publications.map((publication, index) => {
+          return (
+            <Publication
+              userAvatar={userData.avatar.path}
+              userName={userData.name}
+              body={publication.body}
+              createdAt={new Date()}
+            />
+          );
+        })}
+      </div>
     </CardContainer>
   );
 };

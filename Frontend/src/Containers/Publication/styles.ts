@@ -4,13 +4,15 @@ export const Container = styled.div`
   padding: 18px;
   display: flex;
   flex-direction: column;
-  width: 900px;
+  width: 600px;
   background: #0e1014;
   color: #c3c8d6;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
   border: 1px solid rgb(86, 95, 130);
   border-radius: 10px;
   gap: 8px;
+  margin: auto;
+  margin-top: 30px;
 
   .publicationHeader {
     display: flex;
@@ -38,11 +40,11 @@ export const Container = styled.div`
         font-weight: bold;
       }
     }
-
-    .publicationBody {
-      width: 600px;
-      min-height: 300px;
-      background: #17191f !important;
-    }
+  }
+  .publicationBody {
+    width: 100%;
+    min-height: 100px !important;
+    background: #17191f !important;
+    border-radius: 6px;
   }
 `;

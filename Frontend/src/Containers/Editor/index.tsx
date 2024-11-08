@@ -14,9 +14,11 @@ import { Container } from "./styles";
 interface IEditorprops {
   onChange: (val: any) => void;
   onClickCustomButton?: () => void;
+  alignItems: string;
+  width: string;
 }
 
-const TextEditor = ({ onChange }: IEditorprops) => {
+const TextEditor = ({ onChange, alignItems, width }: IEditorprops) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -34,7 +36,7 @@ const TextEditor = ({ onChange }: IEditorprops) => {
   });
 
   return (
-    <Container>
+    <Container width={width} alignItems={alignItems}>
       <EditorContent
         editor={editor}
         onChange={onChange}

@@ -151,44 +151,6 @@ const Profile = ({
     }
   }, [userData]);
 
-  const createNewPublication = async () => {
-    if (userData?.name) {
-      setPublications([
-        ...publiCations,
-        {
-          id: 0,
-          author: {
-            name: userData.name,
-            id: Number(userData.id),
-            avatar: { path: userData.avatar.path },
-          },
-          body: publication,
-          commentLikes: [],
-        },
-      ]);
-
-      if (!userData.token) {
-        throw new Error("Erro inesperado, token não fornecido");
-      }
-
-      // try {
-      //   const res: AxiosResponse = await api.post<AxiosResponse>(
-      //     `/comments/${Number(group_id)}/${Number(topic_id)}`,
-      //     {
-      //       headers: { Authorization: `Bearer ${userData.token}` },
-      //       body: comment,
-      //     }
-      //   );
-
-      //   return res.status;
-      // } catch (err) {
-      //   return err;
-      // }
-    } else {
-      throw new Error("Erro inesperado, tente novamente");
-    }
-  };
-
   return (
     <>
       <TopBar />
@@ -374,10 +336,7 @@ const Profile = ({
         </ProfileContainer>
 
         <UserPublicationWrapper>
-          <UserNewPublication
-            onClickCustomButton={createNewPublication}
-            onChangeText={changePublication}
-          />
+          <UserNewPublication onChangeText={changePublication} />
           <Resellers>
             {/* {!!images.slice(2).length && (
               <ResellerPlus>
