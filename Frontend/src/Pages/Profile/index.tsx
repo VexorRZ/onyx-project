@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import UserNewPublication from "../../Containers/UserNewPublication";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
 import defaulpic from "../../assets/images/fibonacci.jpg";
-import Like from "../../Components/Like";
 import Publication from "../../Containers/Publication";
 
 import {

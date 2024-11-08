@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
-
+import CustomButton from "../../Components/Button";
 import TextEditor from "../Editor";
-
+import Publication from "../Publication";
 interface IEditorprops {
   onClickCustomButton: () => void;
   onChangeText: (val: any) => void;
@@ -18,6 +18,7 @@ const UserNewPublication = ({
   onChangeText,
 }: IEditorprops) => {
   const [comment, setComment] = useState("");
+  const [publications, setPublications] = useState([]);
 
   return (
     <CardContainer>
@@ -26,10 +27,12 @@ const UserNewPublication = ({
       </CardHeader>
       <PublicationContent />
       <CardFooter>
-        <TextEditor
-          onChange={onChangeText}
-          onClickCustomButton={onClickCustomButton}
-        />
+        <TextEditor onChange={onChangeText} />
+        <div style={{ margin: "auto" }}>
+          <CustomButton width="200px" onClick={onClickCustomButton}>
+            postares
+          </CustomButton>
+        </div>
       </CardFooter>
     </CardContainer>
   );

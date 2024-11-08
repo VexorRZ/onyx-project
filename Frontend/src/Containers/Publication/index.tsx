@@ -5,8 +5,6 @@ import { ptBR } from "date-fns/locale";
 import { Container } from "./styles";
 import PublicationComment from "../../Components/PublicationComment/index";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
-import TextEditor from "../Editor";
-import { StyledItalic } from "../../Components/TextFormatters/styles";
 
 export type Publicattion = {
   userAvatar: string;
@@ -49,13 +47,7 @@ const Publication = ({
           __html: DOMPurify.sanitize(body),
         }}
       />
-      <TextEditor
-        customHeightButton="20px"
-        customWidthButton="20px"
-        height="45px"
-        mingHeight="45px"
-        onChange={() => {}}
-      />
+
       <>
         {commments.map((comment, index) => {
           return (

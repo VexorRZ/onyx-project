@@ -6,6 +6,8 @@ import {
   FormatUnderlined,
   FormatListBulleted,
   FormatListNumbered,
+  Videocam,
+  Image,
 } from "@mui/icons-material";
 
 export const Container = styled.div`
@@ -28,6 +30,10 @@ export const Container = styled.div`
 `;
 
 export const StyledBold = styled(FormatBold)``;
+
+export const StyledImage = styled(Image)``;
+
+export const StyledVideo = styled(Videocam)``;
 
 export const StyledItalic = styled(FormatItalic)``;
 

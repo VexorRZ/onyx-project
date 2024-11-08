@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tiptap/extension-image": "^2.9.1",
+    "@tiptap/extension-youtube": "^2.9.1"
+  }
+}

@@ -27,4 +27,11 @@ export const PublicationContent = styled.article`
   height: 400px;
 `;
 
-export const CardFooter = styled.footer``;
+export const CardFooter = styled.footer`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+`;
