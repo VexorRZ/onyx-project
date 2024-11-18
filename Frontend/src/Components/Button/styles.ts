@@ -19,6 +19,7 @@ export const ButtonStyles = styled.button<ICustomButton>`
     props.customBackgroundColor ? props.customBackgroundColor : " #373e4a"};
   color: ${(props) => props.customColor};
   border: ${(props) => (props.customBorder ? props.customBorder : "0px none")};
+  font-family: "math";
   border-radius: 6px;
   transition: all 0.1s ease-in;
   text-shadow: 0.1rem 0.1rem 0.5rem hsla(0, 0%, 0%, 0.5);

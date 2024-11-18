@@ -217,6 +217,7 @@ export const PublicationsList = styled.div`
 export const Resellers = styled.div`
   display: flex;
   flex-direction: row-reverse;
+  height: 150px;
   align-items: center;
   background: #0e1014;
   color: #c3c8d6;

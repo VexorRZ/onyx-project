@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import DOMPurify from "dompurify";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Container } from "./styles";
 import PublicationComment from "../../Components/PublicationComment/index";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
+import useAuth from "../../Hooks/useAuth";
 
+import { Container, StyledSendIcon } from "./styles";
 export type Publicattion = {
   userAvatar: string;
   userName: string;
@@ -19,7 +20,59 @@ const Publication = ({
   createdAt,
   body,
 }: Publicattion) => {
-  const [commments, setComments] = useState<Comments[]>([]);
+  const [commentList, setCommentlist] = useState<Comments[]>([]);
+  const [comment, setComment] = useState("");
+  const { userData } = useAuth();
+
+  // const changeComment = useCallback(
+  //   (value: any) => {
+  //     setComment(value);
+  //   },
+  //   [comment]
+  // );
+
+  const UpdateComment = (event: any) => {
+    setComment(event.target.value);
+  };
+
+  const postNewComment = async () => {
+    if (userData?.name) {
+      setCommentlist([
+        ...commentList,
+        {
+          id: 0,
+          author: {
+            name: userData.name,
+            id: Number(userData.id),
+            avatar: { path: userData.avatar.path },
+          },
+          body: comment,
+          commentLikes: [],
+        },
+      ]);
+
+      if (!userData.token) {
+        throw new Error("Erro inesperado, token não fornecido");
+      }
+
+      // try {
+      //   const res: AxiosResponse = await api.post<AxiosResponse>(
+      //     `/comments/${Number(group_id)}/${Number(topic_id)}`,
+      //     {
+      //       headers: { Authorization: `Bearer ${userData.token}` },
+      //       body: comment,
+      //     }
+      //   );
+
+      //   return res.status;
+      // } catch (err) {
+      //   return err;
+      // }
+    } else {
+      throw new Error("Erro inesperado, tente novamente");
+    }
+  };
+
   return (
     <Container>
       <header className="publicationHeader">
@@ -44,7 +97,7 @@ const Publication = ({
       />
 
       <>
-        {commments.map((comment, index) => {
+        {commentList.map((comment, index) => {
           return (
             <PublicationComment
               key={index}
@@ -56,6 +109,22 @@ const Publication = ({
           );
         })}
       </>
+      <div className="commentBox">
+        <textarea
+          className="inputComment"
+          placeholder="comente algo"
+          value={comment}
+          onChange={UpdateComment}
+        />
+        <div className="iconWrapper">
+          <StyledSendIcon
+            onClick={() => {
+              setComment("");
+              postNewComment();
+            }}
+          />
+        </div>
+      </div>
     </Container>
   );
 };

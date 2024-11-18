@@ -9,6 +9,8 @@ import Youtube from "@tiptap/extension-youtube";
 //import Link from "@tiptap/extension-link";
 import MenuBar from "../TextEditorMenuBar";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useLocation } from "react-router-dom";
+import CustomButton from "../../Components/Button";
 import { Container } from "./styles";
 
 interface IEditorprops {
@@ -18,7 +20,14 @@ interface IEditorprops {
   width: string;
 }
 
-const TextEditor = ({ onChange, alignItems, width }: IEditorprops) => {
+const TextEditor = ({
+  onChange,
+  onClickCustomButton,
+  alignItems,
+  width,
+}: IEditorprops) => {
+  const location = useLocation();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -37,12 +46,36 @@ const TextEditor = ({ onChange, alignItems, width }: IEditorprops) => {
 
   return (
     <Container width={width} alignItems={alignItems}>
+      <strong>Publique algo</strong>
       <EditorContent
         editor={editor}
         onChange={onChange}
         className="contentEditor"
       />
-      <MenuBar editor={editor} className="menuBar" />
+
+      {location.pathname.includes("profile") ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <MenuBar editor={editor} className="menuBar" />
+          <CustomButton
+            onClick={onClickCustomButton}
+            width="160px"
+            customBackgroundColor="transparent"
+            customColor="cyan"
+            customBorder="1px solid #373e4a"
+          >
+            Postar
+          </CustomButton>
+        </div>
+      ) : (
+        <MenuBar editor={editor} className="menuBar" />
+      )}
     </Container>
   );
 };

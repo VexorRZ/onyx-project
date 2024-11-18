@@ -19,6 +19,12 @@ export const Container = styled.div<Editor>`
     height: 100%;
     border-radius: 6px;
     width: 100%;
+
+    :focus {
+      outline: none;
+      border: none;
+    }
+
     .tiptap {
       padding: 8px;
       min-height: 100px;

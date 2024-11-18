@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 200px;
+  height: 100%;
   padding: 10px;
   border-radius: 8px;
   background: #0e1014;
@@ -24,7 +29,7 @@ export const CardHeader = styled.header`
 
 export const PublicationContent = styled.article`
   width: 600px;
-  height: 400px;
+  height: 100%;
 `;
 
 export const CardFooter = styled.footer`
