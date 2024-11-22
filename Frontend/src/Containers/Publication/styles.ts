@@ -17,7 +17,6 @@ export const Container = styled.div`
   border: 1px solid rgb(86, 95, 130);
   border-radius: 10px;
   gap: 8px;
-  margin: auto;
   margin-top: 30px;
 
   .publicationHeader {

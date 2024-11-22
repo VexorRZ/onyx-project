@@ -14,13 +14,13 @@ import CommentController from './app/controllers/CommentController';
 import RequestEntryController from './app/controllers/GroupsRequestsEntrysController';
 import FileControler from './app/controllers/FileController';
 import CommentsLikesController from './app/controllers/CommentsLikesController';
-import Notification from './app/controllers/NotificationController';
-
 import authMiddleware from './app/middlewares/auth';
 import multer from 'multer';
 import multerConfig from './config/multer';
 import FileGroupController from './app/controllers/FileGroupController';
 import NotificationController from './app/controllers/NotificationController';
+import UserPublicationController from './app/controllers/UserPublicationController';
+import PublicationCommentController from './app/controllers/PublicationCommentController';
 
 const routes = new Router();
 
@@ -148,6 +148,19 @@ routes.delete(
 routes.put(
   '/comments_likes/:author_id/:comment_id',
   CommentsLikesController.createOrUpdate
+);
+
+//Publications routes
+
+routes.post('/publication', UserPublicationController.create);
+
+routes.get('/publications', UserPublicationController.index);
+
+// Publications comments routes
+
+routes.post(
+  '/publication_comment/:publication_id',
+  PublicationCommentController.create
 );
 
 //Notifications routes

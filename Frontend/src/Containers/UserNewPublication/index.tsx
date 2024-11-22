@@ -4,6 +4,8 @@ import TextEditor from "../Editor";
 import Publication from "../Publication";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
 import useAuth from "../../Hooks/useAuth";
+import { type AxiosResponse } from "axios";
+import api from "../../services/api";
 interface IEditorprops {
   onClickCustomButton?: () => void;
   onChangeText: (val: any) => void;
@@ -50,6 +52,20 @@ const UserNewPublication = ({
 
       if (!userData.token) {
         throw new Error("Erro inesperado, token não fornecido");
+      }
+
+      try {
+        const res: AxiosResponse = await api.post<AxiosResponse>(
+          `publication`,
+          {
+            headers: { Authorization: `Bearer ${userData.token}` },
+            body: publicationBody,
+          }
+        );
+
+        return res.status;
+      } catch (err) {
+        return err;
       }
     } else {
       throw new Error("Erro inesperado, tente novamente");

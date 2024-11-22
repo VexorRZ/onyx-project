@@ -1,21 +1,25 @@
-import UserPublication from '../models/UserPublication';
+import PublicationComment from '../models/PublicationComment';
 
-class UserPublicationController {
+class PublicationCommentController {
   async create(req, res) {
     const { body, id } = req.body;
+    const { publication_id } = req.params;
 
-    console.log('body', body);
+    console.log('id:', id);
+    console.log('publication_id:', publication_id);
 
     try {
-      const publicationCreated = await UserPublication.create({
+      console.log('chegou aqui no PublicationComment');
+      const createPublicationComment = await PublicationComment.create({
         id: id,
         body,
-        user_id: req.userId,
+        author_id: req.userId,
+        publication_id: publication_id,
       });
 
-      console.log('publicação criada:', publicationCreated);
+      console.log('comentário de publicação criado:', createPublicationComment);
 
-      return res.status(200).json(publicationCreated);
+      return res.status(200).json(createPublicationComment);
     } catch (err) {
       console.log('error:', err);
       return res.status(400).json(err);
@@ -53,4 +57,4 @@ class UserPublicationController {
   }
 }
 
-export default new UserPublicationController();
+export default new PublicationCommentController();

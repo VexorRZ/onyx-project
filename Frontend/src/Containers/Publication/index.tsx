@@ -5,6 +5,8 @@ import { ptBR } from "date-fns/locale";
 import PublicationComment from "../../Components/PublicationComment/index";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
 import useAuth from "../../Hooks/useAuth";
+import { type AxiosResponse } from "axios";
+import api from "../../services/api";
 
 import { Container, StyledSendIcon } from "./styles";
 export type Publicattion = {
@@ -12,6 +14,7 @@ export type Publicattion = {
   userName: string;
   createdAt: Date;
   body: string;
+  publicationId?: number;
 };
 
 const Publication = ({
@@ -19,6 +22,7 @@ const Publication = ({
   userName,
   createdAt,
   body,
+  publicationId,
 }: Publicattion) => {
   const [commentList, setCommentlist] = useState<Comments[]>([]);
   const [comment, setComment] = useState("");
@@ -35,7 +39,7 @@ const Publication = ({
     setComment(event.target.value);
   };
 
-  const postNewComment = async () => {
+  const postNewComment = async (publicationId: number | undefined) => {
     if (userData?.name) {
       setCommentlist([
         ...commentList,
@@ -55,19 +59,21 @@ const Publication = ({
         throw new Error("Erro inesperado, token não fornecido");
       }
 
-      // try {
-      //   const res: AxiosResponse = await api.post<AxiosResponse>(
-      //     `/comments/${Number(group_id)}/${Number(topic_id)}`,
-      //     {
-      //       headers: { Authorization: `Bearer ${userData.token}` },
-      //       body: comment,
-      //     }
-      //   );
+      try {
+        const res: AxiosResponse = await api.post<AxiosResponse>(
+          `publication_comment/${Number(publicationId)}`,
+          {
+            headers: { Authorization: `Bearer ${userData.token}` },
+            body: comment,
+          }
+        );
 
-      //   return res.status;
-      // } catch (err) {
-      //   return err;
-      // }
+        return res.status;
+      } catch (err) {
+        return err;
+      }
+
+      return setComment("");
     } else {
       throw new Error("Erro inesperado, tente novamente");
     }
@@ -80,11 +86,11 @@ const Publication = ({
         <div className="publicationData">
           <h6 className="userName">{userName} </h6>
           <time dateTime="PT2H30" className="date">
-            {formatDistanceToNow(createdAt ? createdAt : new Date(), {
+            {/* {formatDistanceToNow(createdAt ? createdAt : new Date(), {
               includeSeconds: true,
               addSuffix: true,
               locale: ptBR,
-            })}
+            })} */}
           </time>
         </div>
       </header>
@@ -119,8 +125,7 @@ const Publication = ({
         <div className="iconWrapper">
           <StyledSendIcon
             onClick={() => {
-              setComment("");
-              postNewComment();
+              postNewComment(publicationId);
             }}
           />
         </div>

@@ -18,6 +18,9 @@ import UserNewPublication from "../../Containers/UserNewPublication";
 import { type Comments } from "../../Contexts/TopicContext/interfaces";
 import defaulpic from "../../assets/images/fibonacci.jpg";
 import Publication from "../../Containers/Publication";
+import { type AxiosResponse } from "axios";
+import api from "../../services/api";
+import PublicationComment from "../../Components/PublicationComment";
 
 import {
   Container,
@@ -70,13 +73,33 @@ const Profile = ({
   const [DialogIsVisible, SetDialogIsVisible] = useState<boolean>(false);
   const [publiCations, setPublications] = useState<Comments[]>([]);
   const [publication, setPublication] = useState("");
+  const [PublicationCommentList, setPublicationCommentList] = useState<
+    Comments[]
+  >([]);
+  const [PublicationCommentData, setPublicationCommentData] = useState("");
 
   const navigate = useNavigate();
 
   const { userData, dispatch, asyncChangeAvatar, asyncRequestDeleteAccount } =
     useAuth();
 
-  useEffect(() => {}, [editAvatarVisible, userData]);
+  const getPublications = async () => {
+    try {
+      const res: AxiosResponse = await api.get<AxiosResponse>(`publications`, {
+        headers: { Authorization: `Bearer ${userData.token}` },
+      });
+      console.log(res.data);
+      setPublications(res.data);
+
+      return res.status;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  useEffect(() => {
+    getPublications();
+  }, [editAvatarVisible, userData]);
 
   const changeUserName = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -150,6 +173,45 @@ const Profile = ({
       return defaultProfilePic;
     }
   }, [userData]);
+
+  const postNewComment = async (publication_id: number) => {
+    if (userData?.name) {
+      setPublicationCommentList([
+        ...PublicationCommentList,
+        {
+          id: 0,
+          author: {
+            name: userData.name,
+            id: Number(userData.id),
+            avatar: { path: userData.avatar.path },
+          },
+          body: PublicationCommentData,
+          commentLikes: [],
+        },
+      ]);
+
+      if (!userData.token) {
+        throw new Error("Erro inesperado, token não fornecido");
+      }
+
+      try {
+        alert("entrou no try");
+        const res: AxiosResponse = await api.post<AxiosResponse>(
+          `publication_comment/${publication_id}`,
+          {
+            headers: { Authorization: `Bearer ${userData.token}` },
+            body: PublicationCommentData,
+          }
+        );
+
+        console.log(res.status);
+      } catch (err) {
+        return err;
+      }
+    } else {
+      throw new Error("Erro inesperado, tente novamente");
+    }
+  };
 
   return (
     <>
@@ -363,20 +425,38 @@ const Profile = ({
         </UserPublicationWrapper>
 
         <PublicationsList>
-          {publiCations.map((publication, index) => {
-            return (
-              <>
-                <Publication
-                  userAvatar={publication.author.avatar.path}
-                  userName={publication.author.name}
-                  body={publication.body}
-                  createdAt={
-                    publication.createdAt ? publication.createdAt : new Date()
-                  }
-                />
-              </>
-            );
-          })}
+          {publiCations.length >= 1 &&
+            Boolean(publiCations.length) === true &&
+            publiCations.map((publication, index) => {
+              return (
+                <>
+                  <Publication
+                    publicationId={publication.id}
+                    userAvatar={publication.author.avatar.path}
+                    userName={publication.author.name}
+                    body={publication.body}
+                    createdAt={
+                      publication.createdAt ? publication.createdAt : new Date()
+                    }
+                  ></Publication>
+                  <>
+                    {/* {PublicationCommentList.map((publicationComment, index) => {
+                      <>
+                        <PublicationComment
+                          key={index}
+                          authorAvatar=""
+                          authorName=""
+                          body={PublicationCommentData}
+                          onClick={() => {
+                            postNewComment(publication.id);
+                          }}
+                        />
+                      </>;
+                    })} */}
+                  </>
+                </>
+              );
+            })}
         </PublicationsList>
       </Container>
       {DialogIsVisible && (
