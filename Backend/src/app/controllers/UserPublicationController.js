@@ -37,6 +37,9 @@ class UserPublicationController {
               },
             ],
           },
+          {
+            association: 'publication_comments',
+          },
         ],
       });
 

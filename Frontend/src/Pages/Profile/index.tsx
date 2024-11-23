@@ -43,8 +43,9 @@ import {
   UserPublicationWrapper,
   PublicationsList,
   Resellers,
-  ResellerPlus,
   Reseller,
+  UserGroupsList,
+  UserGroup,
 } from "./styles";
 
 interface IProfileProps {
@@ -88,7 +89,8 @@ const Profile = ({
       const res: AxiosResponse = await api.get<AxiosResponse>(`publications`, {
         headers: { Authorization: `Bearer ${userData.token}` },
       });
-      console.log(res.data);
+      console.log("publicações carregadas", res.data);
+
       setPublications(res.data);
 
       return res.status;
@@ -422,6 +424,20 @@ const Profile = ({
               <img src={defaulpic} alt="reseller" />
             </Reseller>
           </Resellers>
+          <UserGroupsList>
+            <UserGroup>
+              <img src={defaulpic} alt="reseller" />
+            </UserGroup>
+            <UserGroup>
+              <img src={defaulpic} alt="reseller" />
+            </UserGroup>
+            <UserGroup>
+              <img src={defaulpic} alt="reseller" />
+            </UserGroup>
+            <UserGroup>
+              <img src={defaulpic} alt="reseller" />
+            </UserGroup>
+          </UserGroupsList>
         </UserPublicationWrapper>
 
         <PublicationsList>
@@ -429,32 +445,15 @@ const Profile = ({
             Boolean(publiCations.length) === true &&
             publiCations.map((publication, index) => {
               return (
-                <>
-                  <Publication
-                    publicationId={publication.id}
-                    userAvatar={publication.author.avatar.path}
-                    userName={publication.author.name}
-                    body={publication.body}
-                    createdAt={
-                      publication.createdAt ? publication.createdAt : new Date()
-                    }
-                  ></Publication>
-                  <>
-                    {/* {PublicationCommentList.map((publicationComment, index) => {
-                      <>
-                        <PublicationComment
-                          key={index}
-                          authorAvatar=""
-                          authorName=""
-                          body={PublicationCommentData}
-                          onClick={() => {
-                            postNewComment(publication.id);
-                          }}
-                        />
-                      </>;
-                    })} */}
-                  </>
-                </>
+                <Publication
+                  publicationId={publication.id}
+                  userAvatar={publication.author.avatar.path}
+                  userName={publication.author.name}
+                  body={publication.body}
+                  createdAt={
+                    publication.createdAt ? publication.createdAt : new Date()
+                  }
+                ></Publication>
               );
             })}
         </PublicationsList>

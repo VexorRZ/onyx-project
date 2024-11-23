@@ -163,6 +163,11 @@ routes.post(
   PublicationCommentController.create
 );
 
+routes.get(
+  '/publication_comments/:publication_id',
+  PublicationCommentController.index
+);
+
 //Notifications routes
 
 routes.post(

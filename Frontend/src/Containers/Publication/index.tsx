@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import DOMPurify from "dompurify";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -39,6 +39,30 @@ const Publication = ({
     setComment(event.target.value);
   };
 
+  const getPublicationComments = async (publicationId: number | undefined) => {
+    if (!userData.token) {
+      throw new Error("Erro inesperado, token não fornecido");
+    }
+
+    try {
+      const res: AxiosResponse = await api.get<AxiosResponse>(
+        `publication_comments/${Number(publicationId)}`,
+        {
+          headers: { Authorization: `Bearer ${userData.token}` },
+        }
+      );
+
+      console.log(res.data);
+      setCommentlist(res.data);
+    } catch (err) {
+      return err;
+    }
+  };
+
+  useEffect(() => {
+    getPublicationComments(publicationId);
+  }, []);
+
   const postNewComment = async (publicationId: number | undefined) => {
     if (userData?.name) {
       setCommentlist([
@@ -72,8 +96,6 @@ const Publication = ({
       } catch (err) {
         return err;
       }
-
-      return setComment("");
     } else {
       throw new Error("Erro inesperado, tente novamente");
     }

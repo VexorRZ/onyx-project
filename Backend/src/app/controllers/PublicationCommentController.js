@@ -1,4 +1,5 @@
 import PublicationComment from '../models/PublicationComment';
+import UserPublication from '../models/UserPublication';
 
 class PublicationCommentController {
   async create(req, res) {
@@ -26,30 +27,27 @@ class PublicationCommentController {
     }
   }
   async index(req, res) {
+    const { publication_id } = req.params;
     try {
-      const userPublications = await UserPublication.findAll({
-        where: { user_id: req.userId },
+      const PublicationComments = await PublicationComment.findAll({
+        where: { publication_id: publication_id },
         include: [
           {
             association: 'author',
             attributes: ['id', 'name'],
-
-            include: [
-              {
-                association: 'avatar',
-                attributes: ['id', 'path'],
-              },
-            ],
+            include: {
+              association: 'avatar',
+            },
           },
         ],
       });
 
-      console.log('publicações do usuário', userPublications);
+      console.log('comentários da publicação', PublicationComments);
 
-      if (!userPublications) {
+      if (!PublicationComments) {
         return res.status(401).json({ msg: 'no one publication was found' });
       }
-      return res.status(200).json(userPublications);
+      return res.status(200).json(PublicationComments);
     } catch (err) {
       console.log('erro', err);
       return res.status(400).json({ msg: 'no one publication was found' });
