@@ -57,7 +57,8 @@ const Notification = ({ type, sender_name, id }: INotificationsProps) => {
       ref={notificationRef}
       className="notification"
       style={{
-        border: "1px solid blue",
+        borderLeft: "1px solid rgb(86, 95, 130)",
+        borderRight: "1px solid rgb(86, 95, 130)",
         borderRadius: " 4px",
       }}
     >{`${sender_name} ${action} seu comentário`}</span>

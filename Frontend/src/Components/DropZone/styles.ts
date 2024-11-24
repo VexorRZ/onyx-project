@@ -21,8 +21,8 @@ export const Image = styled.img`
 `;
 export const FilesPreview = styled.div`
   display: flex;
-  width: 164px;
-  height: 164px;
+  width: 138px;
+  height: 138px;
   border-radius: 50%;
   display: flex;
   align-items: center;

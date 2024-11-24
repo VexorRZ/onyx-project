@@ -279,12 +279,19 @@ const Profile = ({
             }}
           />
 
-          <CustomButton height="118px" width="121px" onClick={updateAvatar}>
+          <CustomButton
+            height="40px"
+            width="121px"
+            onClick={updateAvatar}
+            customBackgroundColor="transparent"
+            customColor="cyan"
+            customBorder="1px solid #373e4a"
+          >
             Alterar
           </CustomButton>
         </ProfileEditorContainer>
       )}
-      <Container>
+      <Container bluried={editProfileVisible || editAvatarVisible}>
         <ProfileContainer bluried={editProfileVisible || editAvatarVisible}>
           <CustomHeader />
           <UserInfo>
@@ -402,41 +409,47 @@ const Profile = ({
         <UserPublicationWrapper>
           <UserNewPublication onChangeText={changePublication} />
           <Resellers>
-            {/* {!!images.slice(2).length && (
-              <ResellerPlus>
-                <span>+ {images.slice(2).length}</span>
-              </ResellerPlus>
-            )} */}
-
-            <Reseller>
-              <img src={defaulpic} alt="reseller" />
-            </Reseller>
-            <Reseller>
-              <img src={defaulpic} alt="reseller" />
-            </Reseller>
-            <Reseller>
-              <img src={defaulpic} alt="reseller" />
-            </Reseller>
-            <Reseller>
-              <img src={defaulpic} alt="reseller" />
-            </Reseller>
-            <Reseller>
-              <img src={defaulpic} alt="reseller" />
-            </Reseller>
+            <div> 280 amigos </div>
+            <div className="FriendList">
+              <Reseller>
+                <img src={defaulpic} alt="reseller" />
+              </Reseller>
+              <Reseller>
+                <img src={defaulpic} alt="reseller" />
+              </Reseller>
+              <Reseller>
+                <img src={defaulpic} alt="reseller" />
+              </Reseller>
+              <Reseller>
+                <img src={defaulpic} alt="reseller" />
+              </Reseller>
+              <Reseller>
+                <img src={defaulpic} alt="reseller" />
+              </Reseller>
+            </div>
           </Resellers>
           <UserGroupsList>
-            <UserGroup>
-              <img src={defaulpic} alt="reseller" />
-            </UserGroup>
-            <UserGroup>
-              <img src={defaulpic} alt="reseller" />
-            </UserGroup>
-            <UserGroup>
-              <img src={defaulpic} alt="reseller" />
-            </UserGroup>
-            <UserGroup>
-              <img src={defaulpic} alt="reseller" />
-            </UserGroup>
+            <strong
+              style={{
+                color: "red",
+              }}
+            >
+              Grupos
+            </strong>
+            <div className="groupList">
+              <UserGroup>
+                <img src={defaulpic} alt="reseller" />
+              </UserGroup>
+              <UserGroup>
+                <img src={defaulpic} alt="reseller" />
+              </UserGroup>
+              <UserGroup>
+                <img src={defaulpic} alt="reseller" />
+              </UserGroup>
+              <UserGroup>
+                <img src={defaulpic} alt="reseller" />
+              </UserGroup>
+            </div>
           </UserGroupsList>
         </UserPublicationWrapper>
 

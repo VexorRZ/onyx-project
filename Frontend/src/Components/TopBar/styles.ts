@@ -185,6 +185,7 @@ export const NotificationsContainer = styled.div`
   padding: 4px;
   gap: 2px;
   border-radius: 4px;
+  //background-color: #0e1014;
 
   ::after,
   ::before {

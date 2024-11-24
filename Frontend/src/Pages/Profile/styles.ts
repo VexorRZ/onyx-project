@@ -17,12 +17,13 @@ export const CustomEditIcon = styled(EditOutlinedIcon)`
   color: green;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<IContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
   padding: 20px;
+  filter: ${(props) => (props.bluried ? `blur(0.2rem)` : `blur(0.0rem)`)};
 `;
 
 export const ProfileContainer = styled.div<IContainerProps>`
@@ -152,7 +153,7 @@ export const ProfileEditorContainer = styled.div<IProfileEditorContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 40px;
   background: #0e1014;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
 
@@ -163,6 +164,7 @@ export const ProfileEditorContainer = styled.div<IProfileEditorContainerProps>`
   z-index: 900;
   position: absolute;
   left: 50%;
+  border-radius: 10%;
   transform: translate(-50%, 0);
 `;
 
@@ -201,7 +203,7 @@ export const UserPublicationWrapper = styled.div`
   justify-content: flex-start;
   display: flex;
   margin: auto;
-  gap: 4em;
+  gap: 2em;
 `;
 
 export const PublicationsList = styled.div`
@@ -215,15 +217,23 @@ export const PublicationsList = styled.div`
 
 export const Resellers = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 200px;
-  height: 114px;
+  height: 205px;
   background: #0e1014;
   color: #c3c8d6;
   padding: 10px;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
   border-radius: 8px;
+  gap: 2px;
+  .FriendList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
 `;
 
 export const Reseller = styled.div`
@@ -258,7 +268,7 @@ export const Reseller = styled.div`
 
 export const UserGroupsList = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   gap: 30px;
   padding: 12px;
@@ -268,6 +278,14 @@ export const UserGroupsList = styled.div`
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
   border-radius: 8px;
   align-items: center;
+
+  .groupList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+  }
 `;
 
 export const UserGroup = styled.div`
