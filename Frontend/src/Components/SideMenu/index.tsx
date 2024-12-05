@@ -5,6 +5,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useNavigate } from "react-router-dom";
+import Dashboard from "../../Pages/Dashboard/index";
 
 import {
   Container,
@@ -14,6 +15,7 @@ import {
   StyledGroupAddIcon,
   StyledPersonIcon,
   StyledGroupsList,
+  StyledDashboardIcon,
 } from "./styles";
 
 interface ISideMenuProps {
@@ -22,6 +24,10 @@ interface ISideMenuProps {
 
 const SideMenu: React.FC = ({ position }: ISideMenuProps) => {
   const navigate = useNavigate();
+
+  const openDashboard = () => {
+    navigate("/dashboard");
+  };
 
   const openProfilePage = () => {
     navigate("/profile");
@@ -41,6 +47,14 @@ const SideMenu: React.FC = ({ position }: ISideMenuProps) => {
 
   return (
     <Container position={position}>
+      <ElementArea onClick={openDashboard}>
+        <ItemWrapper width="28px">
+          <StyledDashboardIcon />
+        </ItemWrapper>
+        <ItemWrapper width="76px">
+          <h6>Dashboard </h6>
+        </ItemWrapper>
+      </ElementArea>
       <ElementArea onClick={openProfilePage}>
         <ItemWrapper width="28px">
           <StyledAccountCircleIcon />
@@ -54,7 +68,7 @@ const SideMenu: React.FC = ({ position }: ISideMenuProps) => {
           <StyledPersonIcon />
         </ItemWrapper>
         <ItemWrapper width="76px">
-          <h6>usuários </h6>
+          <h6>Usuários </h6>
         </ItemWrapper>
       </ElementArea>
 
@@ -72,7 +86,7 @@ const SideMenu: React.FC = ({ position }: ISideMenuProps) => {
           <StyledGroupAddIcon />
         </ItemWrapper>
         <ItemWrapper width="76px">
-          <h6>criar grupo</h6>
+          <h6>Criar grupo</h6>
         </ItemWrapper>
       </ElementArea>
     </Container>

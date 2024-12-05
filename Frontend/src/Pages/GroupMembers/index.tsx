@@ -66,7 +66,6 @@ const GroupMembers = () => {
       } else {
         //@ts-ignore
         setMembers((prevMembers) => [...prevMembers, ...res.data.members]);
-        console.log("index", index);
         setIndex((prevIndex) => prevIndex + 1);
         setIsLoading(false);
       }

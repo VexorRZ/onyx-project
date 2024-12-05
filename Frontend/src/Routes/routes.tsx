@@ -17,7 +17,7 @@ import Profile from "../Pages/Profile";
 import CreateGroup from "../Pages/CreateGroup";
 import ResetPassword from "../Pages/ResetPassword";
 import UserGroups from "../Pages/UserGroups";
-import UsersPage from "../Pages/Users";
+import Users from "../Pages/Users";
 import GroupMembers from "../Pages/GroupMembers";
 import GroupAdms from "../Pages/GroupAdms";
 import GroupDescription from "../Pages/GroupDescription";
@@ -170,7 +170,7 @@ const Routes = () => {
             element={
               <PrivateRoutes>
                 <UsersProvider>
-                  <UsersPage />
+                  <Users />
                 </UsersProvider>
               </PrivateRoutes>
             }

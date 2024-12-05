@@ -240,7 +240,14 @@ const GroupPage = () => {
     if (isMember) {
       return (
         <ButtonArea>
-          <CustomButton onClick={openTopicCreate} width="130px" height="40px">
+          <CustomButton
+            onClick={openTopicCreate}
+            width="130px"
+            height="40px"
+            customBackgroundColor="transparent"
+            customColor="green"
+            customBorder="1px solid #373e4a"
+          >
             Criar tópico
           </CustomButton>
         </ButtonArea>

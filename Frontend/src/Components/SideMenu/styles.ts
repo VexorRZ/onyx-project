@@ -3,6 +3,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import DashboardIcon from "@mui/icons-material/SpaceDashboardRounded";
 
 interface IContainerProps {
   position?: string;
@@ -73,6 +74,10 @@ export const StyledGroupAddIcon = styled(GroupAddIcon)`
   color: #565f82;
 `;
 
+export const StyledDashboardIcon = styled(DashboardIcon)`
+  color: #565f82;
+`;
+
 export const ElementArea = styled.div`
   display: flex;
   align-items: center;
@@ -125,6 +130,11 @@ export const ElementArea = styled.div`
     transition: 1s;
   }
   &:hover ${StyledAccountCircleIcon} {
+    color: green;
+    transition: 1s;
+  }
+
+  &:hover ${StyledDashboardIcon} {
     color: green;
     transition: 1s;
   }

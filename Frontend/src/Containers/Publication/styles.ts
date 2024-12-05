@@ -58,7 +58,7 @@ export const Container = styled.div`
   }
   .commentBox {
     height: 33px;
-    width: 37.5em;
+    width: 31.5em;
     background: white;
     padding-top: 1px;
     display: flex;

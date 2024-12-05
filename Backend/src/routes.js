@@ -21,6 +21,7 @@ import FileGroupController from './app/controllers/FileGroupController';
 import NotificationController from './app/controllers/NotificationController';
 import UserPublicationController from './app/controllers/UserPublicationController';
 import PublicationCommentController from './app/controllers/PublicationCommentController';
+import FriendController from './app/controllers/FriendController';
 
 const routes = new Router();
 
@@ -176,5 +177,9 @@ routes.post(
 );
 routes.get('/notifications', NotificationController.index);
 routes.put('/notifications/:id', NotificationController.update);
+
+//Friends routes
+
+routes.post('/friends/:user_id/:friend_id', FriendController.create);
 
 export default routes;

@@ -17,7 +17,12 @@ export const CustomEditIcon = styled(EditOutlinedIcon)`
   color: green;
 `;
 
-export const Container = styled.div<IContainerProps>`
+export const Container = styled.div`
+  display: flex;
+  gap: 1em;
+`;
+
+export const Content = styled.div<IContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

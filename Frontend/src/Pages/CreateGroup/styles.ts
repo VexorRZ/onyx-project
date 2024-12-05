@@ -51,27 +51,33 @@ export const StyledRadioGroup = styled(RadioGroup)<IStyledRadioGroupProps>`
   }
 `;
 
-export const Container = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  width: 600px;
+  width: 67em;
   height: 770px;
   border-radius: 6px;
   background-color: #25282e;
-  margin: auto;
   margin-top: 20px;
   padding: 10px;
   background-color: #0e1014;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
 `;
 
+export const Container = styled.div`
+  display: flex;
+  gap: 1em;
+  justify-content: flex-start;
+  gap: 11em;
+`;
+
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 30px;
   margin-top: 20px;
   flex: 6;
 `;
@@ -85,6 +91,7 @@ export const GroupName = styled.input`
   text-align: center;
   font-size: 20px;
   border: 1px solid #a0a2a6;
+  margin: inherit;
 `;
 export const GroupType = styled.div`
   height: 40px;

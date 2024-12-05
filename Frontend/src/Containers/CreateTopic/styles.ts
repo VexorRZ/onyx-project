@@ -12,11 +12,11 @@ export const Container = styled.div`
   height: 360px;
   border-radius: 6px;
   box-shadow: 0vh;
-  background-color: #25282e;
-  border: 1px solid #526173;
   padding: 10px;
   box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
   position: absolute;
+  border: 1px solid rgb(86, 95, 130);
+  background-color: #0e1014;
 `;
 
 export const CloseIcon = styled(CloseSvg)`

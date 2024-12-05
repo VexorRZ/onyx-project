@@ -16,9 +16,10 @@ import FormControlLabel, {
   type FormControlLabelProps,
 } from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import SideMenu from "../../Components/SideMenu";
 
 import {
-  Container,
+  Content,
   GroupName,
   Header,
   Footer,
@@ -27,6 +28,7 @@ import {
   CardOptions,
   StyledRadioGroup,
   GroupPrivacy,
+  Container,
 } from "./styles";
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -147,124 +149,126 @@ const CreateGroup = () => {
     <>
       <TopBar />
       <Container>
-        {<Loading /> && loadingVisible}
-        <ImageContainer>
-          {status.type === "success" ? (
-            <p style={{ color: "green" }}>{status.mensagem}</p>
-          ) : (
-            ""
-          )}
-          {status.type === "error" ? (
-            <p style={{ color: "#ff0000" }}>{status.mensagem}</p>
-          ) : (
-            ""
-          )}
-        </ImageContainer>
-        <Header>
-          <Dropzone
-            previewMessage="Selecione a foto do seu grupo..."
-            files={image}
-            onDrop={(acceptedImage) => {
-              setImage(
-                acceptedImage.map((file) =>
-                  Object.assign(file, {
-                    preview: URL.createObjectURL(file),
-                  })
-                )
-              );
-            }}
-          />
+        <SideMenu />
+        <Content>
+          {<Loading /> && loadingVisible}
+          <ImageContainer>
+            {status.type === "success" ? (
+              <p style={{ color: "green" }}>{status.mensagem}</p>
+            ) : (
+              ""
+            )}
+            {status.type === "error" ? (
+              <p style={{ color: "#ff0000" }}>{status.mensagem}</p>
+            ) : (
+              ""
+            )}
+          </ImageContainer>
+          <Header>
+            <Dropzone
+              previewMessage="Selecione a foto do seu grupo..."
+              files={image}
+              onDrop={(acceptedImage) => {
+                setImage(
+                  acceptedImage.map((file) =>
+                    Object.assign(file, {
+                      preview: URL.createObjectURL(file),
+                    })
+                  )
+                );
+              }}
+            />
 
-          <div>Forneça um nome ao seu grupo</div>
-          <GroupName
-            maxLength={40}
-            value={groupName}
-            onChange={changeGroupname}
-          />
+            <GroupName
+              maxLength={40}
+              value={groupName}
+              onChange={changeGroupname}
+            />
 
-          {SelectGroupPrivacy()}
+            {SelectGroupPrivacy()}
 
-          <CardOptions>
-            <StyledRadioGroup
-              radioActive={true}
-              name="use-radio-group"
-              defaultValue="first"
+            <CardOptions>
+              <StyledRadioGroup
+                radioActive={true}
+                name="use-radio-group"
+                defaultValue="first"
+              >
+                <div className="radio-options">
+                  <PublicIcon
+                    style={{
+                      color: "#565f82",
+                    }}
+                  />
+                  <MyFormControlLabel
+                    value="first"
+                    label="público"
+                    control={
+                      <Radio
+                        style={{
+                          color: "#565f82",
+                        }}
+                        onClick={() => {
+                          setOption(false);
+                        }}
+                      />
+                    }
+                  />
+                  <span
+                    className="option-description"
+                    style={{
+                      color: "#c4721f",
+                    }}
+                  >
+                    (Qualquer pessoa poderá visualizar o conteúdo do grupo)
+                  </span>
+                </div>
+                <div className="radio-options">
+                  <LockIcon
+                    style={{
+                      color: "#565f82",
+                    }}
+                  />
+                  <MyFormControlLabel
+                    value="second"
+                    label="privado"
+                    control={
+                      <Radio
+                        style={{
+                          color: "#565f82",
+                        }}
+                        onClick={() => {
+                          setOption(true);
+                        }}
+                      />
+                    }
+                  />
+
+                  <span className="option-description">
+                    (Somente membros poderão ver o conteúdo do grupo)
+                  </span>
+                </div>
+              </StyledRadioGroup>
+            </CardOptions>
+
+            <div>Faça uma breve descrição do seu grupo</div>
+            <GroupName
+              height="100px"
+              maxLength={100}
+              value={groupDescription}
+              onChange={changeDescription}
+            />
+          </Header>
+          <Footer>
+            <Button
+              width="180px"
+              height="60px"
+              marginTop="14px"
+              onClick={createGroup}
             >
-              <div className="radio-options">
-                <PublicIcon
-                  style={{
-                    color: "#565f82",
-                  }}
-                />
-                <MyFormControlLabel
-                  value="first"
-                  label="público"
-                  control={
-                    <Radio
-                      style={{
-                        color: "#565f82",
-                      }}
-                      onClick={() => {
-                        setOption(false);
-                      }}
-                    />
-                  }
-                />
-                <span
-                  className="option-description"
-                  style={{
-                    color: "#c4721f",
-                  }}
-                >
-                  (Qualquer pessoa poderá visualizar o conteúdo do grupo)
-                </span>
-              </div>
-              <div className="radio-options">
-                <LockIcon
-                  style={{
-                    color: "#565f82",
-                  }}
-                />
-                <MyFormControlLabel
-                  value="second"
-                  label="privado"
-                  control={
-                    <Radio
-                      style={{
-                        color: "#565f82",
-                      }}
-                      onClick={() => {
-                        setOption(true);
-                      }}
-                    />
-                  }
-                />
-
-                <span className="option-description">
-                  (Somente membros poderão ver o conteúdo do grupo)
-                </span>
-              </div>
-            </StyledRadioGroup>
-          </CardOptions>
-
-          <div>Faça uma breve descrição do seu grupo</div>
-          <GroupName
-            height="100px"
-            maxLength={100}
-            value={groupDescription}
-            onChange={changeDescription}
-          />
-        </Header>
-        <Footer>
-          <Button
-            width="180px"
-            height="60px"
-            marginTop="14px"
-            onClick={createGroup}
-          >
-            Criar grupo
-          </Button>
-        </Footer>
+              Criar grupo
+            </Button>
+          </Footer>
+        </Content>
       </Container>
     </>
   );

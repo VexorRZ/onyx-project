@@ -85,11 +85,12 @@ const CreateTopic = ({ onClick, groupId }: IcreateTopic) => {
       </CustomSelect>
       <CustomButton
         onClick={createTopic}
-        customBackgroundColor="#373e4a"
+        customBackgroundColor="transparent"
         opacity={0.7}
-        customColor="hsla(150, 14%, 97%, 1)"
+        customColor="green"
         height="64px"
         width="180px"
+        customBorder="1px solid #373e4a"
       >
         Criar
       </CustomButton>

@@ -127,9 +127,7 @@ class UserController {
 
   async index(req, res) {
     const { name } = req.params;
-
-    console.log('name', name);
-
+    console.log('chegou aqui e este é o nome:', name);
     try {
       const findUsers = await User.findAll({
         attributes: ['id', 'name', 'email', 'permitted_to_add_in_groups'],

@@ -91,6 +91,18 @@ class User extends Model {
       foreignKey: 'receiver_id',
       as: 'receiver',
     });
+
+    this.belongsToMany(models.User, {
+      foreignKey: 'user_id',
+      through: 'users_friends',
+      as: 'user',
+    });
+
+    this.belongsToMany(models.User, {
+      foreignKey: 'friend_id',
+      through: 'users_friends',
+      as: 'friend',
+    });
   }
 
   checkPassword(password) {

@@ -21,9 +21,10 @@ import Publication from "../../Containers/Publication";
 import { type AxiosResponse } from "axios";
 import api from "../../services/api";
 import PublicationComment from "../../Components/PublicationComment";
+import SideMenu from "../../Components/SideMenu";
 
 import {
-  Container,
+  Content,
   ProfileContainer,
   ProfileText,
   UserAvatar,
@@ -46,6 +47,7 @@ import {
   Reseller,
   UserGroupsList,
   UserGroup,
+  Container,
 } from "./styles";
 
 interface IProfileProps {
@@ -218,6 +220,7 @@ const Profile = ({
   return (
     <>
       <TopBar />
+
       {editProfileVisible && (
         <>
           <ProfileEditorContainer>
@@ -291,185 +294,188 @@ const Profile = ({
           </CustomButton>
         </ProfileEditorContainer>
       )}
-      <Container bluried={editProfileVisible || editAvatarVisible}>
-        <ProfileContainer bluried={editProfileVisible || editAvatarVisible}>
-          <CustomHeader />
-          <UserInfo>
-            <UserAvatar
-              style={{
-                background: `url(${generateProfilePic()} ) no-repeat center`,
-                backgroundSize: "cover",
-              }}
-            >
-              <div
-                className="userAvatarHover"
-                onClick={() => {
-                  setEditAvatarVisible(!editAvatarVisible);
+      <Container>
+        <SideMenu />
+        <Content bluried={editProfileVisible || editAvatarVisible}>
+          <ProfileContainer bluried={editProfileVisible || editAvatarVisible}>
+            <CustomHeader />
+            <UserInfo>
+              <UserAvatar
+                style={{
+                  background: `url(${generateProfilePic()} ) no-repeat center`,
+                  backgroundSize: "cover",
                 }}
               >
-                <CameraswitchIcon
+                <div
+                  className="userAvatarHover"
+                  onClick={() => {
+                    setEditAvatarVisible(!editAvatarVisible);
+                  }}
+                >
+                  <CameraswitchIcon
+                    style={{
+                      width: 32,
+                      height: 32,
+                      marginTop: 10,
+                      color: "#565f82",
+                      opacity: "1px !important",
+                    }}
+                  />
+
+                  <strong>alterar foto</strong>
+                </div>
+              </UserAvatar>
+
+              <ProfiletextWrapper
+                style={{
+                  position: "absolute",
+                  left: "264px",
+                }}
+              >
+                <ProfileText
                   style={{
-                    width: 32,
-                    height: 32,
-                    marginTop: 10,
+                    fontSize: "30px",
+                    margin: "0",
+                    marginTop: "5px",
+                  }}
+                >
+                  {userData?.name}
+                </ProfileText>
+              </ProfiletextWrapper>
+            </UserInfo>
+
+            <ProfileStatisticsWrapper>
+              <StatisticsItemWrapper>
+                <GroupsIcon
+                  style={{
                     color: "#565f82",
-                    opacity: "1px !important",
                   }}
                 />
 
-                <strong>alterar foto</strong>
-              </div>
-            </UserAvatar>
+                <hr />
+                <StatisticProfileItem>
+                  Participa de {totalNumberOfGroups} grupos
+                </StatisticProfileItem>
+              </StatisticsItemWrapper>
 
-            <ProfiletextWrapper
-              style={{
-                position: "absolute",
-                left: "264px",
-              }}
-            >
-              <ProfileText
-                style={{
-                  fontSize: "30px",
-                  margin: "0",
-                  marginTop: "5px",
+              <StatisticsItemWrapper>
+                <AdminPanelSettingsIcon
+                  style={{
+                    color: "#565f82",
+                  }}
+                />
+                <hr />
+                <StatisticProfileItem>
+                  É dono de {groupsAsOwner} grupos
+                </StatisticProfileItem>
+              </StatisticsItemWrapper>
+
+              <StatisticsItemWrapper>
+                <TopicIcon
+                  style={{
+                    color: "#565f82",
+                  }}
+                />
+                <hr />
+                <StatisticProfileItem>
+                  já criou {topicsCreated} tópicos
+                </StatisticProfileItem>
+              </StatisticsItemWrapper>
+
+              <StatisticsItemWrapper>
+                <CommentsDisabledIcon
+                  style={{
+                    color: "#565f82",
+                  }}
+                />
+                <hr />
+                <StatisticProfileItem>
+                  já comentou {commentsCreated} vezes.
+                </StatisticProfileItem>
+              </StatisticsItemWrapper>
+            </ProfileStatisticsWrapper>
+            <ButtonWrapper>
+              <CustomButton
+                disabled={editProfileVisible}
+                marginTop="70px"
+                width="80px"
+                customBackgroundColor="#0e1014"
+                customColor="green"
+                customBorder="1px solid #373e4a"
+                onClick={() => {
+                  toggleProfileEdit(true);
                 }}
               >
-                {userData?.name}
-              </ProfileText>
-            </ProfiletextWrapper>
-          </UserInfo>
+                <CustomEditIcon /> Editar
+              </CustomButton>
+            </ButtonWrapper>
+          </ProfileContainer>
 
-          <ProfileStatisticsWrapper>
-            <StatisticsItemWrapper>
-              <GroupsIcon
+          <UserPublicationWrapper>
+            <UserNewPublication onChangeText={changePublication} />
+            <Resellers>
+              <div> 280 amigos </div>
+              <div className="FriendList">
+                <Reseller>
+                  <img src={defaulpic} alt="reseller" />
+                </Reseller>
+                <Reseller>
+                  <img src={defaulpic} alt="reseller" />
+                </Reseller>
+                <Reseller>
+                  <img src={defaulpic} alt="reseller" />
+                </Reseller>
+                <Reseller>
+                  <img src={defaulpic} alt="reseller" />
+                </Reseller>
+                <Reseller>
+                  <img src={defaulpic} alt="reseller" />
+                </Reseller>
+              </div>
+            </Resellers>
+            <UserGroupsList>
+              <strong
                 style={{
-                  color: "#565f82",
+                  color: "red",
                 }}
-              />
+              >
+                Grupos
+              </strong>
+              <div className="groupList">
+                <UserGroup>
+                  <img src={defaulpic} alt="reseller" />
+                </UserGroup>
+                <UserGroup>
+                  <img src={defaulpic} alt="reseller" />
+                </UserGroup>
+                <UserGroup>
+                  <img src={defaulpic} alt="reseller" />
+                </UserGroup>
+                <UserGroup>
+                  <img src={defaulpic} alt="reseller" />
+                </UserGroup>
+              </div>
+            </UserGroupsList>
+          </UserPublicationWrapper>
 
-              <hr />
-              <StatisticProfileItem>
-                Participa de {totalNumberOfGroups} grupos
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <AdminPanelSettingsIcon
-                style={{
-                  color: "#565f82",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                É dono de {groupsAsOwner} grupos
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <TopicIcon
-                style={{
-                  color: "#565f82",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                já criou {topicsCreated} tópicos
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-
-            <StatisticsItemWrapper>
-              <CommentsDisabledIcon
-                style={{
-                  color: "#565f82",
-                }}
-              />
-              <hr />
-              <StatisticProfileItem>
-                já comentou {commentsCreated} vezes.
-              </StatisticProfileItem>
-            </StatisticsItemWrapper>
-          </ProfileStatisticsWrapper>
-          <ButtonWrapper>
-            <CustomButton
-              disabled={editProfileVisible}
-              marginTop="70px"
-              width="80px"
-              customBackgroundColor="#0e1014"
-              customColor="green"
-              customBorder="1px solid #373e4a"
-              onClick={() => {
-                toggleProfileEdit(true);
-              }}
-            >
-              <CustomEditIcon /> Editar
-            </CustomButton>
-          </ButtonWrapper>
-        </ProfileContainer>
-
-        <UserPublicationWrapper>
-          <UserNewPublication onChangeText={changePublication} />
-          <Resellers>
-            <div> 280 amigos </div>
-            <div className="FriendList">
-              <Reseller>
-                <img src={defaulpic} alt="reseller" />
-              </Reseller>
-              <Reseller>
-                <img src={defaulpic} alt="reseller" />
-              </Reseller>
-              <Reseller>
-                <img src={defaulpic} alt="reseller" />
-              </Reseller>
-              <Reseller>
-                <img src={defaulpic} alt="reseller" />
-              </Reseller>
-              <Reseller>
-                <img src={defaulpic} alt="reseller" />
-              </Reseller>
-            </div>
-          </Resellers>
-          <UserGroupsList>
-            <strong
-              style={{
-                color: "red",
-              }}
-            >
-              Grupos
-            </strong>
-            <div className="groupList">
-              <UserGroup>
-                <img src={defaulpic} alt="reseller" />
-              </UserGroup>
-              <UserGroup>
-                <img src={defaulpic} alt="reseller" />
-              </UserGroup>
-              <UserGroup>
-                <img src={defaulpic} alt="reseller" />
-              </UserGroup>
-              <UserGroup>
-                <img src={defaulpic} alt="reseller" />
-              </UserGroup>
-            </div>
-          </UserGroupsList>
-        </UserPublicationWrapper>
-
-        <PublicationsList>
-          {publiCations.length >= 1 &&
-            Boolean(publiCations.length) === true &&
-            publiCations.map((publication, index) => {
-              return (
-                <Publication
-                  publicationId={publication.id}
-                  userAvatar={publication.author.avatar.path}
-                  userName={publication.author.name}
-                  body={publication.body}
-                  createdAt={
-                    publication.createdAt ? publication.createdAt : new Date()
-                  }
-                ></Publication>
-              );
-            })}
-        </PublicationsList>
+          <PublicationsList>
+            {publiCations.length >= 1 &&
+              Boolean(publiCations.length) === true &&
+              publiCations.map((publication, index) => {
+                return (
+                  <Publication
+                    publicationId={publication.id}
+                    userAvatar={publication.author.avatar.path}
+                    userName={publication.author.name}
+                    body={publication.body}
+                    createdAt={
+                      publication.createdAt ? publication.createdAt : new Date()
+                    }
+                  ></Publication>
+                );
+              })}
+          </PublicationsList>
+        </Content>
       </Container>
       {DialogIsVisible && (
         <DialogBox

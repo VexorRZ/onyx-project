@@ -137,19 +137,35 @@ const Publication = ({
           );
         })}
       </>
-      <div className="commentBox">
-        <textarea
-          className="inputComment"
-          placeholder="comente algo"
-          value={comment}
-          onChange={UpdateComment}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+        }}
+      >
+        <img
+          src={userData.avatar.path}
+          style={{
+            width: "33px",
+            height: "33px",
+            borderRadius: " 20%",
+          }}
         />
-        <div className="iconWrapper">
-          <StyledSendIcon
-            onClick={() => {
-              postNewComment(publicationId);
-            }}
+        <div className="commentBox">
+          <textarea
+            className="inputComment"
+            placeholder="comente algo"
+            value={comment}
+            onChange={UpdateComment}
           />
+          <div className="iconWrapper">
+            <StyledSendIcon
+              onClick={() => {
+                postNewComment(publicationId);
+              }}
+            />
+          </div>
         </div>
       </div>
     </Container>
