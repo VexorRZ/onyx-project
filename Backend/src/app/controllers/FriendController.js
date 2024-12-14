@@ -1,19 +1,52 @@
 import User from '../models/User';
+import Friend from '../models/Friend';
 
 class FriendController {
   async create(req, res) {
     const { friend_id, user_id } = req.params;
 
-    const userExists = await User.findByPk(user_id);
-    if (!groupExists) return res.status(400).json({ error: 'User not exists' });
-
-    const friendExists = await User.findByPk(friend_id);
+    const userExists = await User.findOne({
+      where: {
+        id: user_id,
+      },
+    });
     if (!userExists)
       return res.status(400).json({ error: 'User does not exists' });
 
-    const addFriend = await userExists.addFriend(friendExists);
+    console.log('chegou aqui no friendRequest');
 
-    return res.status(201).json(addFriend);
+    const friendExists = await User.findOne({
+      where: {
+        id: friend_id,
+      },
+    });
+    if (!friendExists)
+      return res.status(400).json({ error: 'User does not exists' });
+
+    const friendRequestExists = await Friend.findOne({
+      where: {
+        user_id: userExists.id,
+        friend_id: friendExists.id,
+      },
+    });
+
+    if (friendRequestExists) {
+      if (!friendRequestExists.accepted) {
+        return res.status(400).json({
+          error: 'this request already has bem sent. Await for the response',
+        });
+      } else if (friendRequestExists.accepted) {
+        return res
+          .status(400)
+          .json({ error: 'this person is already your friend' });
+      }
+    } else {
+      const newFriendRequest = await Friend.create({
+        user_id: user_id,
+        friend_id: friend_id,
+      });
+      return res.status(201).json(newFriendRequest);
+    }
   }
 
   async delete(req, res) {

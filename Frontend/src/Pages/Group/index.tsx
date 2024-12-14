@@ -7,7 +7,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { type AxiosResponse } from "axios";
-import { type Response } from "../../services/interfaces";
+import { type Response, Topics, Members } from "../../services/interfaces";
 import PublicIcon from "@mui/icons-material/Public";
 import Topic from "../../Components/TopicContent";
 import CustomButton from "../../Components/Button";
@@ -57,6 +57,8 @@ const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
 const GroupPage = () => {
   const [group, setGroup] = useState<Group>();
   const [groupName, setGroupName] = useState<string>("");
+  const [topics, setTopics] = useState<Topics[]>([]);
+  const [members, setMembers] = useState<Members[]>([]);
   const [option, setOption] = useState<boolean>(false);
   const [editProfileVisible, setEditProfileVisible] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<File[]>([]);
@@ -125,10 +127,17 @@ const GroupPage = () => {
         }
       );
 
-      const { group, numberOfTopics, isOwner } = res.data;
+      const { numberOfTopics, isOwner, findTopics, group, members } = res.data;
+
+      console.log("grupo carregado:", group);
 
       // @ts-expect-error
-      setGroup({ ...res.data.groupData[0] });
+
+      setGroup(group);
+      // setGroup({ ...res.data.groupData[0] });
+      setTopics(findTopics);
+
+      setMembers(members);
 
       if (isOwner) {
         setIsOwner(isOwner);
@@ -235,7 +244,7 @@ const GroupPage = () => {
   }
 
   const currentUserIsMember = () => {
-    const isMember = group?.members.find(({ id }) => id === Number(userId));
+    const isMember = members.find(({ id }) => Number(id) === Number(userId));
 
     if (isMember) {
       return (
@@ -266,12 +275,12 @@ const GroupPage = () => {
   const generateContent = () => {
     return (
       <>
-        {<div>tópicos</div> && group?.topics?.length !== 0}
+        {<div>tópicos</div> && topics?.length !== 0}
 
-        {group?.topics?.length !== 0 ? (
+        {topics?.length !== 0 ? (
           <>
             <TopicList>
-              {group?.topics?.slice(0, 6).map((topic, index) => {
+              {topics.map((topic, index) => {
                 return (
                   <Topic
                     URlGroup={true}
@@ -365,7 +374,7 @@ const GroupPage = () => {
         groupName={group?.name ? group.name : ""}
         imageSrc={group?.avatar.path ? group.avatar.path : defaultProfilePic}
         group_id={Number(group?.id)}
-        numberOfMembers={group?.members.length ? group.members.length : 0}
+        numberOfMembers={0}
       >
         {<Loader /> && isLoading}
         <ButtonAdminContainer>

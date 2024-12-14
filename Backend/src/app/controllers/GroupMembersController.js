@@ -97,11 +97,6 @@ class GroupMembersController {
       if (!groupExists)
         return res.status(400).json({ error: 'Group does not exists' });
 
-      // if (!isMember && groupExists.is_private)
-      //   return res
-      //     .status(401)
-      //     .json({ error: 'Private group. Only a member can see the content' });
-
       const members = await groupExists.getMembers({
         limit: size,
         offset: Number(page * size) - Number(size),

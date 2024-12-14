@@ -3,6 +3,8 @@ export interface Response {
   group?: Groups;
   isOwner?: object;
   numberOfMembers?: number;
+  findTopics: Topics[];
+  members: Members[];
 }
 
 export interface Groups {
@@ -11,13 +13,13 @@ export interface Groups {
   is_private: boolean;
   moderators: moderators[];
   name: string;
-  topics: topics[];
+  topics: Topics[];
   isMember?: boolean;
   avatar: avatar;
-  members: members[];
+  members: Members[];
 }
 
-interface members {
+export interface Members {
   id: string;
   name: string;
   avatar: avatar;
@@ -34,7 +36,7 @@ interface administrator {
   avatar: avatar;
 }
 
-export interface topics {
+export interface Topics {
   id: number;
   name: string;
   is_closed?: boolean;

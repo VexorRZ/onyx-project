@@ -10,6 +10,7 @@ import CommentLikes from '../app/models/CommentsLikes';
 import Notification from '../app/models/Notification';
 import PublicationComment from '../app/models/PublicationComment';
 import UserPublication from '../app/models/UserPublication';
+import Friend from '../app/models/Friend';
 
 const models = [
   User,
@@ -21,6 +22,7 @@ const models = [
   Notification,
   PublicationComment,
   UserPublication,
+  Friend,
 ];
 
 class Database {

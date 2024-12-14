@@ -18,6 +18,7 @@ export const Container = styled.div<IContainerProps>`
   display: flex;
   flex-direction: column;
   margin-left: 18px;
+  min-width: 300px;
   width: 300px;
   height: 258px;
   min-height: 258px;

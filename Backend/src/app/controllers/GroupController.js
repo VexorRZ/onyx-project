@@ -71,7 +71,7 @@ class GroupController {
 
   async index(req, res) {
     const { page, size } = req.query;
-    const groups = await Group.findAll({
+    const group = await Group.findAll({
       limit: size,
       offset: Number(page * size) - Number(size),
       attributes: ['id', 'name', 'is_private', 'group_avatar_id'],
@@ -130,9 +130,9 @@ class GroupController {
     const { group_id } = req.params;
 
     try {
-      const groupExists = await Group.findByPk(group_id);
+      const groupData = await Group.findByPk(group_id);
 
-      if (!groupExists) return res.status(400).json('group do not exists');
+      if (!groupData) return res.status(400).json('group do not exists');
 
       const isMember = await Group.findOne({
         where: { id: group_id },
@@ -217,27 +217,12 @@ class GroupController {
         );
       }
       const { page, size } = req.query;
-      const group = await Group.findAndCountAll({
+      const group = await Group.findOne({
         where: { id: group_id },
-        subQuery: false,
+        //subQuery: false,
         attributes: ['name', 'id', 'is_private'],
-        limit: Number(size),
-        offset: Number(page * size) - Number(size),
 
         include: [
-          {
-            subQuery: true,
-            limit: Number(size),
-            offset: Number(page * size) - Number(size),
-            association: 'topics',
-            attributes: ['id', 'name', 'author_id'],
-            order: ['createdAt'],
-
-            include: {
-              association: 'comments',
-              attributes: ['id', 'author_id', 'body'],
-            },
-          },
           {
             association: 'avatar',
             attributes: ['id', 'path'],
@@ -246,27 +231,6 @@ class GroupController {
           {
             association: 'administrator',
             attributes: ['id', 'name'],
-          },
-          {
-            association: 'moderators',
-            attributes: ['id', 'name'],
-          },
-          {
-            association: 'members',
-            attributes: ['id', 'name'],
-            order: ['createdAt'],
-            include: {
-              association: 'avatar',
-              attributes: ['path'],
-            },
-          },
-          {
-            association: 'requesters',
-            attributes: ['id'],
-          },
-          {
-            association: 'bans',
-            attributes: ['id'],
           },
         ],
       });
@@ -285,10 +249,27 @@ class GroupController {
         ],
       });
 
+      const findTopics = await group.getTopics({
+        limit: size,
+        offset: Number(page * size) - Number(size),
+        attributes: ['id', 'name'],
+
+        include: {
+          association: 'comments',
+          attributes: ['id', 'author_id', 'body'],
+        },
+      });
+
+      const members = await group.getMembers({
+        attributes: ['id', 'name'],
+      });
+
+      const membersSize = members.length;
       const numberOfTopics = numberOfTopicsCount.topics.length;
       const numberOfMembers = numberOfTopicsCount.members.length;
-      const groupData = group.rows;
-      return res.json({ groupData, numberOfTopics, isOwner, numberOfMembers });
+      //   const groupData = group.rows;
+      // return res.json({ groupData, numberOfTopics, isOwner, numberOfMembers });
+      return res.json({ group, findTopics, membersSize, members });
     } catch (err) {
       console.log(err);
     }

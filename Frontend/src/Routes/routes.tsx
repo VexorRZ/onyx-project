@@ -5,6 +5,7 @@ import {
   BrowserRouter as Routing,
   Route,
   Routes as Routers,
+  useLocation,
 } from "react-router-dom";
 import { PublicRoutes, PrivateRoutes } from "./index";
 import Login from "../Pages/Login";
@@ -17,7 +18,7 @@ import Profile from "../Pages/Profile";
 import CreateGroup from "../Pages/CreateGroup";
 import ResetPassword from "../Pages/ResetPassword";
 import UserGroups from "../Pages/UserGroups";
-import Users from "../Pages/Users";
+import UsersPage from "../Pages/Users";
 import GroupMembers from "../Pages/GroupMembers";
 import GroupAdms from "../Pages/GroupAdms";
 import GroupDescription from "../Pages/GroupDescription";
@@ -27,6 +28,9 @@ import { GroupMembersProvider } from "../Contexts/GroupContentContext";
 import { UsersProvider } from "../Contexts/UsersContext";
 
 const Routes = () => {
+  //não tá funcionando, precisa consertar.
+
+  //const location = useLocation();
   return (
     <div>
       <Routing>
@@ -170,7 +174,7 @@ const Routes = () => {
             element={
               <PrivateRoutes>
                 <UsersProvider>
-                  <Users />
+                  <UsersPage />
                 </UsersProvider>
               </PrivateRoutes>
             }

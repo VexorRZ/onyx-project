@@ -9,18 +9,11 @@ import { type AxiosResponse } from "axios";
 import api from "../../services/api";
 import Loader from "../../Components/Loader";
 import SideMenu from "../../Components/SideMenu";
+import UserCard from "../../Components/UserCard";
 
 import { type Users } from "../../Contexts/UsersContext/interfaces";
 
-import {
-  Container,
-  UserCardAvatar,
-  UserCardContainer,
-  UserCardName,
-  UserdataArea,
-  CardGetUsers,
-  UsersList,
-} from "./styles";
+import { Container, Content, CardGetUsers, UsersList } from "./styles";
 
 const UsersPage = () => {
   const [loadedUsers, setUsers] = useState<Users[]>([]);
@@ -57,6 +50,25 @@ const UsersPage = () => {
     }
   };
 
+  const AddUser = async (userId: number, friendId: number) => {
+    try {
+      const res: AxiosResponse<Response> = await api.post<
+        Response,
+        AxiosResponse<Response>
+      >(`friends/${userId}/${friendId}`, {
+        headers: { Authorization: `Bearer ${userData.token}` },
+      });
+
+      if (Array.isArray(res.data)) {
+        setUsers(res.data);
+      }
+    } catch (err) {
+      return err;
+    } finally {
+      return true;
+    }
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     console.log(searchTerm);
@@ -75,39 +87,44 @@ const UsersPage = () => {
       return <Loader />;
     } else if (loadedUsers.length != 0) {
       return (
-        <UsersList>
-          {loadedUsers.map((user, index) => {
-            return (
-              <>
-                <UserCardContainer key={index}>
-                  <UserdataArea>
-                    <UserCardAvatar
-                      src={
-                        user.avatar?.path
-                          ? user.avatar?.path
-                          : defaultProfilePic
-                      }
-                      alt=""
-                    />
-                    <UserCardName>{user.name}</UserCardName>
-                  </UserdataArea>
-                  <CustomButton width="120px">Ver perfil</CustomButton>
-                </UserCardContainer>
-              </>
-            );
-          })}
-        </UsersList>
+        <>
+          <strong
+            style={{
+              color: "#fff",
+            }}
+          >
+            Usuários encontrados
+          </strong>
+          <UsersList>
+            {loadedUsers.map((user, index) => {
+              return (
+                <UserCard
+                  onClickAdd={() => {
+                    AddUser(Number(userData.id), Number(user.id));
+                  }}
+                  onClickView={() => {}}
+                  avatar={
+                    user.avatar?.path ? user.avatar?.path : defaultProfilePic
+                  }
+                  name={user.name}
+                  index={index}
+                />
+              );
+            })}
+          </UsersList>
+        </>
       );
     }
   };
 
   return (
-    <Container>
+    <>
       <TopBar onChange={handleChange} />
-      <SideMenu />
-
-      {CurrentContent()}
-    </Container>
+      <Container>
+        <SideMenu />
+        <Content>{CurrentContent()}</Content>
+      </Container>
+    </>
   );
 };
 
