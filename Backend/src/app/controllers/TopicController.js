@@ -116,91 +116,88 @@ class TopicController {
       ],
     });
 
-    const { page, size } = req.query;
-
-    const groupTopics = await Group.findByPk(group_id, {
+    const topic = await Topic.findOne({
+      where: {
+        group_id: group_id,
+        id: topic_id,
+      },
       attributes: ['id', 'name'],
-
       include: [
         {
-          association: 'topics',
-          where: { id: topic_id },
-          attributes: ['id', 'name'],
-
-          include: [
-            {
-              association: 'author',
-              attributes: ['id', 'name'],
-            },
-            {
-              association: 'comments',
-              attributes: ['id', 'body', 'createdAt'],
-              order: ['createdAt'],
-              limit: size,
-              offset: Number(page * size) - Number(size),
-              include: [
-                {
-                  association: 'author',
-                  attributes: ['id', 'name'],
-                  include: {
-                    association: 'avatar',
-                    attributes: ['path'],
-                  },
-                },
-                {
-                  association: 'commentLikes',
-                  attributes: ['author_id', 'comment_id'],
-                  include: {
-                    association: 'author',
-                    attributes: ['id'],
-                  },
-                },
-              ],
-            },
-          ],
-        },
-        {
-          association: 'members',
+          association: 'author',
           attributes: ['id', 'name'],
         },
       ],
     });
 
-    const groupTopicsTotalCount = await Group.findByPk(group_id, {
-      attributes: ['id', 'name'],
-      include: {
-        association: 'topics',
-        where: { id: topic_id },
-        attributes: ['id', 'name'],
+    if (!topic) {
+      return res.status(400).json({ msg: 'topic not found' });
+    }
 
-        include: [
-          {
+    const { page, size } = req.query;
+    const topicComments = await topic.getComments({
+      limit: size,
+      offset: Number(page * size) - Number(size),
+      attributes: ['id', 'body', 'createdAt'],
+      order: ['createdAt'],
+
+      include: [
+        {
+          association: 'author',
+          attributes: ['id', 'name'],
+          include: {
+            association: 'avatar',
+            attributes: ['path'],
+          },
+        },
+        {
+          association: 'commentLikes',
+          attributes: ['author_id', 'comment_id'],
+          include: {
             association: 'author',
-            attributes: ['id', 'name'],
+            attributes: ['id'],
           },
-          {
-            association: 'comments',
-            attributes: ['id', 'body'],
-
-            include: {
-              association: 'author',
-              attributes: ['id', 'name'],
-            },
-          },
-        ],
-      },
+        },
+      ],
     });
+
+    // const groupTopicsTotalCount = await Group.findByPk(group_id, {
+    //   attributes: ['id', 'name'],
+    //   include: {
+    //     association: 'topics',
+    //     where: { id: topic_id },
+    //     attributes: ['id', 'name'],
+
+    //     include: [
+    //       {
+    //         association: 'author',
+    //         attributes: ['id', 'name'],
+    //       },
+    //       {
+    //         association: 'comments',
+    //         attributes: ['id', 'body'],
+
+    //         include: {
+    //           association: 'author',
+    //           attributes: ['id', 'name'],
+    //         },
+    //       },
+    //     ],
+    //   },
+    // });
 
     if (!isMember && groupTopics.is_private)
       return res
         .status(401)
         .send({ error: 'Private group. Only members can see the content' });
 
-    const totalCount = groupTopicsTotalCount.topics[0].comments.length;
+    // const totalCount = groupTopicsTotalCount.topics[0].comments.length;
 
     return res.json({
-      groupTopics,
-      totalCount,
+      // groupTopics,
+      // totalCount,
+      topic,
+      topicComments,
     });
   }
 

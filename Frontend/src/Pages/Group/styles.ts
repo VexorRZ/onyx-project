@@ -109,9 +109,13 @@ export const TopicList = styled.div`
 
 export const Pagination = styled.div`
   display: flex;
-  min-width: 500px;
-  justify-content: space-between;
+  color: lime;
+  min-width: 480px;
+  justify-content: space-around;
   margin-top: 20px;
+  border: solid 1px aquamarine;
+  border-radius: 4px;
+  padding: 10px;
 `;
 
 export const PaginationButton = styled.div`

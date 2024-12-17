@@ -121,9 +121,9 @@ class GroupController {
       ],
     });
 
-    if (!groups) return res.status(400).json({ error: 'no groups was found' });
+    if (!group) return res.status(400).json({ error: 'no groups was found' });
 
-    return res.status(200).json(groups);
+    return res.status(200).json(group);
   }
 
   async show(req, res) {
@@ -269,7 +269,13 @@ class GroupController {
       const numberOfMembers = numberOfTopicsCount.members.length;
       //   const groupData = group.rows;
       // return res.json({ groupData, numberOfTopics, isOwner, numberOfMembers });
-      return res.json({ group, findTopics, membersSize, members });
+      return res.json({
+        group,
+        findTopics,
+        membersSize,
+        members,
+        numberOfTopics,
+      });
     } catch (err) {
       console.log(err);
     }
