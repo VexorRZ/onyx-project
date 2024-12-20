@@ -70,7 +70,7 @@ const GroupPage = () => {
   const [contentName, setContentName] = useState<string>("topics");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [index] = useState(2);
-  const [limit] = useState(5);
+  const [limit] = useState(10);
   const [pages, setPages] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState<number | undefined>(0);
@@ -283,6 +283,9 @@ const GroupPage = () => {
               {topics.map((topic, index) => {
                 return (
                   <Topic
+                    userAvatar={userData.avatar.path}
+                    userName={userData.name}
+                                              
                     URlGroup={true}
                     topicName={topic.name}
                     numberOfComments={topic.comments.length}
@@ -297,7 +300,7 @@ const GroupPage = () => {
             {currentUserIsMember()}
 
             <Pagination>
-              <div>{total} tópicos criados</div>
+              <div className="total"><strong>{total}</strong> tópicos criados</div>
               <PaginationButton>
                 {currentPage > 1 && (
                   <PaginationItem

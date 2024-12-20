@@ -102,20 +102,37 @@ export const TopicList = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
-  gap: 8px;
+  gap: 6PX;
   flex: 6;
   margin-top: 36px;
+  margin-bottom: 40px;
+
 `;
 
 export const Pagination = styled.div`
   display: flex;
-  color: lime;
+  align-items: center;
   min-width: 480px;
   justify-content: space-around;
   margin-top: 20px;
-  border: solid 1px aquamarine;
   border-radius: 4px;
   padding: 10px;
+  background: #17191F;
+  gap: 40px;
+  .total {
+    background-color: #0e1014;
+    color: lime;
+    height: 35px;
+    padding: 0 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    strong {
+      margin-right: 10px;
+      color: brown;
+    }
+     
+  }
 `;
 
 export const PaginationButton = styled.div`
@@ -126,17 +143,21 @@ export const PaginationButton = styled.div`
 `;
 
 export const PaginationItem = styled.div<IPaginationProps>`
+  color: #7e8cc7ff;
   margin: 0 10px;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  border-radius: 20%;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
 
+ 
+
   ${(props) =>
     props.isSelect && {
-      background: "#6d6d6d",
+      background: "#0e1014",
+      color: "lime"
     }}
 
   &:hover {

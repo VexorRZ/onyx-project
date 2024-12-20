@@ -14,7 +14,6 @@ export const Container = styled.div`
   background: #0e1014;
   color: #c3c8d6;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
-  border: 1px solid rgb(86, 95, 130);
   border-radius: 10px;
   gap: 8px;
   margin-top: 30px;

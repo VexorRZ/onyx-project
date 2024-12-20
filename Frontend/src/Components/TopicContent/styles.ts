@@ -11,29 +11,32 @@ interface ItopicContent {
 export const Container = styled.div<ItopicContent>`
   transition: transform 250ms;
   display: flex;
-  justify-content: space-between;
+  flex:10;
+  justify-content: space-around;
   align-items: center;
-  background-color: transparent;
-  border: 1px solid #293544;
   border-radius: 6px;
-  max-height: 56px;
+  height: 120px;
+  background-color: #17191F;
+  min-height: 64px;
 
-  &:hover {
+   &:hover {
     cursor: pointer;
-    background-color: #303640;
+    /* background-color: #303640;
     transition: all 0.2s ease-in;
     transition: ${(props) =>
       props.URlGroup ? " all 0.3s ease-in" : "all 0.2s ease-in"};
     transform: ${(props) =>
       props.URlGroup ? "translateX(4px)" : "translateY(-3px)"};
-    background-color: #373e4a;
-  }
+    background-color: #373e4a; */
+  } 
 `;
 
 export const TopicName = styled.h4`
   width: 60%;
-  margin-left: 10px;
+  margin: 0;
   color: #ebeff5;
+  font-size: 15px;
+  font-style: italic;
 `;
 
 export const NumberOfComments = styled.div`
@@ -54,8 +57,9 @@ export const NumberOfComments = styled.div`
 export const CommentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   gap: 8px;
+  flex: 2;
 `;
 
 export const TopbarIconteItem = styled.div`
@@ -63,6 +67,7 @@ export const TopbarIconteItem = styled.div`
   cursor: pointer;
   position: relative;
   display: flex;
+  
   flex-direction: column;
   align-items: center;
 `;
@@ -83,10 +88,63 @@ export const TopbarIconBadge = styled.span<ITopbarIconBadgeProps>`
 `;
 
 export const ChatItem = styled(Chat)`
-  color: #ebeff5;
+  color: #7e8cc7ff;
   opacity: 0.8;
 `;
 
 export const Comments = styled.div`
   color: #ebeff5;
+`;
+
+export const UserWrapper = styled.div`
+    display: flex;
+    flex: 1;
+    align-items: center;
+    height: 100%;
+    background: #0e1014;
+    border-radius: 6px;
+    margin-left: 12px;
+    padding-right: 18px;
+`;
+
+export const UserAvatar = styled.img`
+width: 40px;
+height: 40px;
+border-radius: 20%;
+border: 1px inherit #7e8cc7ff;
+padding: 4px;
+`;
+
+
+export const AsideDataWrapper = styled.aside`
+
+margin-left: 12px;
+display: flex;
+flex: 8;
+flex-direction: column;
+width: 580px;
+align-items: flex-start;
+justify-content: center;
+height: 100%;
+padding: 6px 14px;
+background: #0e1014;
+border-radius: 6px;
+strong {
+  margin: 0;
+  color: aquamarine;
+}
+`;
+
+export const UserNameWrapper = styled.div`
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+.title{ 
+ 
+  color: #7e8cc7ff;
+}
+`;
+
+export const UserName = styled.strong`
+ color: #fff;
 `;

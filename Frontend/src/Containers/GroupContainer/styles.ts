@@ -13,7 +13,7 @@ export const Container = styled.div`
   margin: auto;
   margin-top: 40px;
   width: 1400px;
-  min-height: 800px;
+  min-height: 100%;
   height: 100%;
   flex: 10;
   border-radius: 6px;

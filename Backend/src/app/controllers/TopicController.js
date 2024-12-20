@@ -4,328 +4,320 @@ import Group from '../models/Group';
 import { v4 as uuidv4 } from 'uuid';
 import { id } from 'date-fns/locale';
 class TopicController {
-  async create(req, res) {
-    const { group_id } = req.params;
-    const { name, is_closed, id } = req.body;
+    async create(req, res) {
+        const { group_id } = req.params;
+        const { name, is_closed, id } = req.body;
 
-    try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        is_closed: Yup.boolean().required(),
-      });
+        try {
+            const schema = Yup.object().shape({
+                name: Yup.string().required(),
+                is_closed: Yup.boolean().required(),
+            });
 
-      if (!(await schema.isValid(req.body))) {
-        return res.status(400).json({ error: 'Validation fails' });
-      }
+            if (!(await schema.isValid(req.body))) {
+                return res.status(400).json({ error: 'Validation fails' });
+            }
 
-      const group = await Group.findByPk(group_id);
-      if (!group)
-        return res.status(400).json({ error: 'group does not exists' });
+            const group = await Group.findByPk(group_id);
+            if (!group)
+                return res.status(400).json({ error: 'group does not exists' });
 
-      const isMember = await Group.findOne({
-        where: { id: group_id },
-        include: [
-          {
-            association: 'members',
-            attributes: ['id'],
-            where: {
-              id: req.userId,
-            },
-          },
-        ],
-      });
+            const isMember = await Group.findOne({
+                where: { id: group_id },
+                include: [{
+                    association: 'members',
+                    attributes: ['id'],
+                    where: {
+                        id: req.userId,
+                    },
+                }, ],
+            });
 
-      if (!isMember)
-        return res.status(401).json({
-          error: "Can't create topics. You are not a member of this group",
+            if (!isMember)
+                return res.status(401).json({
+                    error: "Can't create topics. You are not a member of this group",
+                });
+
+            const createdTopic = await Topic.create({
+                id,
+                author_id: req.userId,
+                group_id: group.id,
+                name,
+                is_closed: false,
+            });
+
+            return res.status(201).json(createdTopic);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async index(req, res) {
+        const { group_id } = req.params;
+
+        const isMember = await Group.findOne({
+            where: { id: group_id },
+            include: [{
+                association: 'members',
+                attributes: ['id', 'name'],
+                where: {
+                    id: req.userId,
+                },
+            }, ],
         });
 
-      const createdTopic = await Topic.create({
-        id,
-        author_id: req.userId,
-        group_id: group.id,
-        name,
-        is_closed: false,
-      });
-
-      return res.status(201).json(createdTopic);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async index(req, res) {
-    const { group_id } = req.params;
-
-    const isMember = await Group.findOne({
-      where: { id: group_id },
-      include: [
-        {
-          association: 'members',
-          attributes: ['id', 'name'],
-          where: {
-            id: req.userId,
-          },
-        },
-      ],
-    });
-
-    const groupTopics = await Group.findByPk(group_id, {
-      include: {
-        association: 'topics',
-        attributes: ['id', 'name', 'is_closed', 'createdAt', 'updatedAt'],
-
-        include: [
-          {
-            association: 'author',
-            attributes: ['id', 'name'],
-          },
-          {
-            association: 'comments',
-            attributes: ['id', 'body'],
+        const groupTopics = await Group.findByPk(group_id, {
             include: {
-              association: 'author',
-              attributes: ['id', 'name'],
+                association: 'topics',
+                attributes: ['id', 'name', 'is_closed', 'createdAt', 'updatedAt'],
+
+                include: [{
+                        association: 'author',
+                        attributes: ['id', 'name'],
+                    },
+                    {
+                        association: 'comments',
+                        attributes: ['id', 'body'],
+                        include: {
+                            association: 'author',
+                            attributes: ['id', 'name'],
+                        },
+                    },
+                ],
             },
-          },
-        ],
-      },
-    });
+        });
 
-    if (!isMember && groupTopics.is_private)
-      return res
-        .status(401)
-        .json({ error: 'Private group. Only members can see the content' });
+        if (!isMember && groupTopics.is_private)
+            return res
+                .status(401)
+                .json({ error: 'Private group. Only members can see the content' });
 
-    return res.status(200).json(groupTopics);
-  }
-
-  async show(req, res) {
-    const { group_id, topic_id } = req.params;
-
-    const isMember = await Group.findOne({
-      where: { id: group_id },
-      include: [
-        {
-          association: 'members',
-          attributes: ['id'],
-          where: {
-            id: req.userId,
-          },
-        },
-      ],
-    });
-
-    const topic = await Topic.findOne({
-      where: {
-        group_id: group_id,
-        id: topic_id,
-      },
-      attributes: ['id', 'name'],
-      include: [
-        {
-          association: 'author',
-          attributes: ['id', 'name'],
-        },
-      ],
-    });
-
-    if (!topic) {
-      return res.status(400).json({ msg: 'topic not found' });
+        return res.status(200).json(groupTopics);
     }
 
-    const { page, size } = req.query;
-    const topicComments = await topic.getComments({
-      limit: size,
-      offset: Number(page * size) - Number(size),
-      attributes: ['id', 'body', 'createdAt'],
-      order: ['createdAt'],
+    async show(req, res) {
+        const { group_id, topic_id } = req.params;
 
-      include: [
-        {
-          association: 'author',
-          attributes: ['id', 'name'],
-          include: {
-            association: 'avatar',
-            attributes: ['path'],
-          },
-        },
-        {
-          association: 'commentLikes',
-          attributes: ['author_id', 'comment_id'],
-          include: {
-            association: 'author',
-            attributes: ['id'],
-          },
-        },
-      ],
-    });
+        const isMember = await Group.findOne({
+            where: { id: group_id },
+            include: [{
+                association: 'members',
+                attributes: ['id'],
+                where: {
+                    id: req.userId,
+                },
+            }, ],
+        });
 
-    // const groupTopicsTotalCount = await Group.findByPk(group_id, {
-    //   attributes: ['id', 'name'],
-    //   include: {
-    //     association: 'topics',
-    //     where: { id: topic_id },
-    //     attributes: ['id', 'name'],
+        const topic = await Topic.findOne({
+            where: {
+                group_id: group_id,
+                id: topic_id,
+            },
+            attributes: ['id', 'name'],
+            include: [{
+                    association: 'author',
+                    attributes: ['id', 'name'],
+                },
+                {
+                    association: 'group',
+                    attributes: ['id', 'name'],
+                    include: {
 
-    //     include: [
-    //       {
-    //         association: 'author',
-    //         attributes: ['id', 'name'],
-    //       },
-    //       {
-    //         association: 'comments',
-    //         attributes: ['id', 'body'],
+                        association: "members",
+                        attributes: ['id']
+                    }
 
-    //         include: {
-    //           association: 'author',
-    //           attributes: ['id', 'name'],
-    //         },
-    //       },
-    //     ],
-    //   },
-    // });
+                }
+            ],
+        });
 
-    if (!isMember && groupTopics.is_private)
-      return res
-        .status(401)
-        .send({ error: 'Private group. Only members can see the content' });
+        if (!topic) {
+            return res.status(400).json({ msg: 'topic not found' });
+        }
 
-    // const totalCount = groupTopicsTotalCount.topics[0].comments.length;
+        const getComments = await topic.getComments({
+            attributes: ['id', 'body', 'createdAt'],
+        });
 
-    return res.json({
-      // groupTopics,
-      // totalCount,
-      topic,
-      topicComments,
-    });
-  }
+        const { page, size } = req.query;
+        const comments = await topic.getComments({
+            limit: size,
+            offset: Number(page * size) - Number(size),
+            attributes: ['id', 'body', 'createdAt'],
+            order: ['createdAt'],
 
-  async delete(req, res) {
-    const { group_id, topic_id } = req.params;
+            include: [{
+                    association: 'author',
+                    attributes: ['id', 'name'],
+                    include: {
+                        association: 'avatar',
+                        attributes: ['path'],
+                    },
+                },
+                {
+                    association: 'commentLikes',
+                    attributes: ['author_id', 'comment_id'],
+                    include: {
+                        association: 'author',
+                        attributes: ['id'],
+                    },
+                },
+            ],
+        });
 
-    const groupExists = await Group.findByPk(group_id);
-    if (!groupExists)
-      return res.status(400).json({ error: 'group does not exists' });
+        // const groupTopicsTotalCount = await Group.findByPk(group_id, {
+        //   attributes: ['id', 'name'],
+        //   include: {
+        //     association: 'topics',
+        //     where: { id: topic_id },
+        //     attributes: ['id', 'name'],
 
-    const topicExists = await Topic.findOne({
-      where: { id: topic_id },
-      include: [
-        {
-          association: 'group',
-          where: {
-            id: group_id,
-          },
-        },
-      ],
-    });
+        //     include: [
+        //       {
+        //         association: 'author',
+        //         attributes: ['id', 'name'],
+        //       },
+        //       {
+        //         association: 'comments',
+        //         attributes: ['id', 'body'],
 
-    if (!topicExists)
-      return res.status(400).json({ error: 'topic does not exists' });
+        //         include: {
+        //           association: 'author',
+        //           attributes: ['id', 'name'],
+        //         },
+        //       },
+        //     ],
+        //   },
+        // });
 
-    const isMemberAndAuthor = await Group.findOne({
-      where: { id: group_id },
-      include: [
-        {
-          association: 'members',
-          attributes: ['id', 'name'],
-          where: {
-            id: req.userId,
-          },
-          include: {
-            association: 'topics_created',
-            where: { id: topic_id },
-          },
-        },
-      ],
-    });
-    if (!isMemberAndAuthor)
-      return res
-        .status(401)
-        .json({ error: 'you are not a member of this group ' });
+        if (!isMember && groupTopics.is_private)
+            return res
+                .status(401)
+                .send({ error: 'Private group. Only members can see the content' });
 
-    const isOwner = await Group.findOne({
-      where: {
-        id: group_id,
-        owner_id: req.userId,
-      },
-    });
-
-    const isModerator = await Group.findByPk(group_id, {
-      include: [
-        {
-          association: 'moderators',
-          where: { id: req.userId },
-        },
-      ],
-    });
-
-    if (!isOwner && !isMemberAndAuthor && !isModerator)
-      return res.status(401).json({
-        error:
-          'Only the author, the group administrator or the group moderators can delete a topic',
-      });
-
-    await Topic.destroy(topic_id);
-
-    return res.status(200).json({ msg: 'Topic successfully deleted' });
-  }
-
-  async update(req, res) {
-    const { group_id, topic_id } = req.params;
-    const { name, is_closed } = req.body;
-
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      is_closed: Yup.boolean(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+        const totalCount = getComments.length;
+        const members = topic.group.members;
+        return res.json({
+            members,
+            totalCount,
+            topic,
+            comments,
+        });
     }
 
-    const groupExists = await Group.findByPk(group_id);
-    if (!groupExists)
-      return res.status(400).json({ error: 'group does not exists' });
+    async delete(req, res) {
+        const { group_id, topic_id } = req.params;
 
-    const topicExists = await Topic.findOne({
-      where: { id: topic_id, group_id },
-    });
+        const groupExists = await Group.findByPk(group_id);
+        if (!groupExists)
+            return res.status(400).json({ error: 'group does not exists' });
 
-    if (!topicExists)
-      return res.status(400).json({ error: 'topic does not exists' });
-
-    const isMemberAndAuthor = await Group.findOne({
-      where: { id: group_id },
-      include: [
-        {
-          association: 'members',
-          attributes: ['id', 'name'],
-          where: {
-            id: req.userId,
-          },
-          include: {
-            association: 'topics_created',
+        const topicExists = await Topic.findOne({
             where: { id: topic_id },
-          },
-        },
-      ],
-    });
-    if (!isMemberAndAuthor)
-      return res.status(401).json({
-        error:
-          'you are not the author of this topic or do not belongs to this group ',
-      });
+            include: [{
+                association: 'group',
+                where: {
+                    id: group_id,
+                },
+            }, ],
+        });
 
-    const topicUpdated = await Topic.update(
-      {
-        name,
-        is_closed,
-      },
-      { where: { id: topic_id } }
-    );
-    return res.status(200).json(topicUpdated);
-  }
+        if (!topicExists)
+            return res.status(400).json({ error: 'topic does not exists' });
+
+        const isMemberAndAuthor = await Group.findOne({
+            where: { id: group_id },
+            include: [{
+                association: 'members',
+                attributes: ['id', 'name'],
+                where: {
+                    id: req.userId,
+                },
+                include: {
+                    association: 'topics_created',
+                    where: { id: topic_id },
+                },
+            }, ],
+        });
+        if (!isMemberAndAuthor)
+            return res
+                .status(401)
+                .json({ error: 'you are not a member of this group ' });
+
+        const isOwner = await Group.findOne({
+            where: {
+                id: group_id,
+                owner_id: req.userId,
+            },
+        });
+
+        const isModerator = await Group.findByPk(group_id, {
+            include: [{
+                association: 'moderators',
+                where: { id: req.userId },
+            }, ],
+        });
+
+        if (!isOwner && !isMemberAndAuthor && !isModerator)
+            return res.status(401).json({
+                error: 'Only the author, the group administrator or the group moderators can delete a topic',
+            });
+
+        await Topic.destroy(topic_id);
+
+        return res.status(200).json({ msg: 'Topic successfully deleted' });
+    }
+
+    async update(req, res) {
+        const { group_id, topic_id } = req.params;
+        const { name, is_closed } = req.body;
+
+        const schema = Yup.object().shape({
+            name: Yup.string(),
+            is_closed: Yup.boolean(),
+        });
+
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: 'Validation fails' });
+        }
+
+        const groupExists = await Group.findByPk(group_id);
+        if (!groupExists)
+            return res.status(400).json({ error: 'group does not exists' });
+
+        const topicExists = await Topic.findOne({
+            where: { id: topic_id, group_id },
+        });
+
+        if (!topicExists)
+            return res.status(400).json({ error: 'topic does not exists' });
+
+        const isMemberAndAuthor = await Group.findOne({
+            where: { id: group_id },
+            include: [{
+                association: 'members',
+                attributes: ['id', 'name'],
+                where: {
+                    id: req.userId,
+                },
+                include: {
+                    association: 'topics_created',
+                    where: { id: topic_id },
+                },
+            }, ],
+        });
+        if (!isMemberAndAuthor)
+            return res.status(401).json({
+                error: 'you are not the author of this topic or do not belongs to this group ',
+            });
+
+        const topicUpdated = await Topic.update({
+            name,
+            is_closed,
+        }, { where: { id: topic_id } });
+        return res.status(200).json(topicUpdated);
+    }
 }
 
 export default new TopicController();

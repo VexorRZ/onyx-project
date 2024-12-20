@@ -9,7 +9,8 @@ import api from "../../services/api";
 import {
   type GroupTopic,
   type TopicData,
-  type Comments,
+  type comments,
+  type Members
 } from "../../Contexts/TopicContext/interfaces";
 import useAuth from "../../Hooks/useAuth";
 import useTopicContext from "../../Hooks/useTopics";
@@ -37,7 +38,8 @@ const TopicPage = () => {
   const [groupTopic, setTopic] = useState<Partial<TopicData>>({});
   const [commentBoxOpenned, setCommentBoxOppened] = useState(false);
   const [comment, setComment] = useState("");
-  const [commentList, setCommentlist] = useState<Comments[]>([]);
+  const [commentList, setCommentlist] = useState<comments[]>([]);
+  const [groupMembers, setGroupMembers] = useState<Members[]>([])
   const [liked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(5);
@@ -91,7 +93,12 @@ const TopicPage = () => {
         }
       );
 
-      const { totalCount } = res.data;
+      const { totalCount, comments, topic, members } = res.data;
+
+      console.log("resposta", res.data);
+      setCommentlist(comments);
+      setGroupMembers(members)
+      setTopic({ ...topic });
 
       if (totalCount) {
         const totalPages = Math.ceil(totalCount / limit);
@@ -100,14 +107,10 @@ const TopicPage = () => {
         for (let i = 1; i <= totalPages; i++) {
           arrayPages.push(i);
         }
-
+      
         setPages(arrayPages);
         setTotal(totalCount);
       }
-
-      setCommentlist(res.data.groupTopics.topics[0].comments);
-
-      setTopic({ ...res.data.groupTopics });
     } catch (err) {
       return err;
     }
@@ -190,7 +193,7 @@ const TopicPage = () => {
   };
 
   const currentUserIsMember = () => {
-    const isMember = groupTopic.members?.find(
+    const isMember = groupMembers.find(
       ({ id }) => id === Number(userData.id)
     );
 
@@ -275,105 +278,101 @@ const TopicPage = () => {
           <GroupImage />
         </Header>
         <CommentList>
-          {groupTopic.topics?.map((topic, index) => {
-            return (
-              <>
-                <h2 key={index}>{topic.name}</h2>
-                <div className="authorWrapper">
-                  <h3>Autor:</h3> <h4>{topic.author.name}</h4>
-                </div>
-                <CommentsLists>
-                  {commentList.map((comment, index) => {
-                    return (
-                      <div
-                        key={index}
-                        style={{ display: "flex", flexDirection: "column" }}
-                      >
-                        <CustomComment
-                          createdAt={
-                            new Date(
-                              comment.createdAt ? comment.createdAt : new Date()
-                            )
-                          }
-                          userIsAuthor={Boolean(
-                            currentUserIsAuthor(comment.id)
-                          )}
-                          key={index}
-                          body={comment.body}
-                          authorAvatar={comment.author.avatar.path}
-                          authorName={comment.author.name}
-                          onClick={() => {
-                            void deleteComment(
-                              Number(group_id),
-                              Number(topic_id),
-                              comment.id
-                            );
-                          }}
-                        />
-                        <Like
-                          hasLike={Boolean(commentHasLike(comment.id))}
-                          onClickWithLike={async () => {
-                            await updateLike(comment.id);
-                          }}
-                          onClickWithDisLike={async () => {
-                            await updateLike(comment.id);
-
-                            handleNotification(
-                              comment.author.name,
-                              comment.author.id,
-                              "like"
-                            );
-                          }}
-                          likeAmount={comment.commentLikes.length}
-                        />
-                      </div>
-                    );
-                  })}
-                  {commentBoxOpenned && (
-                    <TextEditor
-                      alignItems="flex-start"
-                      width="100%"
-                      onChange={changeComment}
+          return (
+          <>
+            <h2>{groupTopic.name}</h2>
+            <div className="authorWrapper">
+              <h3>Autor:</h3> <h4>{groupTopic.name}</h4>
+            </div>
+            <CommentsLists>
+              {commentList.map((comment, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    <CustomComment
+                      createdAt={
+                        new Date(
+                          comment.createdAt ? comment.createdAt : new Date()
+                        )
+                      }
+                      userIsAuthor={Boolean(currentUserIsAuthor(comment.id))}
+                      key={index}
+                      body={comment.body}
+                      authorAvatar={comment.author.avatar.path}
+                      authorName={comment.author.name}
+                      onClick={() => {
+                        void deleteComment(
+                          Number(group_id),
+                          Number(topic_id),
+                          comment.id
+                        );
+                      }}
                     />
-                  )}
+                    <Like
+                      hasLike={Boolean(commentHasLike(comment.id))}
+                      onClickWithLike={async () => {
+                        await updateLike(comment.id);
+                      }}
+                      onClickWithDisLike={async () => {
+                        await updateLike(comment.id);
 
-                  {currentUserIsMember() && (
-                    <ButtonArea>
-                      {commentBoxOpenned && (
-                        <Button
-                          width="150px"
-                          onClick={() => {
-                            void postNewComment();
-                            handleNotification(
-                              groupTopic.topics
-                                ? groupTopic.topics[0].author.name
-                                : "",
-                              groupTopic.topics
-                                ? groupTopic.topics[0].author.id
-                                : 0,
-                              "CommentOnTopic"
-                            );
-                          }}
-                        >
-                          Postar
-                        </Button>
-                      )}
-                      <Button
-                        width="150px"
-                        onClick={() => {
-                          addNewComment();
-                        }}
-                      >
-                        {!commentBoxOpenned
-                          ? `${`Adicionar comentário`}`
-                          : `${`cancelar`}`}
-                      </Button>
-                    </ButtonArea>
+                        handleNotification(
+                          comment.author.name,
+                          comment.author.id,
+                          "like"
+                        );
+                      }}
+                      likeAmount={comment.commentLikes.length}
+                    />
+                  </div>
+                );
+              })}
+              {commentBoxOpenned && (
+                <TextEditor
+                  alignItems="flex-start"
+                  width="100%"
+                  onChange={changeComment}
+                />
+              )}
+
+              {currentUserIsMember() && (
+                <ButtonArea>
+                  {commentBoxOpenned && (
+                    <Button
+                      width="150px"
+                      onClick={() => {
+                        void postNewComment();
+                        // handleNotification(
+                        //   groupTopic.topics
+                        //     ? groupTopic.topics[0].author.name
+                        //     : "",
+                        //   groupTopic.topics
+                        //     ? groupTopic.topics[0].author.id
+                        //     : 0,
+                        //   "CommentOnTopic"
+                        // );
+                      }}
+                    >
+                      Postar
+                    </Button>
                   )}
-                </CommentsLists>
-              </>
-            );
-          })}
+                  <Button
+                    width="150px"
+                    onClick={() => {
+                      addNewComment();
+                    }}
+                  >
+                    {!commentBoxOpenned
+                      ? `${`Adicionar comentário`}`
+                      : `${`cancelar`}`}
+                  </Button>
+                </ButtonArea>
+              )}
+            </CommentsLists>
+          </>
+          );
         </CommentList>
         <>
           <Pagination>

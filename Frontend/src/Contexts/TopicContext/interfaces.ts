@@ -1,7 +1,9 @@
 import { type ReactElement } from "react";
 export interface GroupTopic {
-  groupTopics: TopicData;
+  topic: TopicData;
   totalCount?: number;
+  comments: comments[];
+  members: Members[];
 }
 
 export interface Members {
@@ -20,7 +22,7 @@ interface Topics {
   id: number;
   name: string;
   author: Author;
-  comments: Comments[];
+  comments: comments[];
 }
 
 interface Author {
@@ -28,7 +30,7 @@ interface Author {
   name: string;
 }
 
-export interface Comments {
+export interface comments {
   author: author;
   body: string;
   id: number;
