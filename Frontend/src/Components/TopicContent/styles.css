@@ -1,0 +1,12 @@
+.sb14:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid #0e1014;
+    border-top: 10px solid #0e1014;
+    border-bottom: 10px solid transparent;
+    left: -19px;
+    top: 0px;
+}

@@ -41,6 +41,7 @@ export interface Topics {
   name: string;
   is_closed?: boolean;
   comments: comments[];
+  author: author;
 }
 
 export interface comments {
@@ -61,7 +62,7 @@ interface author {
   id: number;
   name: string;
   user_avatar_id?: string;
-  avatar?: avatar;
+  avatar: avatar;
 }
 interface avatar {
   path: string | null;

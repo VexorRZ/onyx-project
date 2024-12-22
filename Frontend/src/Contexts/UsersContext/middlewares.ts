@@ -27,7 +27,7 @@ export const asyncLoadUsers = async (
       payload: res.data,
     });
   } catch (err) {
-    ToastError("Ocorreu um erro ao tentar deletar seu perfil");
+    ToastError("Ocorreu um erro ao tentar carregar seu perfil");
     return err;
   }
 };

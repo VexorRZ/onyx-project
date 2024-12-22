@@ -26,6 +26,7 @@ import FormControlLabel, {
 } from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
 import GroupContainerEditor from "../../Containers/GroupContainerEditor";
+import defaultProfiilePic from "../../assets/images/default-profile-pic.png"
 
 import {
   GroupImage,
@@ -283,8 +284,8 @@ const GroupPage = () => {
               {topics.map((topic, index) => {
                 return (
                   <Topic
-                    userAvatar={userData.avatar.path}
-                    userName={userData.name}
+                    userAvatar={topic.author.avatar.path ?? defaultProfiilePic }
+                    userName={topic.author.name}
                                               
                     URlGroup={true}
                     topicName={topic.name}

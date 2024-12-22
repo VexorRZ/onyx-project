@@ -30,6 +30,8 @@ export const asyncLoginFn = async (
       response.data.token
     )}`;
 
+   console.log("resposta do login",response.data) 
+
     window.localStorage.setItem("@user", JSON.stringify(response.data.user));
 
     localStorage.setItem("@token", response.data.user.token);

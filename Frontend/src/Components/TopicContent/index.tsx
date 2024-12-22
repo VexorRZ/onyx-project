@@ -16,6 +16,8 @@ import {
   UserNameWrapper,
 } from "./styles";
 
+import './styles.css';
+
 interface ITopicContentProps {
   topicName: string;
   numberOfComments: number | string;
@@ -43,7 +45,8 @@ const TopicContent = ({
        <UserName>{userName}</UserName>
        </UserNameWrapper>
       </UserWrapper>
-    <AsideDataWrapper>
+    <AsideDataWrapper className="sb14">
+
       <strong>Assunto: </strong>
       <TopicName>{topicName}</TopicName>
       </AsideDataWrapper>

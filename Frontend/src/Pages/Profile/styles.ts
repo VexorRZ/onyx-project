@@ -296,14 +296,22 @@ export const UserGroupsList = styled.div`
 export const UserGroup = styled.div`
   width: 111px;
   height: 111px;
+  gap: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
+  h5 {
+    margin: 0;
+    color: #fff;
+  }
   img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+    height: 90px;
+    width: 90px;
     border-radius: 12%;
     border-right: solid 1px #526173;
     border-top: solid 1px #526173;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   
   }
 `;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, useCallback } from "react";
-import { Search, Chat, Notifications, Settings } from "@material-ui/icons";
+import { Search } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { io } from "socket.io-client";

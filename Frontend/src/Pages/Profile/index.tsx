@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import TopicIcon from "@mui/icons-material/Topic";
-import CommentsDisabledIcon from "@mui/icons-material/CommentsDisabled";
+import Chat from "@mui/icons-material/Chat";
 import GroupsIcon from "@mui/icons-material/Groups";
 import CustomButton from "../../Components/Button";
 import useAuth from "../../Hooks/useAuth";
@@ -15,7 +15,7 @@ import { ToastError } from "../../Components/ToastContainer/ToastMessages";
 import DialogBox from "../../Containers/DialogBox";
 import { useNavigate } from "react-router-dom";
 import UserNewPublication from "../../Containers/UserNewPublication";
-import { type Comments } from "../../Contexts/TopicContext/interfaces";
+import { type comments } from "../../Contexts/TopicContext/interfaces";
 import defaulpic from "../../assets/images/fibonacci.jpg";
 import Publication from "../../Containers/Publication";
 import { type AxiosResponse } from "axios";
@@ -74,10 +74,10 @@ const Profile = ({
   const [newUserName, setNewUserName] = useState<string>("");
   const [newUserMail, setNewUserMail] = useState<string>("");
   const [DialogIsVisible, SetDialogIsVisible] = useState<boolean>(false);
-  const [publiCations, setPublications] = useState<Comments[]>([]);
+  const [publiCations, setPublications] = useState<comments[]>([]);
   const [publication, setPublication] = useState("");
   const [PublicationCommentList, setPublicationCommentList] = useState<
-    Comments[]
+    comments[]
   >([]);
   const [PublicationCommentData, setPublicationCommentData] = useState("");
 
@@ -354,7 +354,7 @@ const Profile = ({
 
                 <hr />
                 <StatisticProfileItem>
-                  Participa de {totalNumberOfGroups} grupos
+                  Participa de {userData.groups.length} grupos
                 </StatisticProfileItem>
               </StatisticsItemWrapper>
 
@@ -366,7 +366,7 @@ const Profile = ({
                 />
                 <hr />
                 <StatisticProfileItem>
-                  É dono de {groupsAsOwner} grupos
+                  É dono de {userData.groupsAsAdmin} grupos
                 </StatisticProfileItem>
               </StatisticsItemWrapper>
 
@@ -378,19 +378,19 @@ const Profile = ({
                 />
                 <hr />
                 <StatisticProfileItem>
-                  já criou {topicsCreated} tópicos
+                  já criou {userData.topicsCreated} tópicos
                 </StatisticProfileItem>
               </StatisticsItemWrapper>
 
               <StatisticsItemWrapper>
-                <CommentsDisabledIcon
+                <Chat
                   style={{
                     color: "#565f82",
                   }}
                 />
                 <hr />
                 <StatisticProfileItem>
-                  já comentou {commentsCreated} vezes.
+                  já comentou {userData.commentsCreated} vezes.
                 </StatisticProfileItem>
               </StatisticsItemWrapper>
             </ProfileStatisticsWrapper>
@@ -436,24 +436,26 @@ const Profile = ({
             <UserGroupsList>
               <strong
                 style={{
-                  color: "red",
+                  color: "cyan",
                 }}
               >
                 Grupos
               </strong>
               <div className="groupList">
-                <UserGroup>
-                  <img src={defaulpic} alt="reseller" />
-                </UserGroup>
-                <UserGroup>
-                  <img src={defaulpic} alt="reseller" />
-                </UserGroup>
-                <UserGroup>
-                  <img src={defaulpic} alt="reseller" />
-                </UserGroup>
-                <UserGroup>
-                  <img src={defaulpic} alt="reseller" />
-                </UserGroup>
+
+
+                {
+                  userData.groups.slice(0,4).map((userGroup, index)=> {
+
+                    return (
+                      <UserGroup>
+                        <h5>{userGroup.name}</h5>
+                        <img src={String(userGroup.avatar.path)} alt="reseller" />
+                    </UserGroup>
+                    )
+                  })
+                }
+       
               </div>
             </UserGroupsList>
           </UserPublicationWrapper>

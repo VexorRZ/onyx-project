@@ -30,6 +30,10 @@ const initialUserState: UserType = {
     path: "",
   },
   id: "",
+  groups: [],
+  groupsAsAdmin: 0,
+  topicsCreated:0,
+  commentsCreated: 0
 };
 
 export type ReducerActionType = typeof REDUCER_ACTION_TYPE;
@@ -100,6 +104,10 @@ const initialUserContextState: UseAuthContextType = {
       path: "",
     },
     id: "",
+    groups: [],
+    commentsCreated:0,
+    topicsCreated:0,
+    groupsAsAdmin: 0
   },
 };
 

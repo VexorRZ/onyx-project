@@ -7,10 +7,25 @@ export interface UserType {
   name: string;
   avatar: avatar;
   id: string;
+  groups: UserGroups[]
+  groupsAsAdmin: number;
+  topicsCreated: number;
+  commentsCreated: number;
 }
 
 export interface avatar {
   id: string;
+  path: string;
+}
+
+export interface UserGroups {
+ id: number;
+ name: string;
+ avatar: UserGroupAvatar ;
+}
+
+export interface UserGroupAvatar {
+  id: number;
   path: string;
 }
 export interface ReducerAction {

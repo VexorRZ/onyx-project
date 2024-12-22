@@ -110,30 +110,37 @@ export const UserWrapper = styled.div`
 export const UserAvatar = styled.img`
 width: 40px;
 height: 40px;
-border-radius: 20%;
+border-radius: 50%;
 border: 1px inherit #7e8cc7ff;
 padding: 4px;
 `;
 
 
 export const AsideDataWrapper = styled.aside`
-
-margin-left: 12px;
+ border: 1px solid #373e4a;
+ border-top: none;
+ border-left: none;
+margin-left: 28px;
 display: flex;
 flex: 8;
 flex-direction: column;
-width: 580px;
+width: 300px;
+position: relative;
 align-items: flex-start;
 justify-content: center;
 height: 100%;
 padding: 6px 14px;
 background: #0e1014;
 border-radius: 6px;
+border-top-left-radius: 0px;
 strong {
   margin: 0;
   color: aquamarine;
 }
 `;
+
+
+
 
 export const UserNameWrapper = styled.div`
 display: flex;
