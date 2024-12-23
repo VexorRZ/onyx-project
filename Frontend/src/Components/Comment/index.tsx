@@ -4,17 +4,22 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DOMPurify from "dompurify";
 
+
+
 import {
-  Comment,
-  AuthorAvatar,
-  CommentAuthor,
-  CommentDate,
-  CommentContent,
-  CommentDetailsWrapper,
-  CustomDeleteIcon,
-  CustomEditIcon,
-  EditorWrapper,
+   CustomDeleteIcon,
+   CustomEditIcon,
+   EditorWrapper,
+   EditToolsWrapper,
+  Container,
+  UserDataArea,
+  LikeArea,
+  BoxComment,
+  CommentDetails,
+  UserName,
+CreationDate,
 } from "./styles";
+import { AuthorAvatar } from "../PublicationComment/styles";
 
 interface IcommmentProps {
   childrenDetailsWrapper?: React.ReactNode;
@@ -25,17 +30,19 @@ interface IcommmentProps {
   createdAt?: Date;
   body: string;
   userIsAuthor?: boolean;
+  children?: React.ReactNode;
 }
 
 const comment = ({
   key,
-  childrenDetailsWrapper,
   onClick,
   authorAvatar,
   authorName,
   createdAt,
   body,
   userIsAuthor,
+  children,
+  
 }: IcommmentProps) => {
   const [wrapperVisible, setWrapperVisible] = useState(false);
   const [editContent, setEditContent] = useState(false);
@@ -50,74 +57,33 @@ const comment = ({
   };
   return (
     <>
-      <Comment>
-        <div
-          style={{
-            display: "flex",
-            gap: "14px",
-          }}
-        >
-          <AuthorAvatar src={authorAvatar} />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <CommentAuthor>{authorName}</CommentAuthor>
-            <CommentDate>
-              {formatDistanceToNow(createdAt ? createdAt : new Date(), {
+      <Container>
+      <UserDataArea>
+         <img className="userAvatar" src={authorAvatar}/>
+         <CommentDetails className="commentDetails">
+          <UserName  >{authorName}</UserName>
+          <CreationDate className="creationDate">
+          {formatDistanceToNow(createdAt ? createdAt : new Date(), {
                 includeSeconds: true,
                 addSuffix: true,
                 locale: ptBR,
               })}
-            </CommentDate>
-          </div>
-        </div>
-
-        <div
-          onMouseEnter={() => {
-            setWrapperVisible(true);
+           </CreationDate>
+           </CommentDetails>
+        </UserDataArea>
+       <BoxComment
+          contentEditable={editContent}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(body),
           }}
-          onMouseLeave={() => {
-            setWrapperVisible(false);
-          }}
-          style={{
-            display: "flex",
-            width: "110%",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-            }}
-          >
-            <CommentContent
-              contentEditable={editContent}
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(body),
-              }}
-            />
-            <CommentDetailsWrapper>
-              <div className="likeWrapper">{childrenDetailsWrapper}</div>
-            </CommentDetailsWrapper>
-          </div>
-          {userIsAuthor && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                gap: "6px",
-                marginLeft: "8px",
-              }}
-            >
-              {wrapperVisible ? (
-                <>
-                  <EditorWrapper title="Editar">
+       />
+       <LikeArea>
+        {children}
+       </LikeArea>
+      </Container>
+      {userIsAuthor &&               
+          <EditToolsWrapper>
+            <EditorWrapper title="Editar">
                     <CustomEditIcon
                       onClick={() => {
                         setEditContent(!editContent);
@@ -135,18 +101,9 @@ const comment = ({
                       Deletar
                     </CustomDeleteIcon>
                   </EditorWrapper>
-                </>
-              ) : (
-                <div
-                  style={{
-                    display: "none",
-                  }}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      </Comment>
+           </EditToolsWrapper>
+          
+         }
     </>
   );
 };

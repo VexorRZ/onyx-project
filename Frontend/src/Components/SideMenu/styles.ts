@@ -13,7 +13,7 @@ interface ItemWrapperProps {
   width: string;
 }
 export const Container = styled.div<IContainerProps>`
-  border: 1px solid rgb(86, 95, 130);
+ border: 1px solid #17191f;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@ export const Container = styled.div<IContainerProps>`
 
 export const ItemWrapper = styled.div<ItemWrapperProps>`
   width: ${(props) => props.width};
-  border: 1px solid #565f82;
+  border: 1px solid #17191f;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -62,21 +62,21 @@ export const ItemWrapper = styled.div<ItemWrapperProps>`
 `;
 
 export const StyledAccountCircleIcon = styled(AccountCircleIcon)`
-  color: #565f82;
+  color: #19b6e8;
 `;
 export const StyledGroupsList = styled(GroupsIcon)`
-  color: #565f82;
+  color: #ff6e16;
 `;
 export const StyledPersonIcon = styled(PersonIcon)`
-  color: #565f82;
+  color: #24ff92;
 `;
 
 export const StyledGroupAddIcon = styled(GroupAddIcon)`
-  color: #565f82;
+  color: #36118b;
 `;
 
 export const StyledDashboardIcon = styled(DashboardIcon)`
-  color: #565f82;
+  color: #d0b219;
 `;
 
 export const ElementArea = styled.div`

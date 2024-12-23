@@ -12,6 +12,7 @@ export const Container = styled.div`
   align-items: center;
   margin: auto;
   margin-top: 40px;
+  margin-bottom: 50px;
   width: 1400px;
   min-height: 100%;
   height: 100%;

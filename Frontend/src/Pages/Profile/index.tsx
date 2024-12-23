@@ -348,7 +348,7 @@ const Profile = ({
               <StatisticsItemWrapper>
                 <GroupsIcon
                   style={{
-                    color: "#565f82",
+                    color: "#24ff92",
                   }}
                 />
 
@@ -361,7 +361,7 @@ const Profile = ({
               <StatisticsItemWrapper>
                 <AdminPanelSettingsIcon
                   style={{
-                    color: "#565f82",
+                    color: "rgb(203 139 17)",
                   }}
                 />
                 <hr />
@@ -373,7 +373,7 @@ const Profile = ({
               <StatisticsItemWrapper>
                 <TopicIcon
                   style={{
-                    color: "#565f82",
+                    color: "rgb(55 86 205)",
                   }}
                 />
                 <hr />
@@ -385,7 +385,7 @@ const Profile = ({
               <StatisticsItemWrapper>
                 <Chat
                   style={{
-                    color: "#565f82",
+                    color: "rgb(33 159 26)",
                   }}
                 />
                 <hr />

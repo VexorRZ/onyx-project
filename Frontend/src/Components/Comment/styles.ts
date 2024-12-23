@@ -2,32 +2,70 @@ import styled from "styled-components";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-export const Comment = styled.div`
-  display: flex;
+export const Container = styled.div`
+border: 2px solid #17191f;
+padding: 10px;
+display: flex;
+flex-direction: column;
+color: #fff;
+border-radius: 8px;
+gap: 10px;
+`;
+
+
+
+export const UserDataArea = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #17191F;
+    width: 20%;
+    padding: 5px;
+    border-radius: 8px;
+
+ .userAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+ }
+
+`;
+
+export const CommentDetails = styled.div`
+   display: flex;
   flex-direction: column;
-  gap: 6px;
-
-  .author {
-    font-size: 16px;
-    color: black;
-  }
-  .body {
-    width: 80%;
-    height: 100%;
-    font-size: 12px;
-  }
 `;
 
-export const CustomEditIcon = styled(EditOutlinedIcon)`
-  width: 16px !important;
-  height: 16px !important;
-  color: green;
+export const UserName = styled.strong`
+color: #fff;
+
 `;
 
-export const CustomDeleteIcon = styled(DeleteOutlineOutlinedIcon)`
-  width: 16px !important;
-  height: 16px !important;
-  color: red;
+export const CreationDate  = styled.data`
+color: lime;
+
+`;
+
+
+export const LikeArea = styled.div`
+display: flex;
+justify-content: flex-end;
+`;
+
+export const BoxComment = styled.div`
+display: flex;
+width: 98%;
+min-height: 70px;
+max-height: 400px;
+border: 1px solid #17191f;
+padding: 8px;
+`;
+
+export const EditToolsWrapper = styled.div`
+display: flex;
+justify-content: flex-end;
+gap: 4px;
+
 `;
 
 export const EditorWrapper = styled.div`
@@ -44,47 +82,16 @@ export const EditorWrapper = styled.div`
   }
 `;
 
-export const AuthorAvatar = styled.img`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: solid 1px gray;
+
+export const CustomEditIcon = styled(EditOutlinedIcon)`
+  width: 16px !important;
+  height: 16px !important;
+  color: green;
 `;
 
-export const CommentAuthor = styled.strong`
-  text-decoration: underline;
-  font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #29a329;
+export const CustomDeleteIcon = styled(DeleteOutlineOutlinedIcon)`
+  width: 16px !important;
+  height: 16px !important;
+  color: red;
 `;
 
-export const CommentDate = styled.time`
-  color: #d9d9d9;
-`;
-
-export const CommentContent = styled.div`
-  border: solid 1px rgb(86, 95, 130);
-  border-radius: 4px;
-  width: 540px;
-  min-height: 100px;
-  height: 100%;
-  padding: 8px;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #d9d9d9;
-`;
-
-export const CommentDetailsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-top: 2px;
-  float: right;
-
-  .likeWrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #d9d9d9;
-  }
-`;

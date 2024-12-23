@@ -16,7 +16,8 @@ export const Container = styled.div`
   align-items: center;
   margin: auto;
   margin-top: 40px;
-  width: 800px;
+  margin-bottom: 50px;
+  width: 80%;
   height: 100%;
   flex: 10;
   border-radius: 6px;
@@ -32,7 +33,7 @@ export const Header = styled.div`
   flex: 2;
 `;
 
-export const CommentList = styled.div`
+export const TopicContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
@@ -200,4 +201,12 @@ export const LikeIcon = styled.img`
   &:hover {
     cursor: pointer;
   }
+`;
+
+
+export const CommentContentWrapper = styled.article`
+
+display: flex;
+flex-direction: column;
+gap: 4px;
 `;

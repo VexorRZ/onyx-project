@@ -44,7 +44,7 @@ const shake = keyframes`
 `;
 
 export const StyledChatIcon = styled(Chat)`
-  color: #7e8cc7ff;
+  color: rgb(33 159 26);
 `;
 export const StyledNotificationsIcon = styled(Notifications)`
   color: #7e8cc7ff;
@@ -53,7 +53,7 @@ export const StyledNotificationsIcon = styled(Notifications)`
   }
 `;
 export const StyledSettingsIcon = styled(Settings)`
-  color: #7e8cc7ff;
+  color: #47ceb0;
 
   &:hover {
     animation: ${rotate} 0.4s linear;
@@ -148,6 +148,7 @@ export const Container = styled.div`
       height: 55px;
       border-radius: 50%;
       object-fit: cover;
+      border: 1px solid #17191f;
       cursor: pointer;
     }
     .logout {

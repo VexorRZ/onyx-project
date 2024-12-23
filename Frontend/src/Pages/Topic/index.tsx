@@ -18,7 +18,7 @@ import Button from "../../Components/Button";
 import TopBar from "../../Components/TopBar";
 import Like from "../../Components/Like";
 import TextEditor from "../../Containers/Editor";
-import CustomComment from "../../Components/Comment";
+import Comment from "../../Components/Comment";
 import { io } from "socket.io-client";
 
 import {
@@ -26,12 +26,13 @@ import {
   GroupImage,
   GroupTitle,
   Header,
-  CommentList,
+  TopicContent,
   CommentsLists,
   ButtonArea,
   Pagination,
   PaginationButton,
   PaginationItem,
+  CommentContentWrapper,
 } from "./styles";
 
 const TopicPage = () => {
@@ -277,7 +278,7 @@ const TopicPage = () => {
           <GroupTitle>{groupTopic.name}</GroupTitle>
           <GroupImage />
         </Header>
-        <CommentList>
+        <TopicContent>
           return (
           <>
             <h2>{groupTopic.name}</h2>
@@ -287,11 +288,11 @@ const TopicPage = () => {
             <CommentsLists>
               {commentList.map((comment, index) => {
                 return (
-                  <div
+                  <CommentContentWrapper
                     key={index}
-                    style={{ display: "flex", flexDirection: "column" }}
+                
                   >
-                    <CustomComment
+                    <Comment
                       createdAt={
                         new Date(
                           comment.createdAt ? comment.createdAt : new Date()
@@ -309,8 +310,8 @@ const TopicPage = () => {
                           comment.id
                         );
                       }}
-                    />
-                    <Like
+                    >
+                     <Like
                       hasLike={Boolean(commentHasLike(comment.id))}
                       onClickWithLike={async () => {
                         await updateLike(comment.id);
@@ -326,7 +327,8 @@ const TopicPage = () => {
                       }}
                       likeAmount={comment.commentLikes.length}
                     />
-                  </div>
+                    </Comment>
+                  </CommentContentWrapper>
                 );
               })}
               {commentBoxOpenned && (
@@ -342,6 +344,9 @@ const TopicPage = () => {
                   {commentBoxOpenned && (
                     <Button
                       width="150px"
+                      customBackgroundColor="transparent"
+                      customColor="cyan"  
+                      customBorder="1px solid #373e4a"
                       onClick={() => {
                         void postNewComment();
                         // handleNotification(
@@ -359,7 +364,10 @@ const TopicPage = () => {
                     </Button>
                   )}
                   <Button
-                    width="150px"
+                      width="150px"
+                      customBackgroundColor="transparent"
+                      customColor="cyan"  
+                      customBorder="1px solid #373e4a"  
                     onClick={() => {
                       addNewComment();
                     }}
@@ -373,10 +381,10 @@ const TopicPage = () => {
             </CommentsLists>
           </>
           );
-        </CommentList>
+        </TopicContent>
         <>
           <Pagination>
-            <div>{total}</div>
+            <strong>{total} Comentários</strong>
             <PaginationButton>
               {currentPage > 1 && (
                 <PaginationItem
