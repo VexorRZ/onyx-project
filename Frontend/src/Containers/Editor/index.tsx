@@ -18,6 +18,7 @@ interface IEditorprops {
   onClickCustomButton?: () => void;
   alignItems: string;
   width: string;
+  EditorText: string;
 }
 
 const TextEditor = ({
@@ -25,6 +26,7 @@ const TextEditor = ({
   onClickCustomButton,
   alignItems,
   width,
+  EditorText
 }: IEditorprops) => {
   const location = useLocation();
 
@@ -46,7 +48,7 @@ const TextEditor = ({
 
   return (
     <Container width={width} alignItems={alignItems}>
-      <strong>Publique algo</strong>
+      <strong>{EditorText}</strong>
       <EditorContent
         editor={editor}
         onChange={onChange}

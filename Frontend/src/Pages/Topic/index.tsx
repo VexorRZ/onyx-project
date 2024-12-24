@@ -310,6 +310,11 @@ const TopicPage = () => {
                           comment.id
                         );
                       }}
+
+                      onClickEdit={()=> {
+
+                       }}
+
                     >
                      <Like
                       hasLike={Boolean(commentHasLike(comment.id))}

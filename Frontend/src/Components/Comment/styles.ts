@@ -95,3 +95,15 @@ export const CustomDeleteIcon = styled(DeleteOutlineOutlinedIcon)`
   color: red;
 `;
 
+export const EditCommentWrapper  = styled.div`
+  position: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  width: 100%;
+  height: 220px;
+  background-color: #17191f;
+  border-radius: 8px;
+  gap: 8px;
+`;

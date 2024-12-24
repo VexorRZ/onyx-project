@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import TextEditor from "../../Containers/Editor";
+import CustomButton from "../Button";
+
 
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -7,17 +10,18 @@ import DOMPurify from "dompurify";
 
 
 import {
-   CustomDeleteIcon,
-   CustomEditIcon,
-   EditorWrapper,
-   EditToolsWrapper,
+  CustomDeleteIcon,
+  CustomEditIcon,
+  EditorWrapper,
+  EditToolsWrapper,
   Container,
   UserDataArea,
   LikeArea,
   BoxComment,
   CommentDetails,
   UserName,
-CreationDate,
+  CreationDate,
+  EditCommentWrapper,
 } from "./styles";
 import { AuthorAvatar } from "../PublicationComment/styles";
 
@@ -25,6 +29,7 @@ interface IcommmentProps {
   childrenDetailsWrapper?: React.ReactNode;
   key: number;
   onClick: () => void;
+  onClickEdit: () => void;
   authorAvatar: string;
   authorName: string;
   createdAt?: Date;
@@ -42,7 +47,7 @@ const comment = ({
   body,
   userIsAuthor,
   children,
-  
+  onClickEdit,
 }: IcommmentProps) => {
   const [wrapperVisible, setWrapperVisible] = useState(false);
   const [editContent, setEditContent] = useState(false);
@@ -83,10 +88,18 @@ const comment = ({
       </Container>
       {userIsAuthor &&               
           <EditToolsWrapper>
+               {editContent  && 
+               
+               <EditCommentWrapper>
+               <TextEditor EditorText="Edite seu comentário" alignItems="center" width="100%" onChange={()=>{}}/>
+               <CustomButton  width="210px" customBackgroundColor="transparent" customColor="cyan" customBorder="1px solid #373e4a">Editar</CustomButton>
+               </EditCommentWrapper>
+               }    
+
             <EditorWrapper title="Editar">
                     <CustomEditIcon
                       onClick={() => {
-                        setEditContent(!editContent);
+                        setEditContent(!editContent)
                       }}
                     >
                       Editar
@@ -95,12 +108,13 @@ const comment = ({
                   <EditorWrapper title="Deletar">
                     <CustomDeleteIcon
                       onClick={() => {
-                        onClick();
+                        onClick()
                       }}
                     >
                       Deletar
                     </CustomDeleteIcon>
                   </EditorWrapper>
+            
            </EditToolsWrapper>
           
          }
