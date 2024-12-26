@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import TextEditor from "../../Containers/Editor";
 import CustomButton from "../Button";
 
@@ -23,34 +23,39 @@ import {
   CreationDate,
   EditCommentWrapper,
 } from "./styles";
-import { AuthorAvatar } from "../PublicationComment/styles";
+
 
 interface IcommmentProps {
   childrenDetailsWrapper?: React.ReactNode;
   key: number;
   onClick: () => void;
-  onClickEdit: () => void;
+  onClickEdit: (param: string) => void;
   authorAvatar: string;
   authorName: string;
   createdAt?: Date;
   body: string;
   userIsAuthor?: boolean;
   children?: React.ReactNode;
+  id: number;
+  onStateUpdate: (id: number, newValue: string) => void;
+ 
 }
 
 const comment = ({
-  key,
   onClick,
   authorAvatar,
   authorName,
   createdAt,
   body,
+  id,
+  onStateUpdate,
   userIsAuthor,
   children,
   onClickEdit,
 }: IcommmentProps) => {
   const [wrapperVisible, setWrapperVisible] = useState(false);
   const [editContent, setEditContent] = useState(false);
+  const [inputValue, setInputValue] = useState("")
 
   const formatCurrentDate = (date: Date) => {
     const dataDoRegistro = new Date("2023-01-01T00:00:00"); // Substitua pela data do seu registro
@@ -60,6 +65,20 @@ const comment = ({
 
     console.log(`Este registro existe há ${tempoPassado}.`);
   };
+
+
+ 
+   const handleChange = useCallback(
+    (event: React.FormEvent<HTMLInputElement>) => {
+      const newValue = event
+      setInputValue(String(event));
+      onStateUpdate(id, String(newValue));
+  
+    },
+    [inputValue]
+  );
+
+
   return (
     <>
       <Container>
@@ -91,8 +110,8 @@ const comment = ({
                {editContent  && 
                
                <EditCommentWrapper>
-               <TextEditor EditorText="Edite seu comentário" alignItems="center" width="100%" onChange={()=>{}}/>
-               <CustomButton  width="210px" customBackgroundColor="transparent" customColor="cyan" customBorder="1px solid #373e4a">Editar</CustomButton>
+               <TextEditor EditorText="Edite seu comentário" alignItems="center" width="100%" onChange={handleChange}/>
+               <CustomButton  width="210px" customBackgroundColor="transparent" customColor="cyan" customBorder="1px solid #373e4a" onClick={()=> {onClickEdit}} >Editar</CustomButton>
                </EditCommentWrapper>
                }    
 

@@ -20,6 +20,7 @@ import Like from "../../Components/Like";
 import TextEditor from "../../Containers/Editor";
 import Comment from "../../Components/Comment";
 import { io } from "socket.io-client";
+import comment from '../../Components/Comment/index';
 
 import {
   Container,
@@ -40,6 +41,7 @@ const TopicPage = () => {
   const [commentBoxOpenned, setCommentBoxOppened] = useState(false);
   const [comment, setComment] = useState("");
   const [commentList, setCommentlist] = useState<comments[]>([]);
+  const [editedComment, setEditedComment] = useState({})
   const [groupMembers, setGroupMembers] = useState<Members[]>([])
   const [liked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,6 +77,13 @@ const TopicPage = () => {
       }
     }
   };
+
+
+  const handleEditedComment = (id: number, value: string) => { 
+    setEditedComment(prevStates => ({ ...prevStates, [id]: value })); 
+    console.log("editedComment", editedComment)
+  };
+
 
   const getTopicByCredentials = async () => {
     if (!userData?.token) {
@@ -206,14 +215,23 @@ const TopicPage = () => {
   };
 
   const currentUserIsAuthor = (commentId: number) => {
-    const currentCumment = commentList.find(({ id }) => id === commentId);
+    const currentComment = commentList.find(({ id }) => id === commentId);
 
-    if (currentCumment?.author.id === Number(userData.id)) {
+    if (currentComment?.author.id === Number(userData.id)) {
       return true;
     } else {
       return false;
     }
   };
+
+ const editComment = (commentId: number) => {
+
+  const currentComment = commentList.find(({ id }) => id === commentId);
+
+ 
+
+
+ }
 
   const handleNotification = async (
     receiver_name: string,
@@ -293,6 +311,8 @@ const TopicPage = () => {
                 
                   >
                     <Comment
+                       id={comment.id}
+                      onStateUpdate={handleEditedComment} 
                       createdAt={
                         new Date(
                           comment.createdAt ? comment.createdAt : new Date()
@@ -311,9 +331,7 @@ const TopicPage = () => {
                         );
                       }}
 
-                      onClickEdit={()=> {
-
-                       }}
+                     onClickEdit={()=> editComment(comment.id)}
 
                     >
                      <Like
@@ -338,6 +356,7 @@ const TopicPage = () => {
               })}
               {commentBoxOpenned && (
                 <TextEditor
+                EditorText=""
                   alignItems="flex-start"
                   width="100%"
                   onChange={changeComment}
