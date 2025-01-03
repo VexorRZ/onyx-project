@@ -18,6 +18,9 @@ const DialogBox = ({ visible, onCancel, onConfirm }: IDialogBoxProps) => {
       </DialogText>
       <OptionsWrapper>
         <CustomButton
+          customBorder="1px solid #373e4a"
+          customBackgroundColor="transparent"
+          customColor="cyan"
           width="130px"
           height="40px"
           onClick={() => {
@@ -27,6 +30,9 @@ const DialogBox = ({ visible, onCancel, onConfirm }: IDialogBoxProps) => {
           Confirmar
         </CustomButton>
         <CustomButton
+          customBorder="1px solid #373e4a"
+          customBackgroundColor="transparent"
+          customColor="red"
           width="130px"
           height="40px"
           onClick={() => {

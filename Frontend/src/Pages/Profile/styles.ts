@@ -161,7 +161,6 @@ export const ProfileEditorContainer = styled.div<IProfileEditorContainerProps>`
   gap: 40px;
   background: #0e1014;
   box-shadow: 18px 8px 12px 0px rgba(8, 9, 16, 4);
-
   padding: 10px;
   box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
   width: ${(props) => props.width ?? "600px"};
@@ -169,8 +168,9 @@ export const ProfileEditorContainer = styled.div<IProfileEditorContainerProps>`
   z-index: 900;
   position: absolute;
   left: 50%;
-  border-radius: 10%;
+  border-radius: 6px;
   transform: translate(-50%, 0);
+  border: 1px solid #373e4a;
 `;
 
 export const EditProfileFieldWrapper = styled.div`
@@ -312,6 +312,5 @@ export const UserGroup = styled.div`
     border-right: solid 1px #526173;
     border-top: solid 1px #526173;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   
   }
 `;

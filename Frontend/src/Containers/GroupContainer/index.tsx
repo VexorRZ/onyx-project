@@ -3,13 +3,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import { Container } from "./styles";
+import CustomButton from "../../Components/Button";
 
 interface IGroupContainerProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
+  isOwner: boolean | null | object;
   group_id: number;
   imageSrc: string;
   groupName: string;
   numberOfMembers: number;
+  onclickEdit: () => void;
+  onclickDelete: () => void;
+  onclickRequesters: () => void;
+  onclickBans: () => void;
 }
 
 import {
@@ -27,6 +33,8 @@ import {
   GroupTitle,
   GroupInfo,
   GroupImage,
+  ButtonAdminWrapper,
+  GroupAvatar,
 } from "./styles";
 
 const GroupContainer = ({
@@ -35,9 +43,12 @@ const GroupContainer = ({
   groupName,
   numberOfMembers,
   children,
+  isOwner,
+  onclickEdit,
+  onclickDelete,
+  onclickBans,
+  onclickRequesters,
 }: IGroupContainerProps) => {
-  const [editProfileVisible, setEditProfileVisible] = useState<boolean>(false);
-
   const navigate = useNavigate();
   return (
     <>
@@ -100,15 +111,7 @@ const GroupContainer = ({
           </NavBarWrapper>
         </ButtonAdminContainer>
         <GroupInfoContainer>
-          <img
-            src={imageSrc}
-            style={{
-              width: "200px",
-
-              height: "200px",
-              borderRadius: "8%",
-            }}
-          />
+          <GroupAvatar src={imageSrc} />
           <Header>
             <GroupTitle>{groupName}</GroupTitle>
             <GroupInfo>
@@ -124,6 +127,58 @@ const GroupContainer = ({
 
             <GroupImage />
           </Header>
+          <ButtonAdminContainer>
+            {isOwner && (
+              <ButtonAdminWrapper>
+                <CustomButton
+                  width="90px"
+                  height="30px"
+                  customColor="red"
+                  customBackgroundColor="transparent"
+                  customBorder="1px solid #373e4a"
+                  onClick={onclickDelete}
+                >
+                  Deletar
+                </CustomButton>
+                <CustomButton
+                  width="90px"
+                  height="30px"
+                  customColor="green"
+                  customBackgroundColor="transparent"
+                  customBorder="1px solid #373e4a"
+                  onClick={onclickEdit}
+                >
+                  Editar
+                </CustomButton>
+
+                <CustomButton
+                  width="90px"
+                  height="30px"
+                  customColor="green"
+                  customBackgroundColor="transparent"
+                  customBorder="1px solid #373e4a"
+                  onClick={() => {
+                    onclickRequesters;
+                  }}
+                >
+                  Solicitações
+                </CustomButton>
+
+                <CustomButton
+                  width="90px"
+                  height="30px"
+                  customColor="green"
+                  customBackgroundColor="transparent"
+                  customBorder="1px solid #373e4a"
+                  onClick={() => {
+                    onclickBans;
+                  }}
+                >
+                  Banidos
+                </CustomButton>
+              </ButtonAdminWrapper>
+            )}
+          </ButtonAdminContainer>
         </GroupInfoContainer>
         {children}
       </Container>

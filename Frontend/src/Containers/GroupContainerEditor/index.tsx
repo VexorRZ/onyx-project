@@ -65,11 +65,7 @@ const GroupContainerEditor = ({
     <>
       <GroupEditorContainer>
         <CloseIconDiv>
-          <CloseIcon
-            onClick={() => {
-              onClickToggleEditGroup;
-            }}
-          />
+          <CloseIcon onClick={onClickToggleEditGroup} />
         </CloseIconDiv>
         <Dropzone
           previewMessage="Selecione a sua nova foto de perfil.."
@@ -101,10 +97,17 @@ const GroupContainerEditor = ({
             defaultValue="first"
           >
             <div className="radio-options">
-              <PublicIcon />
+              <PublicIcon
+                style={{
+                  color: "green",
+                }}
+              />
               <MyFormControlLabel
                 value="first"
                 label="público"
+                style={{
+                  color: "white",
+                }}
                 control={
                   <Radio
                     onClick={() => {
@@ -118,10 +121,17 @@ const GroupContainerEditor = ({
               </span>
             </div>
             <div className="radio-options">
-              <LockIcon />
+              <LockIcon
+                style={{
+                  color: "red",
+                }}
+              />
               <MyFormControlLabel
                 value="second"
                 label="privado"
+                style={{
+                  color: "white",
+                }}
                 control={
                   <Radio
                     onClick={() => {
@@ -138,6 +148,9 @@ const GroupContainerEditor = ({
           </StyledRadioGroup>
         </CardOptions>
         <CustomButton
+          customBackgroundColor="transparent"
+          customBorder="1px solid #373e4a"
+          customColor="cyan"
           onClick={() => {
             onClickEditGroup;
           }}

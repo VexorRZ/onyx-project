@@ -14,7 +14,7 @@ import CustomButton from "../../Components/Button";
 import { Container } from "./styles";
 
 interface IEditorprops {
-  onChange: (val: any) => void;
+  onChange: (val?: any, val2?: any) => void;
   onClickCustomButton?: () => void;
   alignItems: string;
   width: string;
@@ -26,7 +26,7 @@ const TextEditor = ({
   onClickCustomButton,
   alignItems,
   width,
-  EditorText
+  EditorText,
 }: IEditorprops) => {
   const location = useLocation();
 

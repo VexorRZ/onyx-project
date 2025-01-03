@@ -7,12 +7,13 @@ interface IProfileEditorContainerProps {
 }
 
 export const GroupEditorContainer = styled.div<IProfileEditorContainerProps>`
+  top: 8em;
   display: flex;
+  border-radius: 6px;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background-color: #25282e;
-  border: 1px solid #526173;
+  background-color: #0e1014;
   padding: 10px;
   box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
   width: ${(props) => props.width ?? "600px"};
@@ -21,6 +22,7 @@ export const GroupEditorContainer = styled.div<IProfileEditorContainerProps>`
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
+  border: 1px solid #373e4a;
 `;
 
 export const CloseIconDiv = styled.div`
@@ -82,7 +84,7 @@ export const CardOptions = styled.div`
   width: 339px;
   display: flex;
   flex-direction: column;
-  background-color: #25282e;
-  border: solid 1px white;
+  background-color: #0e1014;
+  border: 1px solid #373e4a;
   padding: 10px;
 `;

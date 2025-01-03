@@ -10,7 +10,7 @@ import {
   type GroupTopic,
   type TopicData,
   type comments,
-  type Members
+  type Members,
 } from "../../Contexts/TopicContext/interfaces";
 import useAuth from "../../Hooks/useAuth";
 import useTopicContext from "../../Hooks/useTopics";
@@ -20,7 +20,12 @@ import Like from "../../Components/Like";
 import TextEditor from "../../Containers/Editor";
 import Comment from "../../Components/Comment";
 import { io } from "socket.io-client";
-import comment from '../../Components/Comment/index';
+import comment from "../../Components/Comment/index";
+
+type Childrens = {
+  id: number;
+  value: string;
+};
 
 import {
   Container,
@@ -41,8 +46,8 @@ const TopicPage = () => {
   const [commentBoxOpenned, setCommentBoxOppened] = useState(false);
   const [comment, setComment] = useState("");
   const [commentList, setCommentlist] = useState<comments[]>([]);
-  const [editedComment, setEditedComment] = useState({})
-  const [groupMembers, setGroupMembers] = useState<Members[]>([])
+  const [editedComment, setEditedComment] = useState<Childrens[]>([]);
+  const [groupMembers, setGroupMembers] = useState<Members[]>([]);
   const [liked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(5);
@@ -78,12 +83,16 @@ const TopicPage = () => {
     }
   };
 
+  const handleEditedComment = (id: number) => {
+    console.log(id);
+    // setEditedComment((prevChildren) =>
+    //   prevChildren.map((children) =>
+    //     children.id === id ? { ...children, value: value } : children
+    //   )
+    // );
 
-  const handleEditedComment = (id: number, value: string) => { 
-    setEditedComment(prevStates => ({ ...prevStates, [id]: value })); 
-    console.log("editedComment", editedComment)
+    console.log("editedComment", editedComment);
   };
-
 
   const getTopicByCredentials = async () => {
     if (!userData?.token) {
@@ -107,7 +116,7 @@ const TopicPage = () => {
 
       console.log("resposta", res.data);
       setCommentlist(comments);
-      setGroupMembers(members)
+      setGroupMembers(members);
       setTopic({ ...topic });
 
       if (totalCount) {
@@ -117,7 +126,7 @@ const TopicPage = () => {
         for (let i = 1; i <= totalPages; i++) {
           arrayPages.push(i);
         }
-      
+
         setPages(arrayPages);
         setTotal(totalCount);
       }
@@ -203,9 +212,7 @@ const TopicPage = () => {
   };
 
   const currentUserIsMember = () => {
-    const isMember = groupMembers.find(
-      ({ id }) => id === Number(userData.id)
-    );
+    const isMember = groupMembers.find(({ id }) => id === Number(userData.id));
 
     if (isMember) {
       return true;
@@ -224,14 +231,9 @@ const TopicPage = () => {
     }
   };
 
- const editComment = (commentId: number) => {
-
-  const currentComment = commentList.find(({ id }) => id === commentId);
-
- 
-
-
- }
+  const editComment = (commentId: number) => {
+    const currentComment = commentList.find(({ id }) => id === commentId);
+  };
 
   const handleNotification = async (
     receiver_name: string,
@@ -306,13 +308,10 @@ const TopicPage = () => {
             <CommentsLists>
               {commentList.map((comment, index) => {
                 return (
-                  <CommentContentWrapper
-                    key={index}
-                
-                  >
+                  <CommentContentWrapper key={index}>
                     <Comment
-                       id={comment.id}
-                      onStateUpdate={handleEditedComment} 
+                      id={comment.id}
+                      onValueChange={handleEditedComment}
                       createdAt={
                         new Date(
                           comment.createdAt ? comment.createdAt : new Date()
@@ -330,33 +329,31 @@ const TopicPage = () => {
                           comment.id
                         );
                       }}
-
-                     onClickEdit={()=> editComment(comment.id)}
-
+                      onClickEdit={() => editComment(comment.id)}
                     >
-                     <Like
-                      hasLike={Boolean(commentHasLike(comment.id))}
-                      onClickWithLike={async () => {
-                        await updateLike(comment.id);
-                      }}
-                      onClickWithDisLike={async () => {
-                        await updateLike(comment.id);
+                      <Like
+                        hasLike={Boolean(commentHasLike(comment.id))}
+                        onClickWithLike={async () => {
+                          await updateLike(comment.id);
+                        }}
+                        onClickWithDisLike={async () => {
+                          await updateLike(comment.id);
 
-                        handleNotification(
-                          comment.author.name,
-                          comment.author.id,
-                          "like"
-                        );
-                      }}
-                      likeAmount={comment.commentLikes.length}
-                    />
+                          handleNotification(
+                            comment.author.name,
+                            comment.author.id,
+                            "like"
+                          );
+                        }}
+                        likeAmount={comment.commentLikes.length}
+                      />
                     </Comment>
                   </CommentContentWrapper>
                 );
               })}
               {commentBoxOpenned && (
                 <TextEditor
-                EditorText=""
+                  EditorText=""
                   alignItems="flex-start"
                   width="100%"
                   onChange={changeComment}
@@ -369,7 +366,7 @@ const TopicPage = () => {
                     <Button
                       width="150px"
                       customBackgroundColor="transparent"
-                      customColor="cyan"  
+                      customColor="cyan"
                       customBorder="1px solid #373e4a"
                       onClick={() => {
                         void postNewComment();
@@ -388,10 +385,10 @@ const TopicPage = () => {
                     </Button>
                   )}
                   <Button
-                      width="150px"
-                      customBackgroundColor="transparent"
-                      customColor="cyan"  
-                      customBorder="1px solid #373e4a"  
+                    width="150px"
+                    customBackgroundColor="transparent"
+                    customColor="cyan"
+                    customBorder="1px solid #373e4a"
                     onClick={() => {
                       addNewComment();
                     }}

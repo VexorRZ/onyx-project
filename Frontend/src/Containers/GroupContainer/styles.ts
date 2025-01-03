@@ -26,13 +26,10 @@ export const Container = styled.div`
 
 export const ButtonAdminContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
-  img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-  }
+  gap: 2px;
+  flex: 8;
 `;
 
 export const NavBar = styled.ul`
@@ -98,6 +95,14 @@ export const GroupInfoContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   gap: 24px;
+  flex: 10;
+`;
+
+export const GroupAvatar = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 8%;
+  flex: 2;
 `;
 
 export const GroupInfo = styled.div`
@@ -114,10 +119,22 @@ export const GroupInfo = styled.div`
 
 export const GroupImage = styled.img``;
 
-export const Header = styled.div`
+export const Header = styled.header`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   flex: 2;
   width: 100%;
+`;
+
+export const ButtonAdminWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  background-color: #17191f;
+  width: 118px;
+  border-radius: 6px;
+  height: 180px;
 `;

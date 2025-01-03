@@ -250,6 +250,9 @@ const Profile = ({
               </EditProfileFieldWrapper>
             </DataArea>
             <CustomButton
+              customBackgroundColor="transparent"
+              customBorder="1px solid #373e4a"
+              customColor="red"
               onClick={() => {
                 toggleDialogBOx(true);
               }}
@@ -442,20 +445,14 @@ const Profile = ({
                 Grupos
               </strong>
               <div className="groupList">
-
-
-                {
-                  userData.groups.slice(0,4).map((userGroup, index)=> {
-
-                    return (
-                      <UserGroup>
-                        <h5>{userGroup.name}</h5>
-                        <img src={String(userGroup.avatar.path)} alt="reseller" />
+                {userData.groups.slice(0, 4).map((userGroup, index) => {
+                  return (
+                    <UserGroup>
+                      <h5>{userGroup.name}</h5>
+                      <img src={String(userGroup.avatar.path)} alt="reseller" />
                     </UserGroup>
-                    )
-                  })
-                }
-       
+                  );
+                })}
               </div>
             </UserGroupsList>
           </UserPublicationWrapper>

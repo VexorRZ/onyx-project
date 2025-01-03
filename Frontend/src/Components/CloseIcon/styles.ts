@@ -3,11 +3,11 @@ import { ReactComponent as CloseSvg } from "../../assets/icons/close-icon.svg";
 
 export const XIcon = styled(CloseSvg)`
   border-radius: 50px;
-  background-color: red;
+  color: white;
 
   &:hover {
     cursor: pointer;
-    background-color: black;
+    background-color: red;
   }
 `;
 

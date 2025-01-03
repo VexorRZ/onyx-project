@@ -26,21 +26,14 @@ import FormControlLabel, {
 } from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
 import GroupContainerEditor from "../../Containers/GroupContainerEditor";
-import defaultProfiilePic from "../../assets/images/default-profile-pic.png"
+import defaultProfiilePic from "../../assets/images/default-profile-pic.png";
 
 import {
-  GroupImage,
-  GroupTitle,
-  Header,
   TopicList,
   Pagination,
   PaginationButton,
   PaginationItem,
   ButtonArea,
-  ButtonAdminContainer,
-  ButtonAdminWrapper,
-  GroupInfo,
-  GroupInfoContainer,
 } from "./styles";
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -129,6 +122,8 @@ const GroupPage = () => {
       );
 
       const { numberOfTopics, isOwner, findTopics, group, members } = res.data;
+
+      console.log("isOwner", isOwner);
 
       console.log("grupo carregado:", group);
 
@@ -284,9 +279,8 @@ const GroupPage = () => {
               {topics.map((topic, index) => {
                 return (
                   <Topic
-                    userAvatar={topic.author.avatar.path ?? defaultProfiilePic }
+                    userAvatar={topic.author.avatar.path ?? defaultProfiilePic}
                     userName={topic.author.name}
-                                              
                     URlGroup={true}
                     topicName={topic.name}
                     numberOfComments={topic.comments.length}
@@ -301,7 +295,9 @@ const GroupPage = () => {
             {currentUserIsMember()}
 
             <Pagination>
-              <div className="total"><strong>{total}</strong> tópicos criados</div>
+              <div className="total">
+                <strong>{total}</strong> tópicos criados
+              </div>
               <PaginationButton>
                 {currentPage > 1 && (
                   <PaginationItem
@@ -369,46 +365,27 @@ const GroupPage = () => {
             setOption(false);
           }}
           onClickToggleEditGroup={() => {
-            toggleDialogBOx(false);
+            toggleEditGroupBox(false);
           }}
           onClickEditGroup={editGroup}
         />
       )}
       <GroupContainer
+        isOwner={isOwner ? isOwner : null}
         groupName={group?.name ? group.name : ""}
         imageSrc={group?.avatar.path ? group.avatar.path : defaultProfilePic}
         group_id={Number(group?.id)}
         numberOfMembers={0}
+        onclickDelete={() => {
+          toggleDialogBOx(true);
+        }}
+        onclickEdit={() => {
+          toggleEditGroupBox(true);
+        }}
+        onclickRequesters={() => {}}
+        onclickBans={() => {}}
       >
         {<Loader /> && isLoading}
-        <ButtonAdminContainer>
-          {isOwner && (
-            <ButtonAdminWrapper>
-              <CustomButton
-                width="90px"
-                height="30px"
-                customColor="red"
-                customBackgroundColor=" #090a0d"
-                onClick={() => {
-                  toggleDialogBOx(true);
-                }}
-              >
-                Deletar
-              </CustomButton>
-              <CustomButton
-                width="90px"
-                height="30px"
-                customColor="green"
-                customBackgroundColor=" #090a0d"
-                onClick={() => {
-                  toggleEditGroupBox(true);
-                }}
-              >
-                Editar
-              </CustomButton>
-            </ButtonAdminWrapper>
-          )}
-        </ButtonAdminContainer>
 
         {generateContent()}
 

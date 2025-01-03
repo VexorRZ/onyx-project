@@ -102,11 +102,10 @@ export const TopicList = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
-  gap: 6PX;
+  gap: 6px;
   flex: 6;
   margin-top: 36px;
   margin-bottom: 40px;
-
 `;
 
 export const Pagination = styled.div`
@@ -117,7 +116,7 @@ export const Pagination = styled.div`
   margin-top: 20px;
   border-radius: 4px;
   padding: 10px;
-  background: #17191F;
+  background: #17191f;
   gap: 40px;
   .total {
     background-color: #0e1014;
@@ -131,7 +130,6 @@ export const Pagination = styled.div`
       margin-right: 10px;
       color: brown;
     }
-     
   }
 `;
 
@@ -152,12 +150,10 @@ export const PaginationItem = styled.div<IPaginationProps>`
   align-items: center;
   justify-content: center;
 
- 
-
   ${(props) =>
     props.isSelect && {
       background: "#0e1014",
-      color: "lime"
+      color: "lime",
     }}
 
   &:hover {
@@ -179,13 +175,6 @@ export const ButtonAdminContainer = styled.div`
     height: 90px;
     border-radius: 50%;
   }
-`;
-
-export const ButtonAdminWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1px;
 `;
 
 export const UserCard = styled.div`
@@ -328,3 +317,15 @@ export const GroupTitle = styled.h3`
 export const TopicTitle = styled.h5``;
 
 export const TopicAuthor = styled.h6``;
+
+export const ModerationPannelWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+`;
+
+export const ModerationPannel = styled.div`
+  background-color: red;
+  width: 200px;
+  height: 150px;
+`;

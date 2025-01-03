@@ -5,6 +5,7 @@ interface IContainerProps {
 }
 
 export const Container = styled.div<IContainerProps>`
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,9 +13,9 @@ export const Container = styled.div<IContainerProps>`
   width: 475px;
   height: 110px;
   box-shadow: 0vh;
-  background-color: #25282e;
+  background-color: #0e1014;
   margin: auto;
-  border: 1px solid #526173;
+  border: 1px solid #373e4a;
   box-shadow: 18px 19px 32px -11px rgba(0, 0, 0, 1);
   padding: 20px;
   position: absolute;
@@ -30,4 +31,5 @@ export const OptionsWrapper = styled.div`
 
 export const DialogText = styled.strong`
   font-size: 18px;
+  text-align: center;
 `;

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 // import { closeEsc } from "../../utils/HandlesHelpers";
 import { type AxiosResponse } from "axios";
-import { type topics } from "../../services/interfaces";
+import { type Topics } from "../../services/interfaces";
 import api from "../../services/api";
 import CustomInput from "../../Components/Input";
 import CustomButton from "../../Components/Button";
@@ -49,9 +49,9 @@ const CreateTopic = ({ onClick, groupId }: IcreateTopic) => {
     }
 
     try {
-      const res: AxiosResponse<topics> = await api.post<
-        topics,
-        AxiosResponse<topics>
+      const res: AxiosResponse<Topics> = await api.post<
+        Topics,
+        AxiosResponse<Topics>
       >(`topics/${Number(groupId)}`, {
         headers: { Authorization: `Bearer ${token}` },
         name: topicName,
