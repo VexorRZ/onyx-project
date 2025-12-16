@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Chat } from "@material-ui/icons";
+import { Chat } from "@mui/icons-material";
+
 interface ITopbarIconBadgeProps {
   isRingBell?: boolean;
 }
@@ -11,15 +12,15 @@ interface ItopicContent {
 export const Container = styled.div<ItopicContent>`
   transition: transform 250ms;
   display: flex;
-  flex:10;
+  flex: 10;
   justify-content: space-around;
   align-items: center;
   border-radius: 6px;
   height: 120px;
-  background-color: #17191F;
+  background-color: #17191f;
   min-height: 64px;
 
-   &:hover {
+  &:hover {
     cursor: pointer;
     /* background-color: #303640;
     transition: all 0.2s ease-in;
@@ -28,7 +29,7 @@ export const Container = styled.div<ItopicContent>`
     transform: ${(props) =>
       props.URlGroup ? "translateX(4px)" : "translateY(-3px)"};
     background-color: #373e4a; */
-  } 
+  }
 `;
 
 export const TopicName = styled.h4`
@@ -67,7 +68,7 @@ export const TopbarIconteItem = styled.div`
   cursor: pointer;
   position: relative;
   display: flex;
-  
+
   flex-direction: column;
   align-items: center;
 `;
@@ -97,61 +98,56 @@ export const Comments = styled.div`
 `;
 
 export const UserWrapper = styled.div`
-    display: flex;
-    flex: 1;
-    align-items: center;
-    height: 100%;
-    background: #0e1014;
-    border-radius: 6px;
-    margin-left: 12px;
-    padding-right: 18px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  height: 100%;
+  background: #0e1014;
+  border-radius: 6px;
+  margin-left: 12px;
+  padding-right: 18px;
 `;
 
 export const UserAvatar = styled.img`
-width: 40px;
-height: 40px;
-border-radius: 50%;
-border: 1px inherit #7e8cc7ff;
-padding: 4px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px inherit #7e8cc7ff;
+  padding: 4px;
 `;
-
 
 export const AsideDataWrapper = styled.aside`
- border: 1px solid #373e4a;
- border-top: none;
- border-left: none;
-margin-left: 28px;
-display: flex;
-flex: 8;
-flex-direction: column;
-width: 300px;
-position: relative;
-align-items: flex-start;
-justify-content: center;
-height: 100%;
-padding: 6px 14px;
-background: #0e1014;
-border-radius: 6px;
-border-top-left-radius: 0px;
-strong {
-  margin: 0;
-  color: aquamarine;
-}
+  border: 1px solid #373e4a;
+  border-top: none;
+  border-left: none;
+  margin-left: 28px;
+  display: flex;
+  flex: 8;
+  flex-direction: column;
+  width: 300px;
+  position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  padding: 6px 14px;
+  background: #0e1014;
+  border-radius: 6px;
+  border-top-left-radius: 0px;
+  strong {
+    margin: 0;
+    color: aquamarine;
+  }
 `;
 
-
-
-
 export const UserNameWrapper = styled.div`
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-.title{ 
- 
-  color: #7e8cc7ff;
-}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .title {
+    color: #7e8cc7ff;
+  }
 `;
 
 export const UserName = styled.strong`
- color: #fff;
+  color: #fff;
 `;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import styled, { keyframes } from "styled-components";
-import { Search, Chat, Notifications, Settings } from "@material-ui/icons";
+import { Search, Chat, Notifications, Settings } from "@mui/icons-material";
 
 interface ITopbarIconBadgeProps {
   isRingBell?: boolean;
